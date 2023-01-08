@@ -1,6 +1,4 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "javascript.format.enable": false,
-  "prettier.eslintIntegration": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
