@@ -1,9 +1,7 @@
+import Router from './pages/Router';
+
 function App() {
-  return (
-    <div className="App">
-      <p>hello world</p>
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;
