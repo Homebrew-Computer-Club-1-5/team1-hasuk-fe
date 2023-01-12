@@ -14,7 +14,13 @@ const Wrapper = styled.div`
 function TitleWrapper() {
   return (
     <Wrapper>
-      <BackButton />
+      <BackButton
+        style={{
+          width: '36px', //
+          position: 'absolute',
+          left: 15,
+        }}
+      />
       <Title>고려대학교 - 제기동</Title>
     </Wrapper>
   );

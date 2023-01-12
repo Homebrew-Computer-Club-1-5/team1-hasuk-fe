@@ -1,15 +1,8 @@
 import { ReactComponent as BackButtonSVG } from '../../assets/BackButton.svg';
-function BackButton() {
-  return (
-    <>
-      <BackButtonSVG
-        style={{
-          width: '36px', //
-          position: 'absolute',
-          left: 15,
-        }}
-      />
-    </>
-  );
+interface IBackButton {
+  style?: React.CSSProperties | undefined;
+}
+function BackButton({ style }: IBackButton) {
+  return <BackButtonSVG style={style} />;
 }
 export default BackButton;

@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: 'Manrope-Bold';
   src: url('./assets/fonts/Manrope/static/Manrope-Bold.ttf');
 }
@@ -25,4 +25,12 @@
 @font-face {
   font-family: 'Manrope-SemiBold';
   src: url('./assets/fonts/Manrope/static/Manrope-SemiBold.ttf');
+} */
+/* @font-face {
+  font-family: 'Manrope-Medium';
+  src: url('./assets/fonts/Manrope/static/Manrope-Medium.ttf');
+} */
+body,
+html {
+  font-family: 'Manrope';
 }

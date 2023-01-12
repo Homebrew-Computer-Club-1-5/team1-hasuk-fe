@@ -6,7 +6,7 @@ import Main from './main/Main';
 function Router() {
   return (
     <Routes>
-      <Route path="/homes" element={<Houses />} />
+      <Route path="/houses" element={<Houses />} />
       <Route path="/main" element={<Main />} />
       <Route path="/main/:focused" element={<Focused />} />
     </Routes>
