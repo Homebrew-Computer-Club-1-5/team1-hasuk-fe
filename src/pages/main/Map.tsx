@@ -33,8 +33,8 @@ const markers2 = Dummy2.map((coordinate) => {
 
 const Map = () => {
   const [value, setValue] = useState({ La: 0, Ma: 0 });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   useEffect(() => {
     let container = document.getElementById('map');
     let options = {
@@ -75,6 +75,7 @@ const Map = () => {
       },
     );
   }, []);
+
   return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
 };
 
