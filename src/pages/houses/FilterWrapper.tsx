@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import BlackPill from '../../components/atoms/BlackPill';
-import FilterButton from './FilterButton';
+import { ReactComponent as FilterButton } from '../../assets/FilterButton.svg';
 
 const Wrapper = styled.div`
   position: relative;

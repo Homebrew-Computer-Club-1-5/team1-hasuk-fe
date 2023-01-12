@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import BackButton from '../atoms/BackButton';
+import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
+
 import Title from '../atoms/Title';
 
 const Wrapper = styled.div`
