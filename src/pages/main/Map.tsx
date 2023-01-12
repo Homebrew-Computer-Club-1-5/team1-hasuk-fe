@@ -33,8 +33,8 @@ const markers2 = Dummy2.map((coordinate) => {
 
 const Map = () => {
   const [value, setValue] = useState({ La: 0, Ma: 0 });
-  const [click, setClick] = useState(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     let container = document.getElementById('map');
     let options = {
@@ -54,7 +54,7 @@ const Map = () => {
       averageCenter: true,
       minLevel: 6,
       disableClickZoom: true,
-      texts: 'suyuk',
+      texts: '벽산아파트',
     });
     clusterer1.addMarkers(markers1);
     clusterer2.addMarkers(markers2);
@@ -69,19 +69,12 @@ const Map = () => {
 
         console.log(moveLatLng);
         map.setCenter(moveLatLng);
-        setClick(true);
+        navigate(`/main/${cluster._model.texts}`, {
+          state: { Latitude: value.Ma, Longitude: value.La },
+        });
       },
     );
   }, []);
-  if (click) {
-    return (
-      <>
-        <div id="map" style={{ width: '100vw', height: '95vh' }}>
-          <button>자세히 모기</button>
-        </div>
-      </>
-    );
-  }
 
   return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
 };
