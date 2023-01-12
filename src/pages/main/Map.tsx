@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Dummy1 = [
-  { id: 1 },
-  { lat: 37.583, long: 127.031254 },
-  { lat: 37.589377, long: 127.03011 },
-];
+// const Dummy1 = [
+//   { id: 1 },
+//   { lat: 37.583, long: 127.031254 },
+//   { lat: 37.589377, long: 127.03011 },
+// ];
 
-const Dummy2 = [
-  { id: 2 },
-  { lat: 37.584969, long: 127.032347 },
-  { lat: 37.582546, long: 127.028359 },
-];
+// const Dummy2 = [
+//   { id: 2 },
+//   { lat: 37.584969, long: 127.032347 },
+//   { lat: 37.582546, long: 127.028359 },
+// ];
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     kakao: any;
+//   }
+// }
 
-const markers1 = Dummy1.map((coordinate) => {
-  return new window.kakao.maps.Marker({
-    position: new window.kakao.maps.LatLng(coordinate.lat, coordinate.long),
-  });
-});
+// const markers1 = Dummy1.map((coordinate) => {
+//   return new window.kakao.maps.Marker({
+//     position: new window.kakao.maps.LatLng(coordinate.lat, coordinate.long),
+//   });
+// });
 
-const markers2 = Dummy2.map((coordinate) => {
-  return new window.kakao.maps.Marker({
-    position: new window.kakao.maps.LatLng(coordinate.lat, coordinate.long),
-  });
-});
+// const markers2 = Dummy2.map((coordinate) => {
+//   return new window.kakao.maps.Marker({
+//     position: new window.kakao.maps.LatLng(coordinate.lat, coordinate.long),
+//   });
+// });
 
 const Map = () => {
+
   const [value, setValue] = useState({ La: 0, Ma: 0 });
 
   const navigate = useNavigate();
