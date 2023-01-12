@@ -32,56 +32,50 @@ import { Link, useNavigate } from 'react-router-dom';
 // });
 
 const Map = () => {
-  //   const [value, setValue] = useState({ La: 0, Ma: 0 });
-  //   const [click, setClick] = useState(false);
 
-  //   useEffect(() => {
-  //     let container = document.getElementById('map');
-  //     let options = {
-  //       center: new window.kakao.maps.LatLng(37.586383, 127.029233),
-  //       level: 6,
-  //     };
-  //     const map = new window.kakao.maps.Map(container, options);
-  //     const clusterer1 = new window.kakao.maps.MarkerClusterer({
-  //       map: map,
-  //       averageCenter: true,
-  //       minLevel: 6,
-  //       disableClickZoom: true,
-  //       texts: 'jjajang',
-  //     });
-  //     const clusterer2 = new window.kakao.maps.MarkerClusterer({
-  //       map: map,
-  //       averageCenter: true,
-  //       minLevel: 6,
-  //       disableClickZoom: true,
-  //       texts: 'suyuk',
-  //     });
-  //     clusterer1.addMarkers(markers1);
-  //     clusterer2.addMarkers(markers2);
-  //     window.kakao.maps.event.addListener(
-  //       clusterer2,
-  //       'clusterclick',
-  //       (cluster: any) => {
-  //         const coord = cluster.getCenter();
-  //         setValue((value.La = coord.La));
-  //         setValue((value.Ma = coord.Ma));
-  //         const moveLatLng = new window.kakao.maps.LatLng(value.Ma, value.La);
+  const [value, setValue] = useState({ La: 0, Ma: 0 });
 
-  //         console.log(moveLatLng);
-  //         map.setCenter(moveLatLng);
-  //         setClick(true);
-  //       },
-  //     );
-  //   }, []);
-  //   if (click) {
-  //     return (
-  //       <>
-  //         <div id="map" style={{ width: '100vw', height: '95vh' }}>
-  //           <button>자세히 모기</button>
-  //         </div>
-  //       </>
-  //     );
-  //   }
+  const navigate = useNavigate();
+  useEffect(() => {
+    let container = document.getElementById('map');
+    let options = {
+      center: new window.kakao.maps.LatLng(37.586383, 127.029233),
+      level: 6,
+    };
+    const map = new window.kakao.maps.Map(container, options);
+    const clusterer1 = new window.kakao.maps.MarkerClusterer({
+      map: map,
+      averageCenter: true,
+      minLevel: 6,
+      disableClickZoom: true,
+      texts: 'jjajang',
+    });
+    const clusterer2 = new window.kakao.maps.MarkerClusterer({
+      map: map,
+      averageCenter: true,
+      minLevel: 6,
+      disableClickZoom: true,
+      texts: '벽산아파트',
+    });
+    clusterer1.addMarkers(markers1);
+    clusterer2.addMarkers(markers2);
+    window.kakao.maps.event.addListener(
+      clusterer2,
+      'clusterclick',
+      (cluster: any) => {
+        const coord = cluster.getCenter();
+        setValue((value.La = coord.La));
+        setValue((value.Ma = coord.Ma));
+        const moveLatLng = new window.kakao.maps.LatLng(value.Ma, value.La);
+
+        console.log(moveLatLng);
+        map.setCenter(moveLatLng);
+        navigate(`/main/${cluster._model.texts}`, {
+          state: { Latitude: value.Ma, Longitude: value.La },
+        });
+      },
+    );
+  }, []);
 
   return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
 };
