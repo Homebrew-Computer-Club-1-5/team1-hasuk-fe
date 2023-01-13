@@ -2,7 +2,6 @@ import TitleWrapper from '../../components/molecules/TitleWrapper';
 import FilterWrapper from './FilterWrapper';
 import * as S from './Houses.styled';
 import HouseWrapper from './HouseWrapper';
-import HouseWrapper_OnlyInfos from './HouseWrapper_OnlyInfos';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { houseDatasAtom } from '../../store/atoms';

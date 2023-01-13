@@ -29,7 +29,7 @@ function HouseInfos_ExtraInfos({ houseWrapperIndex }: IHouseInfos_ExtraInfos) {
           : '남녀 공용'}
       </P_Manrope_Light>
       <P_Manrope_Light>
-        {`${houseDatas[houseWrapperIndex].main_spot_name}에 가까움`}
+        {`${houseDatas[houseWrapperIndex].main_spot_name}주변`}
       </P_Manrope_Light>
     </Wrapper>
   );
