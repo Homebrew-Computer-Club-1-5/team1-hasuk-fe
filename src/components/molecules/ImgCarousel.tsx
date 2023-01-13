@@ -50,19 +50,16 @@ const PositionDot_NotCurrent = styled.div`
   width: 7px;
 `;
 
-function ImgCarousel() {
+interface IImgCarousel {
+  img_url: string[];
+}
+
+function ImgCarousel({ img_url }: IImgCarousel) {
   const [current, setCurrent] = useState(0);
   const [style, setStyle] = useState({
     marginLeft: `-${current}00%`,
   });
-
-  const urls = [
-    'https://img.koreapas.com/i/61ddf4a/resize',
-    'https://img.koreapas.com/i/a86267b/resize',
-    'https://img.koreapas.com/i/f2f3854/resize',
-  ];
-
-  const imgSize = useRef(urls.length);
+  const imgSize = useRef(img_url.length);
 
   function moveSlide(i: number) {
     let nextIndex = current + i;
@@ -103,7 +100,7 @@ function ImgCarousel() {
         }}
       />
       <ImgsWrapper style={style}>
-        {urls.map((url, index) => (
+        {img_url.map((url, index) => (
           <div
             key={index}
             style={{
@@ -113,11 +110,11 @@ function ImgCarousel() {
         ))}
       </ImgsWrapper>
       <PositionDotsWrapper>
-        {urls.map((url, index) =>
+        {img_url.map((url, index) =>
           index === current ? (
-            <PositionDot_Current />
+            <PositionDot_Current key={index} />
           ) : (
-            <PositionDot_NotCurrent />
+            <PositionDot_NotCurrent key={index} />
           ),
         )}
       </PositionDotsWrapper>
