@@ -5,12 +5,15 @@ import HouseInfos from './HouseInfos';
 const Wrapper = styled.div`
   margin: 10px 0px;
 `;
+interface IHouseWrapper {
+  houseWrapperIndex: number;
+}
 
-function HouseWrapper() {
+function HouseWrapper({ houseWrapperIndex }: IHouseWrapper) {
   return (
     <Wrapper>
-      <ImgCarousel></ImgCarousel>
-      <HouseInfos />
+      <ImgCarousel houseWrapperIndex={houseWrapperIndex}></ImgCarousel>
+      <HouseInfos houseWrapperIndex={houseWrapperIndex} />
     </Wrapper>
   );
 }

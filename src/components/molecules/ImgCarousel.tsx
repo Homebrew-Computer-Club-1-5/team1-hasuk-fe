@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
 import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
+import { useRecoilValue } from 'recoil';
+import { houseDatasAtom } from '../../store/atoms';
 
 const Wrapper = styled.div`
   background: lightgray;
@@ -50,19 +52,18 @@ const PositionDot_NotCurrent = styled.div`
   width: 7px;
 `;
 
-function ImgCarousel() {
+interface IImgCarousel {
+  houseWrapperIndex: number;
+}
+
+function ImgCarousel({ houseWrapperIndex }: IImgCarousel) {
   const [current, setCurrent] = useState(0);
   const [style, setStyle] = useState({
     marginLeft: `-${current}00%`,
   });
-
-  const urls = [
-    'https://img.koreapas.com/i/61ddf4a/resize',
-    'https://img.koreapas.com/i/a86267b/resize',
-    'https://img.koreapas.com/i/f2f3854/resize',
-  ];
-
-  const imgSize = useRef(urls.length);
+  const houseDatas = useRecoilValue(houseDatasAtom);
+  const imgUrls = houseDatas[houseWrapperIndex].img_url;
+  const imgSize = useRef(imgUrls.length);
 
   function moveSlide(i: number) {
     let nextIndex = current + i;
@@ -103,7 +104,7 @@ function ImgCarousel() {
         }}
       />
       <ImgsWrapper style={style}>
-        {urls.map((url, index) => (
+        {imgUrls.map((url, index) => (
           <div
             key={index}
             style={{
@@ -113,11 +114,11 @@ function ImgCarousel() {
         ))}
       </ImgsWrapper>
       <PositionDotsWrapper>
-        {urls.map((url, index) =>
+        {imgUrls.map((url, index) =>
           index === current ? (
-            <PositionDot_Current />
+            <PositionDot_Current key={index} />
           ) : (
-            <PositionDot_NotCurrent />
+            <PositionDot_NotCurrent key={index} />
           ),
         )}
       </PositionDotsWrapper>

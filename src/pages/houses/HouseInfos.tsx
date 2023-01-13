@@ -8,11 +8,15 @@ const Wrapper = styled.div`
   align-items: baseline;
 `;
 
-function HouseInfos() {
+interface IHouseInfos {
+  houseWrapperIndex: number;
+}
+
+function HouseInfos({ houseWrapperIndex }: IHouseInfos) {
   return (
     <Wrapper>
-      <HouseInfos_ExtraInfos />
-      <HouseInfos_PriceInfos />
+      <HouseInfos_ExtraInfos houseWrapperIndex={houseWrapperIndex} />
+      <HouseInfos_PriceInfos houseWrapperIndex={houseWrapperIndex} />
     </Wrapper>
   );
 }
