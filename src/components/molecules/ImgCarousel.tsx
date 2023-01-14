@@ -52,11 +52,12 @@ const PositionDot_NotCurrent = styled.div`
 
 interface IImgCarousel {
   img_url: string[];
+  style?: React.CSSProperties;
 }
 
-function ImgCarousel({ img_url }: IImgCarousel) {
+function ImgCarousel({ img_url, style }: IImgCarousel) {
   const [current, setCurrent] = useState(0);
-  const [style, setStyle] = useState({
+  const [marginStyle, setMarginStyle] = useState({
     marginLeft: `-${current}00%`,
   });
   const imgSize = useRef(img_url.length);
@@ -71,19 +72,21 @@ function ImgCarousel({ img_url }: IImgCarousel) {
   }
 
   useEffect(() => {
-    setStyle({ marginLeft: `-${current}00%` });
+    setMarginStyle({ marginLeft: `-${current}00%` });
   }, [current]);
 
   return (
-    <Wrapper>
+    <Wrapper style={style}>
       <BackButton
         style={{
           width: '41px',
           position: 'absolute',
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
+          zIndex: 999,
         }}
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           moveSlide(-1);
         }}
       />
@@ -95,11 +98,12 @@ function ImgCarousel({ img_url }: IImgCarousel) {
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
         }}
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           moveSlide(1);
         }}
       />
-      <ImgsWrapper style={style}>
+      <ImgsWrapper style={marginStyle}>
         {img_url.map((url, index) => (
           <div
             key={index}

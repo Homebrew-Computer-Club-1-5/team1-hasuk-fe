@@ -3,12 +3,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 // import '@fontsource/manrope';
 import './index.css';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,

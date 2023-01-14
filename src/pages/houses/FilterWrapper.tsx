@@ -15,9 +15,9 @@ const Wrapper = styled.div`
 function FilterWrapper() {
   return (
     <Wrapper>
-      <BlackPill></BlackPill>
-      <BlackPill></BlackPill>
-      <BlackPill></BlackPill>
+      <BlackPill innerText="금액"></BlackPill>
+      <BlackPill innerText="공실"></BlackPill>
+      <BlackPill innerText="위치"></BlackPill>
       <FilterButton />
     </Wrapper>
   );
