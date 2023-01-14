@@ -1,3 +1,4 @@
+
 import { canUseLayoutEffect } from '@apollo/client/utilities';
 import styled from 'styled-components';
 import { Ihouse_location } from '../../../store/atoms';
@@ -7,6 +8,9 @@ declare global {
     kakao: any;
   }
 }
+
+
+
 const Wrapper = styled.div`
   background-color: lightgray;
   width: 85%;
@@ -21,6 +25,7 @@ interface IHouse_LocationInfoWrapper_Map {
 function House_LocationInfoWrapper_Map({
   house_location,
 }: IHouse_LocationInfoWrapper_Map) {
+
   useEffect(() => {
     let container = document.getElementById('map');
     let options = {
@@ -42,6 +47,7 @@ function House_LocationInfoWrapper_Map({
       <div id="map" style={{ width: '85%', height: '170px' }} />
     </Wrapper>
   );
+
 }
 
 export default House_LocationInfoWrapper_Map;

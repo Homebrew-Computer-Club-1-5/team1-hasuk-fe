@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as S from './Focused.styled';
 import hasukLogo from '../../assets/iconhouse.png';
 
+
 let houseInfo = [
   {
     id: 1,
@@ -112,6 +113,7 @@ declare global {
   }
 }
 
+
 function makeMarker(lat: number, long: number) {
   return new window.kakao.maps.Marker({
     position: new window.kakao.maps.LatLng(lat, long),
@@ -148,6 +150,7 @@ function makeTextList(mkArray: any) {
 }
 
 function Focusedmap() {
+
   const { focused } = useParams<string>();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -192,9 +195,10 @@ function Focusedmap() {
     }
   }, []);
 
+
   return (
     <S.Container>
-      <S.Header>
+      {/* <S.Header>
         <img src={hasukLogo} alt="하숙" />
         <span>고려대-</span>
         <span>{`${focused}`}</span>
@@ -203,7 +207,7 @@ function Focusedmap() {
         <div id="map" style={{ width: '100vw', height: '95vh' }}>
           <button>보러 가기</button>
         </div>
-      </S.Wrapper>
+      </S.Wrapper> */}
     </S.Container>
   );
 }
