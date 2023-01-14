@@ -19,6 +19,7 @@ function House() {
   const GET_TEST_HOUSE = gql`
     query {
       fetchHouseTest(house_id: "house1") {
+        house_id
         contact_number
         gender
         min_residence
@@ -35,6 +36,7 @@ function House() {
           cost_other_info
         }
         category_name
+        region_id
       }
     }
   `;
@@ -55,6 +57,7 @@ function House() {
     return (
       <Container>
         <TitleWrapper
+          navigateRoute={`/houses/${houseData.region_id}`}
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
         />
         <ImgCarousel

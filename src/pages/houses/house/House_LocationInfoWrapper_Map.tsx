@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Ihouse_location } from '../../../store/atoms';
 
 const Wrapper = styled.div`
   background-color: lightgray;
@@ -7,7 +8,13 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
-function House_LocationInfoWrapper_Map() {
+interface IHouse_LocationInfoWrapper_Map {
+  house_location: Ihouse_location;
+}
+
+function House_LocationInfoWrapper_Map({
+  house_location,
+}: IHouse_LocationInfoWrapper_Map) {
   return <Wrapper></Wrapper>;
 }
 

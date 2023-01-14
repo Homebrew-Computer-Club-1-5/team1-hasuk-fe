@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { ReactComponent as ExtraInfos } from '../../../assets/ExtraInfos.svg';
 import P_Manrope_Regular from '../../../components/atoms/P_Manrope_Regular';
+import { useRecoilValue } from 'recoil';
+import { houseDataAtom } from '../../../store/atoms';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -10,6 +12,7 @@ const Wrapper = styled.div`
 `;
 
 function House_BasicInfos_InfosWrapper_CostOtherInfo() {
+  const houseData = useRecoilValue(houseDataAtom);
   return (
     <Wrapper>
       <ExtraInfos />

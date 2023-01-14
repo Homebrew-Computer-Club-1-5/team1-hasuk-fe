@@ -22,8 +22,9 @@ interface IhouseData_ForHouse {
   cost: Icost;
   category_name: string;
   img_url: string[];
+  region_id: number;
 }
-interface Ihouse_location {
+export interface Ihouse_location {
   latitude: number;
   longitude: number;
 }

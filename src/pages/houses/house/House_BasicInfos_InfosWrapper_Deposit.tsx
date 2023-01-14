@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import P_Manrope_ExtraBold from '../../../components/atoms/P_Manrope_ExtraBold';
 import P_Manrope_Regular from '../../../components/atoms/P_Manrope_Regular';
+import { useRecoilValue } from 'recoil';
+import { houseDataAtom } from '../../../store/atoms';
 
 const Wrapper = styled.div`
   width: 65px;
@@ -10,10 +12,11 @@ const Wrapper = styled.div`
 `;
 
 function House_BasicInfos_InfosWrapper_Deposit() {
+  const houseData = useRecoilValue(houseDataAtom);
   return (
     <Wrapper>
       <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
-        300
+        {houseData.cost.deposit}
       </P_Manrope_ExtraBold>
       <P_Manrope_Regular
         style={{

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
 
@@ -14,12 +15,17 @@ const Wrapper = styled.div`
 
 interface ITitleWrapper {
   style?: React.CSSProperties;
+  navigateRoute: string;
 }
 
-function TitleWrapper({ style }: ITitleWrapper) {
+function TitleWrapper({ style, navigateRoute }: ITitleWrapper) {
+  const navigate = useNavigate();
   return (
     <Wrapper style={style}>
       <BackButton
+        onClick={() => {
+          navigate(navigateRoute);
+        }}
         style={{
           width: '36px', //
           position: 'absolute',

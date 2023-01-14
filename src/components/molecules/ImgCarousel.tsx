@@ -83,8 +83,10 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           position: 'absolute',
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
+          zIndex: 999,
         }}
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           moveSlide(-1);
         }}
       />
@@ -96,7 +98,8 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
         }}
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           moveSlide(1);
         }}
       />

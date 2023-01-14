@@ -5,8 +5,10 @@ import HouseWrapper from './HouseWrapper';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { houseDatasAtom } from '../../store/atoms';
+import { useNavigate } from 'react-router-dom';
 
 function Houses() {
+  const navigate = useNavigate();
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
   const GET_TEST_REGION = gql`
     query {
@@ -37,10 +39,17 @@ function Houses() {
   } else {
     return (
       <S.Container>
-        <TitleWrapper />
+        <TitleWrapper navigateRoute={'/main'} />
         <FilterWrapper />
         {houseDatas.map((houseData, index) => (
-          <HouseWrapper key={index} houseWrapperIndex={index} />
+          <HouseWrapper
+            key={index}
+            onClick={() => {
+              navigate(`/house/${houseData.house_id}`);
+              console.log('네이게이트');
+            }}
+            houseWrapperIndex={index}
+          />
         ))}
         {/* <HouseWrapper_OnlyInfos /> */}
       </S.Container>
