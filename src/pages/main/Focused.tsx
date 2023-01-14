@@ -162,7 +162,7 @@ function Focusedmap() {
     function makeCluster(object: any, text: any, marker: any) {
       const clusterer = new window.kakao.maps.MarkerClusterer({
         map: object,
-        gridSize: 200,
+        gridSize: 500,
         averageCenter: true,
         minClusterSize: 1,
         minLevel: 5,
