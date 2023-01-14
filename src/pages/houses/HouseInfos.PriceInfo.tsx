@@ -22,7 +22,7 @@ function HouseInfos_PriceInfo({ houseWrapperIndex }: IHouseInfos_PriceInfo) {
       <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
         {houseDatas[houseWrapperIndex].month_cost}
       </P_Manrope_ExtraBold>
-      <P_Manrope_Regular> /월</P_Manrope_Regular>
+      <P_Manrope_Regular>만 /월</P_Manrope_Regular>
     </Wrapper>
   );
 }

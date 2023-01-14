@@ -12,9 +12,13 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-function TitleWrapper() {
+interface ITitleWrapper {
+  style?: React.CSSProperties;
+}
+
+function TitleWrapper({ style }: ITitleWrapper) {
   return (
-    <Wrapper>
+    <Wrapper style={style}>
       <BackButton
         style={{
           width: '36px', //
