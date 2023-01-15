@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
+import House from './houses/house/House';
 import Houses from './houses/Houses';
 import Focused from './main/Focused';
 import Main from './main/Main';
-import House from './houses/house/House';
 import NotFound from './NotFound';
 
 function Router() {
