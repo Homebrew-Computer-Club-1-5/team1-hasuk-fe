@@ -12,20 +12,22 @@ function Houses() {
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
   const GET_TEST_REGION = gql`
     query {
-      fetchHousesTest(region_id: "region1") {
-        house_id
+      fetchHousesByRegion(region_id: 1) {
+        id
         month_cost
-        main_spot_name
-        img_url
+        img_urls {
+          img_url
+        }
         gender
         has_empty
+        nearest_main_spot_name
       }
     }
   `;
   const { loading, error, data } = useQuery(GET_TEST_REGION, {
     onCompleted: (data) => {
-      console.log(data.fetchHousesTest[0]);
-      setHouseDatas((current) => data.fetchHousesTest);
+      console.log(data.fetchHousesByRegion);
+      setHouseDatas((current) => data.fetchHousesByRegion);
     },
   });
   console.log(loading);
@@ -45,8 +47,7 @@ function Houses() {
           <HouseWrapper
             key={index}
             onClick={() => {
-              navigate(`/house/${houseData.house_id}`);
-              console.log('네이게이트');
+              navigate(`/house/${houseData.id}`);
             }}
             houseWrapperIndex={index}
           />

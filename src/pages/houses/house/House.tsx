@@ -18,14 +18,16 @@ function House() {
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
   const GET_TEST_HOUSE = gql`
     query {
-      fetchHouseTest(house_id: "house1") {
-        house_id
+      fetchHouse(house_id: 1) {
+        id
         contact_number
         gender
         min_residence
         house_other_info
         has_empty
-        img_url
+        imgs {
+          img_url
+        }
         house_location {
           latitude
           longitude
@@ -33,17 +35,22 @@ function House() {
         cost {
           month_cost
           deposit
-          cost_other_info
+          other_info
         }
-        category_name
-        region_id
+        house_category {
+          name
+        }
+        region {
+          id
+        }
       }
     }
   `;
+
   const { loading, error, data } = useQuery(GET_TEST_HOUSE, {
     onCompleted: (data) => {
-      console.log(data.fetchHouseTest);
-      setHouseData((current) => data.fetchHouseTest);
+      console.log(data.fetchHouse);
+      setHouseData((current) => data.fetchHouse);
     },
   });
 
@@ -54,16 +61,16 @@ function House() {
       </>
     );
   } else {
+    const imgs = houseData.imgs;
+    const img_url = imgs.map((each) => each.img_url);
+
     return (
       <Container>
         <TitleWrapper
-          navigateRoute={`/houses/${houseData.region_id}`}
+          navigateRoute={`/houses/${houseData.region.id}`}
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
         />
-        <ImgCarousel
-          style={{ borderRadius: '0px' }}
-          img_url={houseData.img_url}
-        />
+        <ImgCarousel style={{ borderRadius: '0px' }} img_url={img_url} />
         <House_HouseIdWrapper />
         <House_BasicInfosWrapper />
         <House_LocationInfoWrapper />

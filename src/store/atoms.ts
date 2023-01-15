@@ -1,28 +1,38 @@
 import { atom } from 'recoil';
 
-interface IhouseData_ForHouses {
-  house_id: string;
-  house_name: string;
+interface IhouseData_fetchHousesByRegion {
+  id: number;
   month_cost: number;
-  main_spot_name: string;
-  img_url: string[];
+  nearest_main_spot_name: string;
+  img_urls: Iimg_url[];
   gender: number;
   has_empty: boolean;
 } // 필수 비필수 설정 해줘야함
 
-interface IhouseData_ForHouse {
-  house_id: number;
-  house_name: string;
+interface Iimg_url {
+  img_url: string;
+}
+
+interface IhouseData_fetchHouse {
+  id: number;
   contact_number: string;
   gender: number;
   min_residence: string;
   house_other_info: string;
-  has_empty: boolean;
-  house_location: Ihouse_location;
+  has_empty: number;
+  is_crolled: number;
   cost: Icost;
-  category_name: string;
-  img_url: string[];
-  region_id: number;
+  house_location: Ihouse_location;
+  imgs: Ihouse_img[];
+  region: Iregion;
+}
+
+interface Iregion {
+  id: number;
+}
+
+interface Ihouse_img {
+  img_url: string;
 }
 export interface Ihouse_location {
   latitude: number;
@@ -33,7 +43,7 @@ interface Icost {
   deposit: number;
   cost_other_info: string;
 }
-export const houseDatasAtom = atom<IhouseData_ForHouses[]>({
+export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
   key: 'houseDatas',
   default: [
     // {
@@ -63,7 +73,7 @@ export const houseDatasAtom = atom<IhouseData_ForHouses[]>({
   ],
 });
 
-export const houseDataAtom = atom<IhouseData_ForHouse>({
+export const houseDataAtom = atom<IhouseData_fetchHouse>({
   key: 'houseData',
   default: {} as any,
 });
