@@ -11,7 +11,7 @@ function House_HouseIdWrapper() {
     <Wrapper>
       <BlackPill
         style={{ padding: '0px 20px', width: '130px' }}
-        innerText={`등록번호 ${houseData.house_id}`}
+        innerText={`등록번호 ${houseData.id}`}
       ></BlackPill>
     </Wrapper>
   );
