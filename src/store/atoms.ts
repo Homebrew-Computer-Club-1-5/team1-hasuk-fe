@@ -43,37 +43,26 @@ interface Icost {
   deposit: number;
   cost_other_info: string;
 }
+
+interface ImainHouse {
+  name: string;
+  houses: Ihouse_object[];
+}
+export interface Ihouse_object {
+  house_location: Ihouse_location;
+}
 export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
   key: 'houseDatas',
-  default: [
-    // {
-    //   house_id: 11,
-    //   house_name: '1구역 1번집',
-    //   month_cost: 10,
-    //   main_spot_name: '1-1 에서 가까운 카페',
-    //   img_url: [
-    //     'https://img.koreapas.com/i/61ddf4a/resize',
-    //     'https://img.koreapas.com/i/a86267b/resize',
-    //   ],
-    //   gender: 1,
-    //   has_empty: true,
-    // },
-    // {
-    //   house_id: 12,
-    //   house_name: '1구역 2번집',
-    //   month_cost: 30,
-    //   main_spot_name: '1-2 에서 가까운 카페',
-    //   img_url: [
-    //     'https://img.koreapas.com/i/61ddf4a/resize',
-    //     'https://img.koreapas.com/i/a86267b/resize',
-    //   ],
-    //   gender: 1,
-    //   has_empty: true,
-    // },
-  ],
+  default: [],
 });
 
+//useState의 default값과 동일한 기능
 export const houseDataAtom = atom<IhouseData_fetchHouse>({
   key: 'houseData',
   default: {} as any,
+});
+
+export const mainHouseAtom = atom<ImainHouse[]>({
+  key: 'mainHouse',
+  default: [],
 });
