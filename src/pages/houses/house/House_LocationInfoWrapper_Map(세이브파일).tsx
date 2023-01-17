@@ -7,7 +7,6 @@ declare global {
     kakao: any;
   }
 }
-
 const Wrapper = styled.div`
   background-color: lightgray;
   width: 85%;
