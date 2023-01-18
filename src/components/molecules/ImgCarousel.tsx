@@ -83,7 +83,7 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           position: 'absolute',
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
-          zIndex: 999,
+          zIndex: 100,
         }}
         onClick={(event) => {
           event.stopPropagation();

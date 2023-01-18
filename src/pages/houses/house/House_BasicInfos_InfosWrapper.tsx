@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import House_BasicInfos_InfosWrapper_CostOtherInfo from './House_BasicInfos_InfosWrapper_CostOtherInfo';
 import House_BasicInfos_InfosWrapper_Deposit from './House_BasicInfos_InfosWrapper_Deposit';
@@ -12,12 +13,20 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   column-gap: 50px;
 `;
-function House_BasicInfos_InfosWrapper() {
+interface IHouse_BasicInfos_InfosWrapper {
+  setIsCostOtherInfoModalOn: Dispatch<SetStateAction<boolean>>;
+}
+
+function House_BasicInfos_InfosWrapper({
+  setIsCostOtherInfoModalOn,
+}: IHouse_BasicInfos_InfosWrapper) {
   return (
     <Wrapper>
       <House_BasicInfos_InfosWrapper_Deposit />
       <House_BasicInfos_InfosWrapper_MonthCost />
-      <House_BasicInfos_InfosWrapper_CostOtherInfo />
+      <House_BasicInfos_InfosWrapper_CostOtherInfo
+        setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
+      />
       <House_BasicInfos_InfosWrapper_HasEmpty />
       <House_BasicInfos_InfosWrapper_Gender />
     </Wrapper>

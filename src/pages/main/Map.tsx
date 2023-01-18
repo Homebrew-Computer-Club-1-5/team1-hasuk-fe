@@ -10,7 +10,6 @@ declare global {
     kakao: any;
   }
 }
-
 const Map = () => {
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
@@ -111,6 +110,7 @@ const Map = () => {
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
   }, [mainHouses]);
+
 
   return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
 };

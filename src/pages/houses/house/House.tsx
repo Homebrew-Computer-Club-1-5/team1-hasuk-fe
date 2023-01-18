@@ -4,21 +4,27 @@ import { useRecoilState } from 'recoil';
 import { houseDataAtom } from '../../../store/atoms';
 import styled from 'styled-components';
 import TitleWrapper from '../../../components/molecules/TitleWrapper';
-import BlackPill from '../../../components/atoms/BlackPill';
 import House_BasicInfosWrapper from './House_BasicInfosWrapper';
 import House_LocationInfoWrapper from './House_LocationInfoWrapper';
 import House_OtherInfoWrapper from './House_OtherInfoWrapper';
 import House_HouseIdWrapper from './House_HouseIdWrapper';
+import { ReactComponent as ContactButton } from '../../../assets/ContactButton.svg';
+import Modal from '../../../components/molecules/Modal';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   position: relative;
 `;
 
 function House() {
+  const [isContactNumberModalOn, setIsContactNumberModalOn] = useState(false);
+  const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
+  const { house_id } = useParams();
   const GET_TEST_HOUSE = gql`
     query {
-      fetchHouse(house_id: 1) {
+      fetchHouse(house_id: ${house_id}) {
         id
         contact_number
         gender
@@ -65,13 +71,37 @@ function House() {
 
     return (
       <Container>
+        <Modal
+          innerText={`전화번호 : ${houseData.contact_number}`}
+          isModalOn={isContactNumberModalOn}
+          setIsModalOn={setIsContactNumberModalOn}
+        />
+        <Modal
+          innerText={`금액 관련 기타 정보 :  ${houseData.cost.other_info}`}
+          isModalOn={isCostOtherInfoModalOn}
+          setIsModalOn={setIsCostOtherInfoModalOn}
+        />
         <TitleWrapper
           navigateRoute={`/houses/${houseData.region.id}`}
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
         />
+        <ContactButton
+          style={{
+            position: 'absolute',
+            zIndex: '100',
+            right: '10px',
+            top: '-5px',
+            width: '40px',
+          }}
+          onClick={() => {
+            setIsContactNumberModalOn((current) => !current);
+          }}
+        />
         <ImgCarousel style={{ borderRadius: '0px' }} img_url={img_url} />
         <House_HouseIdWrapper />
-        <House_BasicInfosWrapper />
+        <House_BasicInfosWrapper
+          setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
+        />
         <House_LocationInfoWrapper />
         <House_OtherInfoWrapper />
       </Container>
