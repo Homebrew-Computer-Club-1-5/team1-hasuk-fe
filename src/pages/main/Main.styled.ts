@@ -24,8 +24,22 @@ export const Header = styled.header`
     margin-top: 10px;
   }
   select {
-    margin-left: 55%;
+    margin-left: 40%;
     height: 20px;
     border-radius: 5px;
   }
+`;
+
+export const versionBox = styled.div`
+  display: inline-block;
+  border: 1px solid grey;
+  padding: 0px 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  height: 15px;
+  background-color: black;
+  font-weight: 660;
+  color: white;
+  font-size: 10px;
 `;

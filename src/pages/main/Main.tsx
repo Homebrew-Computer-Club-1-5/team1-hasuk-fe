@@ -10,6 +10,7 @@ function Main() {
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
         <h1>hasuk</h1>
+        <S.versionBox>v{process.env.REACT_APP_VERSION}</S.versionBox>
         <select onChange={onchange}>
           <option value="고려대">고려대</option>
         </select>

@@ -46,6 +46,7 @@ interface Icost {
 
 interface ImainHouse {
   name: string;
+  id: number;
   houses: Ihouse_object[];
 }
 export interface Ihouse_object {
@@ -62,7 +63,7 @@ export const houseDataAtom = atom<IhouseData_fetchHouse>({
   default: {} as any,
 });
 
-export const mainHouseAtom = atom<ImainHouse[]>({
-  key: 'mainHouse',
+export const mainHousesAtom = atom<ImainHouse[]>({
+  key: 'mainHouses',
   default: [],
 });
