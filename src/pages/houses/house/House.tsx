@@ -22,7 +22,6 @@ function House() {
         id
         contact_number
         gender
-        min_residence
         house_other_info
         has_empty
         imgs {
