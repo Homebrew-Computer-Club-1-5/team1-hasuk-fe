@@ -41,7 +41,7 @@ export interface Ihouse_location {
 interface Icost {
   month_cost: number;
   deposit: number;
-  cost_other_info: string;
+  other_info: string;
 }
 
 interface ImainHouse {
