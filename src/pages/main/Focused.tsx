@@ -6,6 +6,7 @@ import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
+import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 
 declare global {
   interface Window {
@@ -124,9 +125,8 @@ function Focusedmap() {
     <S.Container>
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
-        <div>
-          <span>고려대-{`${state.name}`}</span>
-        </div>
+        <S.versionBox>v {process.env.REACT_APP_VERSION}</S.versionBox>
+        <P_Manrope_ExtraBold>고려대-{`${state.name}`}</P_Manrope_ExtraBold>
       </S.Header>
       <S.Wrapper>
         <div id="map" style={{ width: '100vw', height: '95vh' }}>
