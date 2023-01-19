@@ -13,7 +13,6 @@ function Main() {
         <h1>대학방</h1>
         <S.versionBox>v{process.env.REACT_APP_VERSION}</S.versionBox>
         <select onChange={onchange}>
-          <img src={icon} />
           <option value="고려대">고려대</option>
         </select>
       </S.Header>
