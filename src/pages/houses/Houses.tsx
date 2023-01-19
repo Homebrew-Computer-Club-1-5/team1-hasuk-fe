@@ -15,6 +15,7 @@ function Houses() {
   const GET_TEST_REGION = gql`
     query {
       fetchHousesByRegion(region_id: ${region_id}) {
+        region_name
         id
         month_cost
         img_urls {
@@ -43,7 +44,7 @@ function Houses() {
   } else {
     return (
       <S.Container>
-        <TitleWrapper navigateRoute={'/main'} />
+        <TitleWrapper navigateRoute={'/main'} isTitleOn={true} />
         {/* <FilterWrapper /> */}
         {houseDatas.map((houseData, index) => (
           <HouseWrapper
