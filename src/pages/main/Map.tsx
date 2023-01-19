@@ -55,7 +55,7 @@ const Map = () => {
       texts: text,
       styles: [
         {
-          width: '80px',
+          width: '85px',
           height: '30px',
           padding: '8px 0px 0px 0px',
 
@@ -69,6 +69,7 @@ const Map = () => {
 
           fontWeight: 'bold',
           lineHeight: '15px',
+          filter: 'drop-shadow(3px 3px 3px grey)',
         },
       ],
     });
@@ -110,7 +111,6 @@ const Map = () => {
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
   }, [mainHouses]);
-
 
   return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
 };

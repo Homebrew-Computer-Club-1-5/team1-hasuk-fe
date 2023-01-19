@@ -77,6 +77,7 @@ function Focusedmap() {
 
           fontWeight: 'bold',
           lineHeight: '15px',
+          filter: 'drop-shadow(3px 3px 3px grey)',
         },
       ],
     });
@@ -123,8 +124,9 @@ function Focusedmap() {
     <S.Container>
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
-        <span>고려대-</span>
-        <span>{`${state.name}`}</span>
+        <div>
+          <span>고려대-{`${state.name}`}</span>
+        </div>
       </S.Header>
       <S.Wrapper>
         <div id="map" style={{ width: '100vw', height: '95vh' }}>
