@@ -44,7 +44,7 @@ function Houses() {
     return (
       <S.Container>
         <TitleWrapper navigateRoute={'/main'} />
-        <FilterWrapper />
+        {/* <FilterWrapper /> */}
         {houseDatas.map((houseData, index) => (
           <HouseWrapper
             key={index}

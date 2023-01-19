@@ -16,13 +16,12 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   img {
-    width: 30px;
-    height: 30px;
-    margin-left: 10px;
+    width: 45px;
+    height: 45px;
+    margin-left: 0px;
   }
-  h1 {
+  p {
     font-size: 20px;
-    margin-top: 10px;
   }
   select {
     appearance: none;
@@ -41,7 +40,7 @@ export const versionBox = styled.div`
   border: 1px solid grey;
   padding: 0px 5px;
   margin-left: 5px;
-  margin-top: 5px;
+  margin-bottom: 2px;
   border-radius: 5px;
   height: 15px;
   background-color: black;

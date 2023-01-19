@@ -28,16 +28,20 @@ export const Header = styled.header`
   height: 40px;
   display: flex;
   align-items: center;
+  position: relative;
 
   img {
-    width: 30px;
-    height: 30px;
-    margin-left: 10px;
+    width: 45px;
+    height: 45px;
+    margin-left: 0px;
   }
-  span {
-    display: flex;
-    font-size: 20px;
-    font-weight: 990;
+  p {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    left: 50%;
+    font-size: 27px;
+    transform: translate(-50%, -50%);
   }
   h1 {
     font-size: 20px;
@@ -48,13 +52,11 @@ export const Header = styled.header`
   }
 `;
 
-export const versionBox = styled.div`
-  display: inline-block;
+export const versionBox = styled.span`
   border: 1px solid grey;
   padding: 0px 5px;
   margin-left: 5px;
-  margin-right: 10vw;
-  margin-top: 5px;
+  margin-bottom: 1px;
   border-radius: 5px;
   height: 15px;
   background-color: black;
