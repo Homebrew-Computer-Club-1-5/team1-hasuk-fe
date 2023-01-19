@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
 interface IhouseData_fetchHousesByRegion {
+  region_name: string;
   id: number;
   month_cost: number;
   nearest_main_spot_name: string;

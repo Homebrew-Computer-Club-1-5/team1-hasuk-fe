@@ -84,6 +84,7 @@ function House() {
         <TitleWrapper
           navigateRoute={`/houses/${houseData.region.id}`}
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
+          isTitleOn={false}
         />
         <ContactButton
           style={{
