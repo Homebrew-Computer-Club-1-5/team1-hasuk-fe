@@ -28,18 +28,23 @@ export const Header = styled.header`
   height: 40px;
   display: flex;
   align-items: center;
+
   img {
     width: 30px;
     height: 30px;
     margin-left: 10px;
   }
   span {
+    display: flex;
     font-size: 20px;
     font-weight: 990;
   }
   h1 {
     font-size: 20px;
     margin-top: 10px;
+  }
+  div {
+    margin: auto;
   }
 `;
 
