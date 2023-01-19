@@ -1,3 +1,11 @@
+## Version
+V 1.0 완료
+
+
+
+
+
+
 ## Directory structure
 
 <img width="178" alt="directoryStructure" src="https://user-images.githubusercontent.com/101977256/210210826-1064c118-1f2a-4e54-9663-eccdac4d4e2b.png">
