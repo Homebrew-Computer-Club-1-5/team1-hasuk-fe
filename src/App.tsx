@@ -1,8 +1,13 @@
+import Router from './pages/Router';
+import { RecoilRoot } from 'recoil';
+import RouteChangeTracker from './RouteChangeTracker';
+
 function App() {
+  RouteChangeTracker();
   return (
-    <div className="App">
-      <p>hello world</p>
-    </div>
+    <RecoilRoot>
+      <Router />
+    </RecoilRoot>
   );
 }
 
