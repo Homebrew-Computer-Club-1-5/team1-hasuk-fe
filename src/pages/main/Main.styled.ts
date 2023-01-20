@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import icon from '../../assets/haksamo.png';
 
 export const Container = styled.div`
   width: 100vw;
@@ -23,15 +22,20 @@ export const Header = styled.header`
   p {
     font-size: 20px;
   }
-  select {
-    appearance: none;
-    border: 1px solid white;
+  #selectBox {
+    border: 1px solid black;
     margin-left: 40%;
-    padding-left: 20px;
-    background-image: url(${icon});
-    background-size: cover;
-    width: 88px;
-    height: 22px;
+    border-radius: 10px;
+    img {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+    }
+    select {
+      border: none;
+      background-color: transparent;
+      margin-left: 25px;
+    }
   }
 `;
 
