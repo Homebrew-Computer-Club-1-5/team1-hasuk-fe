@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
 import { houseDatasAtom } from '../../store/atoms';
+
 
 import Title from '../atoms/Title';
 
@@ -18,12 +20,8 @@ const Wrapper = styled.div`
 interface ITitleWrapper {
   style?: React.CSSProperties;
   navigateRoute: string;
-  isTitleOn: boolean;
-}
-
 function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
   const houseDatas = useRecoilValue(houseDatasAtom);
-
   const navigate = useNavigate();
   return (
     <Wrapper style={style}>
@@ -40,6 +38,7 @@ function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
       <Title
         style={{ display: `${isTitleOn ? 'block' : 'none'}` }}
       >{`고려대학교 - ${houseDatas[0].region_name}`}</Title>
+
     </Wrapper>
   );
 }
