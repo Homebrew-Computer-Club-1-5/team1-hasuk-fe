@@ -37,9 +37,11 @@ function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
           left: 15,
         }}
       />
-      <Title
-        style={{ display: `${isTitleOn ? 'block' : 'none'}` }}
-      >{`고려대학교 - ${houseDatas[0].region_name}`}</Title>
+      {isTitleOn ? (
+        <Title>{`고려대학교 - ${houseDatas[0].region_name}`}</Title>
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 }
