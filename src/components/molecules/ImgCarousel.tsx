@@ -6,8 +6,8 @@ import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
 const Wrapper = styled.div`
   background: lightgray;
   border-radius: 12px;
-  width: 350px;
-  height: 250px;
+  width: 100%;
+  height: 30vh;
   position: relative;
   overflow: hidden;
 `;
@@ -15,9 +15,11 @@ const Wrapper = styled.div`
 const ImgsWrapper = styled.div`
   display: flex;
   transition: all 0.4s ease-out;
+  width: 100%;
   div {
-    width: 350px;
-    height: 250px;
+    width: 100%;
+    height: 30vh;
+    /* height: 100%; */
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;

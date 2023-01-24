@@ -7,7 +7,14 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  width: 100vw;
+  width: 95vw;
+  height: 95vh;
+  position: relative;
+  #map {
+    border-radius: 20px !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
 `;
 
 export const Header = styled.header`

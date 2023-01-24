@@ -31,6 +31,7 @@ function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
         onClick={() => {
           navigate(navigateRoute);
         }}
+        fill={isTitleOn ? 'black' : 'white'}
         style={{
           width: '36px', //
           position: 'absolute',
