@@ -9,7 +9,7 @@ const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
 ReactGA.initialize(TRACKING_ID as string);
 const client = new ApolloClient({
   // 테스트때문에 잠시 블록 처리했습니다 - 이주승 uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
-  uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
+  uri: `/graphql`,
   cache: new InMemoryCache(),
 });
 
