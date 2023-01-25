@@ -7,7 +7,8 @@ import { useRecoilState } from 'recoil';
 import { mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
-
+import hasukIcon from '../../assets/hasuk.png';
+import gosiIcon from '../../assets/gosiwon.png';
 declare global {
   interface Window {
     kakao: any;
@@ -26,6 +27,8 @@ function Focusedmap() {
         id
         houses {
           house_location {
+            houseId
+            sortId
             latitude
             longitude
           }
@@ -100,10 +103,37 @@ function Focusedmap() {
     );
   }
 
-  function makeMarker(lat: number, long: number) {
-    return new window.kakao.maps.Marker({
+  function makeMarker(
+    lat: number,
+    long: number,
+    houseId: number,
+    sortId: number,
+  ) {
+    const hIcon = new window.kakao.maps.MarkerImage(
+      hasukIcon,
+      new window.kakao.maps.Size(40, 40),
+      {
+        shape: 'poly',
+      },
+    );
+    const gIcon = new window.kakao.maps.MarkerImage(
+      gosiIcon,
+      new window.kakao.maps.Size(40, 40),
+      {},
+    );
+    const marker = new window.kakao.maps.Marker({
       position: new window.kakao.maps.LatLng(lat, long),
+      clickable: true,
     });
+    window.kakao.maps.event.addListener(marker, 'click', function () {
+      navigate(`/house/${houseId}`);
+    });
+    if (sortId === 2) {
+      marker.setImage(hIcon);
+    } else {
+      marker.setImage(gIcon);
+    }
+    return marker;
   }
 
   useEffect(() => {
@@ -114,6 +144,8 @@ function Focusedmap() {
         return makeMarker(
           house.house_location.latitude,
           house.house_location.longitude,
+          house.house_location.houseId,
+          house.house_location.sortId,
         );
       });
       console.log(markerList);

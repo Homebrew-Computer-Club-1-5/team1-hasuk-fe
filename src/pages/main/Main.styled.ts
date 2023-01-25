@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100vw;
+  margin-left: -10px;
+  width: 95vw;
   height: 100vh;
 `;
 
@@ -10,14 +11,13 @@ export const Wrapper = styled.div`
   height: 95vh;
   position: relative;
   #map {
-    border-radius: 20px !important;
-    width: 100% !important;
+    width: 95vw !important;
     height: 100% !important;
   }
 `;
 
 export const Header = styled.header`
-  width: 100vw;
+  width: 95vw;
   height: 40px;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@ export const Header = styled.header`
   }
   #selectBox {
     border: 1px solid black;
-    margin-left: 40%;
+    margin-left: 35%;
     border-radius: 10px;
     img {
       position: absolute;

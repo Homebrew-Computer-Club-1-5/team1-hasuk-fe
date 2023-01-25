@@ -4,6 +4,10 @@ import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
+import Marker from '../../assets/Marker.svg';
+import hasukIcon from '../../assets/hasuk.png';
+import gosiIcon from '../../assets/gosiwon.png';
+import { createImportSpecifier } from 'typescript';
 
 declare global {
   interface Window {
@@ -11,6 +15,7 @@ declare global {
   }
 }
 const Map = () => {
+  const [mapLevel, setMapLevel] = useState(6);
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const GET_HOUSE = gql`
@@ -20,6 +25,8 @@ const Map = () => {
         id
         houses {
           house_location {
+            houseId
+            sortId
             latitude
             longitude
           }
@@ -44,7 +51,6 @@ const Map = () => {
   }
 
   function makeCluster(kakaoMap: any, text: any, marker: any, id: any) {
-    console.log(marker);
     const clusterer = new window.kakao.maps.MarkerClusterer({
       map: kakaoMap,
       gridSize: 500,
@@ -91,10 +97,37 @@ const Map = () => {
     );
   }
 
-  function makeMarker(lat: number, long: number) {
-    return new window.kakao.maps.Marker({
+  function makeMarker(
+    lat: number,
+    long: number,
+    houseId: number,
+    sortId: number,
+  ) {
+    const hIcon = new window.kakao.maps.MarkerImage(
+      hasukIcon,
+      new window.kakao.maps.Size(40, 40),
+      {
+        shape: 'poly',
+      },
+    );
+    const gIcon = new window.kakao.maps.MarkerImage(
+      gosiIcon,
+      new window.kakao.maps.Size(40, 40),
+      {},
+    );
+    const marker = new window.kakao.maps.Marker({
       position: new window.kakao.maps.LatLng(lat, long),
+      clickable: true,
     });
+    window.kakao.maps.event.addListener(marker, 'click', function () {
+      navigate(`/house/${houseId}`);
+    });
+    if (sortId === 2) {
+      marker.setImage(hIcon);
+    } else {
+      marker.setImage(gIcon);
+    }
+    return marker;
   }
 
   useEffect(() => {
@@ -105,14 +138,26 @@ const Map = () => {
         return makeMarker(
           house.house_location.latitude,
           house.house_location.longitude,
+          house.house_location.houseId,
+          house.house_location.sortId,
         );
       });
       console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
+
+    window.kakao.maps.event.addListener(kakaoMap, 'zoom_changed', function () {
+      const result = kakaoMap.getLevel();
+      setMapLevel((current) => {
+        console.log('셋스테이트작동');
+        console.log(current);
+        return current + 1;
+      });
+      console.log(mapLevel, 'maplevel');
+    });
   }, [mainHouses]);
 
-  return <div id="map" style={{ width: '100vw', height: '95vh' }} />;
+  return <div id="map" style={{ width: '95%', height: '95vh' }} />;
 };
 
 export default Map;

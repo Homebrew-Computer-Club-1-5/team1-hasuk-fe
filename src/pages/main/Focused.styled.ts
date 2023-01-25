@@ -4,6 +4,7 @@ import Btndesign from '../../assets/Btndesign.png';
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  margin-left: -10px;
 `;
 
 export const Wrapper = styled.div`
@@ -11,13 +12,14 @@ export const Wrapper = styled.div`
   button {
     position: absolute;
     z-index: 6;
-    margin: 10px 38%;
+    min-width: 85px;
+    margin: 10px 40vw 0px 40vw;
     font-size: 17px;
     font-weight: 600;
     border: none;
     padding-bottom: 5px;
     height: 35px;
-    background-color: none;
+    background-color: transparent;
     background-image: url(${Btndesign});
     background-size: cover;
   }
