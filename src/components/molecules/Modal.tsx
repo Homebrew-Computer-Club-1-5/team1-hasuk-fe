@@ -7,7 +7,7 @@ interface IWrapper {
 }
 
 const Wrapper = styled.div<IWrapper>`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   position: absolute;
   z-index: 200;
