@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import Login from './auth/login/Login';
 import House from './houses/house/House';
 import Houses from './houses/Houses';
 import Focused from './main/Focused';
@@ -12,6 +13,7 @@ function Router() {
       <Route path="/house/:house_id" element={<House />} />
       <Route path="/main" element={<Main />} />
       <Route path="/main/:focused" element={<Focused />} />
+      <Route path="/auth/login" element={<Login />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
