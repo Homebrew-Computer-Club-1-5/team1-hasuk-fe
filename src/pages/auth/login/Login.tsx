@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import InputTemplate from '../../../components/molecules/InputTemplate';
 import NoticeTextWrapper from '../../../components/molecules/NoticeTextWrapper';
+import TitleWrapper2 from '../../../components/molecules/TitleWrapper2';
 import { Login_datasAtom } from '../../../store/atoms';
 
 const Wrapper = styled.div`
@@ -25,15 +26,13 @@ function Login() {
 
   const onValid = () => {
     console.log('valid');
-    setLogin_Datas((current) => '데이터'); /////////////////////
+    // setLogin_Datas((current) => '데이터'); /////////////////////
   };
   return (
     <Wrapper>
-      <div
-        style={{
-          width: '100%',
-          height: '50px',
-          backgroundColor: 'gray',
+      <TitleWrapper2
+        onClickBackButton={() => {
+          console.log('백버튼 클릭');
         }}
       />
 
