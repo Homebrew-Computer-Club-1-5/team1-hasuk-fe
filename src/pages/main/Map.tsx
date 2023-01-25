@@ -145,16 +145,6 @@ const Map = () => {
       console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
-
-    window.kakao.maps.event.addListener(kakaoMap, 'zoom_changed', function () {
-      const result = kakaoMap.getLevel();
-      setMapLevel((current) => {
-        console.log('셋스테이트작동');
-        console.log(current);
-        return current + 1;
-      });
-      console.log(mapLevel, 'maplevel');
-    });
   }, [mainHouses]);
 
   return <div id="map" style={{ width: '95%', height: '95vh' }} />;
