@@ -25,8 +25,6 @@ const Map = () => {
         id
         houses {
           house_location {
-            houseId
-            sortId
             latitude
             longitude
           }
