@@ -38,6 +38,8 @@ interface Ihouse_img {
 export interface Ihouse_location {
   latitude: number;
   longitude: number;
+  houseId: number;
+  sortId: number;
 }
 interface Icost {
   month_cost: number;
