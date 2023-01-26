@@ -7,10 +7,11 @@ const Wrapper = styled.div`
 
 interface INoticeTextWrapper {
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
-function NoticeTextWrapper({ children }: INoticeTextWrapper) {
+function NoticeTextWrapper({ children, style }: INoticeTextWrapper) {
   return (
-    <Wrapper>
+    <Wrapper style={style}>
       <P_Manrope_ExtraBold style={{ fontSize: '26px' }}>
         {children}
       </P_Manrope_ExtraBold>

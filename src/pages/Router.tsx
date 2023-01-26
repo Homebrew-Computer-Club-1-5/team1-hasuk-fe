@@ -4,6 +4,7 @@ import House from './houses/house/House';
 import Houses from './houses/Houses';
 import Focused from './main/Focused';
 import Main from './main/Main';
+import MyHouse from './myhouse/MyHouse';
 import NotFound from './NotFound';
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/main" element={<Main />} />
       <Route path="/main/:focused" element={<Focused />} />
       <Route path="/auth/login" element={<Login />} />
+      <Route path="/myhouse" element={<MyHouse />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
