@@ -21,6 +21,7 @@ declare global {
 }
 
 function Focusedmap() {
+  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
   const { region_id } = useParams<string>();
   const { state } = useLocation();
   const navigate = useNavigate();

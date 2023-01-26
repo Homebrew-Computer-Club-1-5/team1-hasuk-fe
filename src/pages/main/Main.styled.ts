@@ -6,10 +6,10 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
-
 export const MapWrapper = styled.div`
   width: 100vw;
   position: relative;
+`;
 
 export const Header = styled.header`
   width: 100vw;
