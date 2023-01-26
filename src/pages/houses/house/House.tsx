@@ -9,7 +9,7 @@ import House_LocationInfoWrapper from './House_LocationInfoWrapper';
 import House_OtherInfoWrapper from './House_OtherInfoWrapper';
 import House_HouseIdWrapper from './House_HouseIdWrapper';
 import { ReactComponent as ContactButton } from '../../../assets/ContactButton.svg';
-import Modal from '../../../components/molecules/Modal';
+import InfoModal from '../../../components/molecules/InfoModal';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -71,12 +71,12 @@ function House() {
 
     return (
       <Container>
-        <Modal
+        <InfoModal
           innerText={`전화번호 : ${houseData.contact_number}`}
           isModalOn={isContactNumberModalOn}
           setIsModalOn={setIsContactNumberModalOn}
         />
-        <Modal
+        <InfoModal
           innerText={`금액 관련 기타 정보 :  ${houseData.cost.other_info}`}
           isModalOn={isCostOtherInfoModalOn}
           setIsModalOn={setIsCostOtherInfoModalOn}

@@ -32,13 +32,13 @@ const ModalWrapper_TextBox = styled.p`
   padding: 40px;
   margin: 0 auto;
 `;
-interface IModal {
+interface IInfoModal {
   innerText: string;
   isModalOn: boolean;
   setIsModalOn: Dispatch<SetStateAction<boolean>>;
 }
 
-function Modal({ innerText, isModalOn, setIsModalOn }: IModal) {
+function InfoModal({ innerText, isModalOn, setIsModalOn }: IInfoModal) {
   return (
     <Wrapper isModalOn={isModalOn}>
       <ModalWrapper>
@@ -54,4 +54,4 @@ function Modal({ innerText, isModalOn, setIsModalOn }: IModal) {
   );
 }
 
-export default Modal;
+export default InfoModal;

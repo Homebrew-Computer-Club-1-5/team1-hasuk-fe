@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import InputTemplate from '../../../components/molecules/InputTemplate';
 import NoticeTextWrapper from '../../../components/molecules/NoticeTextWrapper';
 import TitleWrapper2 from '../../../components/molecules/TitleWrapper2';
 import { Login_datasAtom } from '../../../store/atoms';
+import LoginWithKakaoButton from '../../../assets/LoginWithKakao.png';
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,25 +15,12 @@ const Wrapper = styled.div`
 `;
 
 function Login() {
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
-
-  const setLogin_Datas = useSetRecoilState(Login_datasAtom);
-
-  const onValid = () => {
-    console.log('valid');
-    // setLogin_Datas((current) => '데이터'); /////////////////////
-  };
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <TitleWrapper2
         onClickBackButton={() => {
-          console.log('백버튼 클릭');
+          navigate(`/main`);
         }}
       />
 
@@ -41,8 +29,14 @@ function Login() {
         <br />
         로그인/회원가입 하셔야 합니다.
       </NoticeTextWrapper>
-
-      <form onSubmit={handleSubmit(onValid)}>
+      <img
+        src={LoginWithKakaoButton}
+        style={{ position: 'relative', top: '120px' }}
+        onClick={() => {
+          console.log('백엔드로 리다렉션');
+        }}
+      />
+      {/* <form onSubmit={handleSubmit(onValid)}>
         <InputTemplate
           registerObject={register('contact_number', {
             required: true,
@@ -51,7 +45,7 @@ function Login() {
           placeholderText={'인풋 placeholder 메세지'}
         ></InputTemplate>
         <button>제출 버튼</button>
-      </form>
+      </form> */}
     </Wrapper>
   );
 }
