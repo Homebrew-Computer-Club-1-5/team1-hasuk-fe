@@ -155,7 +155,7 @@ const Map = () => {
     });
   }, [mainHouses]);
 
-  return <div id="map" style={{ width: '95%', height: '95vh' }} />;
+  return <div id="map" style={{ width: '100%', height: '95vh' }} />;
 };
 
 export default Map;

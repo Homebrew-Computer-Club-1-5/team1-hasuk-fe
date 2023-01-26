@@ -11,14 +11,16 @@ const Wrapper = styled.div`
   background-color: white;
   z-index: 1000;
   top: 10px;
-  right: 10px;
+  right: 5px;
   box-shadow: 0px 4px 4px 0px black;
 `;
-
-function MenuButton() {
+interface IMenuButton {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+function MenuButton({ onClick }: IMenuButton) {
   const navigate = useNavigate();
   return (
-    <Wrapper onClick={() => {}}>
+    <Wrapper onClick={onClick}>
       <MenuIcon style={{ position: 'relative', left: '10px', top: '10px' }} />
     </Wrapper>
   );

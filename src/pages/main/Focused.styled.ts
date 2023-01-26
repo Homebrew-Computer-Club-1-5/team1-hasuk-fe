@@ -7,8 +7,9 @@ export const Container = styled.div`
   margin-left: -10px;
 `;
 
-export const Wrapper = styled.div`
+export const MapWrapper = styled.div`
   width: 100vw;
+  position: relative;
   button {
     position: absolute;
     z-index: 6;
