@@ -7,7 +7,6 @@ import btnDesign from '../../assets/Btndesign.png';
 import Marker from '../../assets/Marker.svg';
 import hasukIcon from '../../assets/hasuk.png';
 import gosiIcon from '../../assets/gosiwon.png';
-import { createImportSpecifier } from 'typescript';
 
 declare global {
   interface Window {
@@ -15,7 +14,6 @@ declare global {
   }
 }
 const Map = () => {
-  const [mapLevel, setMapLevel] = useState(6);
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const GET_HOUSE = gql`
@@ -142,16 +140,6 @@ const Map = () => {
       });
       console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
-    });
-
-    window.kakao.maps.event.addListener(kakaoMap, 'zoom_changed', function () {
-      const result = kakaoMap.getLevel();
-      setMapLevel((current) => {
-        console.log('셋스테이트작동');
-        console.log(current);
-        return current + 1;
-      });
-      console.log(mapLevel, 'maplevel');
     });
   }, [mainHouses]);
 

@@ -22,7 +22,7 @@ function TitleWrapper2({ onClickBackButton }: ITitleWrapper2) {
       <BackButton
         onClick={onClickBackButton}
         style={{
-          width: '36px', //
+          width: '36px',
           position: 'absolute',
           left: 15,
         }}

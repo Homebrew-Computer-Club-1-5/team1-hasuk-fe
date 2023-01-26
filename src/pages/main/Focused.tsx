@@ -9,9 +9,11 @@ import btnDesign from '../../assets/Btndesign.png';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 import hasukIcon from '../../assets/hasuk.png';
 import gosiIcon from '../../assets/gosiwon.png';
+import WhitePill from '../../components/molecules/WhitePill';
 import CreateHouseButton from '../../components/molecules/CreateHouseButton';
 import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
+
 declare global {
   interface Window {
     kakao: any;
@@ -19,8 +21,7 @@ declare global {
 }
 
 function Focusedmap() {
-  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
-  const { focused } = useParams<string>();
+  const { region_id } = useParams<string>();
   const { state } = useLocation();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
@@ -56,7 +57,7 @@ function Focusedmap() {
     return map;
   }
   function navigateToHouses() {
-    navigate(`/houses/${focused}`);
+    navigate(`/houses/${region_id}`);
   }
 
   function makeCluster(kakaoMap: any, text: any, marker: any, id: any) {
@@ -177,7 +178,12 @@ function Focusedmap() {
           setIsSideBarOpened={setIsSideBarOpened}
         />
         <div id="map" style={{ width: '100vw', height: '95vh' }}>
-          <button onClick={navigateToHouses}>보러 가기</button>
+          <div id="buttonplace">
+            <WhitePill
+              onClickNavigator={() => navigateToHouses()}
+              text={'보러 가기'}
+            />
+          </div>
         </div>
       </S.MapWrapper>
     </S.Container>

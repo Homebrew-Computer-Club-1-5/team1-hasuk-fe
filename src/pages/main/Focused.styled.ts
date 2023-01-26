@@ -12,17 +12,7 @@ export const MapWrapper = styled.div`
   position: relative;
   button {
     position: absolute;
-    z-index: 6;
-    min-width: 85px;
-    margin: 10px 40vw 0px 40vw;
-    font-size: 17px;
-    font-weight: 600;
-    border: none;
-    padding-bottom: 5px;
-    height: 35px;
-    background-color: transparent;
-    background-image: url(${Btndesign});
-    background-size: cover;
+    margin: 10px 40%;
   }
 `;
 
