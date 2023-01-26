@@ -2,22 +2,22 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   margin-left: -10px;
-  width: 95vw;
+  width: 100vw;
   height: 100vh;
 `;
 
 export const Wrapper = styled.div`
-  width: 95vw;
+  width: 100vw;
   height: 95vh;
   position: relative;
   #map {
-    width: 95vw !important;
+    width: 100vw !important;
     height: 100% !important;
   }
 `;
 
 export const Header = styled.header`
-  width: 95vw;
+  width: 100vw;
   height: 40px;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@ export const Header = styled.header`
   }
   #selectBox {
     border: 1px solid black;
-    margin-left: 35%;
+    margin-left: 170px;
     border-radius: 10px;
     img {
       position: absolute;

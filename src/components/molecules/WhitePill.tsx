@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Pill = styled.button`
-  position: absolute;
+
   padding: 0px 10px;
   z-index: 6;
   min-width: 85px;

@@ -7,7 +7,6 @@ import btnDesign from '../../assets/Btndesign.png';
 import Marker from '../../assets/Marker.svg';
 import hasukIcon from '../../assets/hasuk.png';
 import gosiIcon from '../../assets/gosiwon.png';
-import { createImportSpecifier } from 'typescript';
 
 declare global {
   interface Window {
@@ -15,7 +14,6 @@ declare global {
   }
 }
 const Map = () => {
-  const [mapLevel, setMapLevel] = useState(6);
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const GET_HOUSE = gql`
@@ -147,7 +145,7 @@ const Map = () => {
     });
   }, [mainHouses]);
 
-  return <div id="map" style={{ width: '95%', height: '95vh' }} />;
+  return <div id="map" style={{ width: '100%', height: '95vh' }} />;
 };
 
 export default Map;
