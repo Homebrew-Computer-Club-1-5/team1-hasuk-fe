@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as S from './Focused.styled';
 import hasukLogo from '../../assets/iconhouse.png';
@@ -9,6 +9,9 @@ import btnDesign from '../../assets/Btndesign.png';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 import hasukIcon from '../../assets/hasuk.png';
 import gosiIcon from '../../assets/gosiwon.png';
+import CreateHouseButton from '../../components/molecules/CreateHouseButton';
+import MenuButton from '../../components/molecules/MenuButton';
+import SideBar from '../../components/molecules/SideBar';
 declare global {
   interface Window {
     kakao: any;
@@ -16,6 +19,7 @@ declare global {
 }
 
 function Focusedmap() {
+  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
   const { focused } = useParams<string>();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -160,11 +164,22 @@ function Focusedmap() {
         <S.versionBox>v {process.env.REACT_APP_VERSION}</S.versionBox>
         <P_Manrope_ExtraBold>고려대-{`${state.name}`}</P_Manrope_ExtraBold>
       </S.Header>
-      <S.Wrapper>
+      <S.MapWrapper>
+        <CreateHouseButton />
+        <MenuButton
+          onClick={() => {
+            setIsSideBarOpened((current) => !current);
+          }}
+        />
+        {/*  */}
+        <SideBar
+          isSideBarOpened={isSideBarOpened}
+          setIsSideBarOpened={setIsSideBarOpened}
+        />
         <div id="map" style={{ width: '100vw', height: '95vh' }}>
           <button onClick={navigateToHouses}>보러 가기</button>
         </div>
-      </S.Wrapper>
+      </S.MapWrapper>
     </S.Container>
   );
 }

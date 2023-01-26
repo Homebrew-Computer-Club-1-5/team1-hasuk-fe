@@ -28,12 +28,10 @@ function TitleWrapper2({ onClickBackButton }: ITitleWrapper2) {
         }}
         fill="black"
       />
-      <div>
-        <UnivRoomIcon />
-        <P_Manrope_ExtraBold style={{ fontSize: '30px' }}>
-          대학방
-        </P_Manrope_ExtraBold>
-      </div>
+      <UnivRoomIcon />
+      <P_Manrope_ExtraBold style={{ fontSize: '30px' }}>
+        대학방
+      </P_Manrope_ExtraBold>
     </Wrapper>
   );
 }

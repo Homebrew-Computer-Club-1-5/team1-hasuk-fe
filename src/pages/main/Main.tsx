@@ -3,11 +3,17 @@ import Map from './Map';
 import hasukLogo from '../../assets/iconhouse.png';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 import icon from '../../assets/haksamo.png';
+import CreateHouseButton from '../../components/molecules/CreateHouseButton';
+import MenuButton from '../../components/molecules/MenuButton';
+import SideBar from '../../components/molecules/SideBar';
+import { useState } from 'react';
 // import icon from '../../assets/haksamo.png';
 function Main() {
   const onchange = () => {
     console.log();
   };
+  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
+
   return (
     <S.Container>
       <S.Header>
@@ -21,9 +27,20 @@ function Main() {
           </select>
         </div>
       </S.Header>
-      <S.Wrapper>
+      <S.MapWrapper>
+        <CreateHouseButton />
+        <MenuButton
+          onClick={() => {
+            setIsSideBarOpened((current) => !current);
+          }}
+        />
+        {/*  */}
+        <SideBar
+          isSideBarOpened={isSideBarOpened}
+          setIsSideBarOpened={setIsSideBarOpened}
+        />
         <Map />
-      </S.Wrapper>
+      </S.MapWrapper>
     </S.Container>
   );
 }
