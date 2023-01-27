@@ -16,13 +16,28 @@ function RegisterStart() {
   const [stat, setStat] = useRecoilState(status);
   const [tel, setTel] = useRecoilState(information);
   const [temp, setTemp] = useState();
+  const newInfo = {
+    tel: tel.tel,
+    univ: tel.univ,
+    area: tel.area,
+    address: tel.address,
+    latitude: tel.latitude,
+    longitude: tel.longitude,
+    monthly: tel.monthly,
+    deposit: tel.deposit,
+    fee: tel.fee,
+    gender: tel.gender,
+    category: tel.category,
+    etc: tel.etc,
+  };
 
   const onChangeTel = (e: any) => {
     setTemp(e.target.value);
   };
 
   const onValid = () => {
-    setTel({ tel: temp });
+    newInfo.tel = temp;
+    setTel({ ...newInfo });
   };
   const onInvalid = () => {
     return errors?.tel?.message;
@@ -52,7 +67,7 @@ function RegisterStart() {
               text={'다음'}
               onClickNavigator={() => {
                 if (tel.tel) {
-                  setStat({ status: 2 });
+                  setStat({ status: 3 });
                 }
               }}
             />

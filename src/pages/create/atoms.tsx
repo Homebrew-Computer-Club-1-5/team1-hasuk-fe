@@ -8,7 +8,10 @@ export interface Iinfo {
   tel?: string;
   univ?: string;
   area?: number;
-  address?: number;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+
   monthly?: number;
   deposit?: number;
   fee?: number;

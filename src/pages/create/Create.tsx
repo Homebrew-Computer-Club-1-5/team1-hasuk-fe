@@ -22,9 +22,9 @@ function Create() {
         {stat.status === 0 ? (
           <RegisterStart />
         ) : stat.status === 1 ? (
-          <Tel />
-        ) : stat.status === 2 ? (
           <Location />
+        ) : stat.status === 2 ? (
+          <Tel />
         ) : null}
       </div>
     </Wrapper>
