@@ -9,6 +9,7 @@ interface IContent {
 
 interface IObject {
   stuff: IContent[];
+  getRadioValue: any;
 }
 
 interface Props {
@@ -29,12 +30,13 @@ const Pill = styled.div<Props>`
   border-radius: 20px;
 `;
 
-function PillRadio({ stuff }: IObject) {
+function PillRadio({ stuff, getRadioValue }: IObject) {
   const [x, setX] = useState();
   const handleClickRadioButton2 = (e: any) => {
-    console.log(e.target.value);
     setX(e.target.value);
   };
+  getRadioValue(x);
+
   return (
     <div>
       {stuff.map((content) => (

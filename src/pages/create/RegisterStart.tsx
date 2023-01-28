@@ -17,7 +17,6 @@ function RegisterStart() {
             text={'시작'}
             onClickNavigator={() => {
               setStat({ status: 1 } as any);
-              console.log(stat);
             }}
           />
         </div>
