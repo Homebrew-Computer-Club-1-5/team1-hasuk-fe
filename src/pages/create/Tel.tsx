@@ -3,7 +3,7 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Tel.styled';
 import { useRecoilState } from 'recoil';
-import { status, information, Iinfo } from './atoms';
+import { status, information, IhouseData } from './atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState } from 'react';
 function RegisterStart() {
@@ -12,23 +12,22 @@ function RegisterStart() {
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm<Iinfo>();
+  } = useForm<IhouseData>();
   const [stat, setStat] = useRecoilState(status);
   const [tel, setTel] = useRecoilState(information);
   const [temp, setTemp] = useState();
   const newInfo = {
-    tel: tel.tel,
-    univ: tel.univ,
-    area: tel.area,
-    address: tel.address,
+    contact_number: tel.contact_number,
+    university_id: tel.university_id,
+    region_id: tel.region_id,
     latitude: tel.latitude,
     longitude: tel.longitude,
-    monthly: tel.monthly,
+    month_cost: tel.month_cost,
     deposit: tel.deposit,
-    fee: tel.fee,
+    cost_other_info: tel.cost_other_info,
     gender: tel.gender,
-    category: tel.category,
-    etc: tel.etc,
+    house_category_id: tel.house_category_id,
+    house_other_info: tel.house_other_info,
   };
 
   const onChangeTel = (e: any) => {
@@ -36,11 +35,13 @@ function RegisterStart() {
   };
 
   const onValid = () => {
-    newInfo.tel = temp;
+    newInfo.contact_number = temp;
+    setStat({ status: 3 });
     setTel({ ...newInfo });
+    console.log(tel);
   };
   const onInvalid = () => {
-    return errors?.tel?.message;
+    return errors?.contact_number?.message;
   };
   return (
     <S.Wrapper>
@@ -51,8 +52,9 @@ function RegisterStart() {
         </NoticeTextWrapper>
         <form onSubmit={handleSubmit(onValid, onInvalid)}>
           <InputTemplate
+            defaultValue={tel.contact_number ? tel.contact_number : ''}
             placeholderText="010-1234-5678"
-            registerObject={register('tel', {
+            registerObject={register('contact_number', {
               required: '전화번호가 필요합니다',
               pattern: {
                 value: /^([-\s]?|)\d{2,3}[-\s]?\d{3,4}[-\s]?\d{4}$/,
@@ -63,14 +65,7 @@ function RegisterStart() {
           />
           {onInvalid() ? <span>{onInvalid()}</span> : null}
           <div>
-            <WhitePill
-              text={'다음'}
-              onClickNavigator={() => {
-                if (tel.tel) {
-                  setStat({ status: 3 });
-                }
-              }}
-            />
+            <WhitePill text={'다음'} onClickNavigator={() => {}} />
           </div>
         </form>
       </div>

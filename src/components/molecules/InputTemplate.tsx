@@ -2,6 +2,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  position: relative;
   width: 300px;
   height: 50px;
   border-radius: 10px;
@@ -28,16 +29,23 @@ interface IInputTemplate {
   children?: React.ReactNode;
   registerObject: UseFormRegisterReturn;
   placeholderText: string;
+  defaultValue?: string | number;
 }
 
 function InputTemplate({
   children,
   registerObject,
   placeholderText,
+  defaultValue,
 }: IInputTemplate) {
   return (
     <Wrapper>
-      <Input placeholder={placeholderText} {...registerObject}></Input>
+      <Input
+        value={defaultValue ? defaultValue : undefined}
+        placeholder={placeholderText}
+        {...registerObject}
+      ></Input>
+      {children}
     </Wrapper>
   );
 }

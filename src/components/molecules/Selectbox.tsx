@@ -3,6 +3,7 @@ import { useState } from 'react';
 interface IContent {
   text: string;
   value: number;
+  defaultValue: boolean;
 }
 
 interface IObject {
@@ -19,7 +20,15 @@ function Selectbox({ stuff, getSelectValue }: IObject) {
   return (
     <select onChange={handleChangeSelect}>
       {stuff.map((string) => {
-        return <option value={string.value}>{string.text}</option>;
+        return (
+          <option
+            key={string.text}
+            value={string.value}
+            selected={string.defaultValue}
+          >
+            {string.text}
+          </option>
+        );
       })}
     </select>
   );
