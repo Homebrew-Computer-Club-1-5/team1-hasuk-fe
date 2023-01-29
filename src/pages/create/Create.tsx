@@ -5,6 +5,11 @@ import Tel from './Tel';
 import Location from './Location';
 import { useRecoilState } from 'recoil';
 import { status } from './atoms';
+import Price from './Price';
+import Room from './Room';
+import Photo from './Photo';
+import SummaryDataBar from '../../components/molecules/SummaryDataBar';
+import Summary from './Summary';
 const Wrapper = styled.div``;
 
 function Create() {
@@ -15,7 +20,6 @@ function Create() {
         onClickBackButton={() => {
           const oldstat = stat.status;
           setStat(oldstat > 0 ? { status: oldstat - 1 } : { status: 0 });
-          console.log(stat);
         }}
       />
       <div>
@@ -25,7 +29,15 @@ function Create() {
           <Location />
         ) : stat.status === 2 ? (
           <Tel />
-        ) : null}
+        ) : stat.status === 3 ? (
+          <Price />
+        ) : stat.status === 4 ? (
+          <Room />
+        ) : stat.status === 5 ? (
+          <Photo />
+        ) : (
+          <Summary />
+        )}
       </div>
     </Wrapper>
   );

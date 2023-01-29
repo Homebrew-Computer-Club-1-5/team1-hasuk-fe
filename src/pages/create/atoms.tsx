@@ -4,20 +4,18 @@ export interface IStates {
   status: number;
 }
 
-export interface Iinfo {
-  tel?: string;
-  univ?: string;
-  area?: number;
-  address?: string;
+export interface IhouseData {
+  contact_number?: string;
+  university_id?: number;
+  region_id?: number;
   latitude?: number;
   longitude?: number;
-
-  monthly?: number;
+  month_cost?: number;
   deposit?: number;
-  fee?: number;
+  cost_other_info?: string;
   gender?: number;
-  category?: number;
-  etc?: string;
+  house_category_id?: number;
+  house_other_info?: string;
 }
 
 export const status = atom<IStates>({
@@ -25,7 +23,12 @@ export const status = atom<IStates>({
   default: { status: 0 },
 });
 
-export const information = atom<Iinfo>({
+export const information = atom<IhouseData>({
   key: 'information',
   default: {},
+});
+
+export const tempaddress = atom<string>({
+  key: 'address',
+  default: '0',
 });
