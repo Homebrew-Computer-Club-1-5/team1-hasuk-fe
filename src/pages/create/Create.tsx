@@ -10,10 +10,23 @@ import Room from './Room';
 import Photo from './Photo';
 import SummaryDataBar from '../../components/molecules/SummaryDataBar';
 import Summary from './Summary';
+import { accessTokenAtom } from '../../store/atoms';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const Wrapper = styled.div``;
 
 function Create() {
   const [stat, setStat] = useRecoilState(status);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      navigate('/auth/login');
+    }
+  }, []);
+
   return (
     <Wrapper>
       <TitleWrapper2
