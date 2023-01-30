@@ -7,7 +7,6 @@ import { status } from './atoms';
 function RegisterStart() {
   const [stat, setStat] = useRecoilState(status);
 
-  console.log(stat);
   return (
     <S.Wrapper>
       <div id="textPlace">

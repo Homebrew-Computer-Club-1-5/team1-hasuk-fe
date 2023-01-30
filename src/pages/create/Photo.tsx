@@ -1,15 +1,17 @@
 import * as S from './Photo.styled';
 import { useState, useEffect } from 'react';
 import ImgCarousel from '../../components/molecules/ImgCarousel';
-import { status, information, IhouseData } from './atoms';
+import { realfile, status, tempfile } from './atoms';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
 import WhitePill from '../../components/molecules/WhitePill';
 
 function Photo() {
   const [stat, setStat] = useRecoilState(status);
+  const [tempimg, setTempimg] = useState<any[]>();
+  const [real, setReal] = useRecoilState(realfile);
 
-  const [files, setFiles] = useState('');
+  const [filelink, setFileLink] = useRecoilState(tempfile);
   const [preview, setPreview] = useState<string[]>();
 
   const inputStyle = {
@@ -27,17 +29,33 @@ function Photo() {
     borderRadius: '20px',
   };
   const saveFileImage = (e: any) => {
-    var list = [''];
+    console.log(e.target.files, '원본');
+    var rawList = [];
     for (const i in e.target.files) {
       if (Number(i) >= 0) {
-        list[Number(i)] = URL.createObjectURL(e.target.files[i]);
+        rawList[Number(i)] = e.target.files[i];
       }
     }
 
-    setPreview(list);
+    setTempimg(rawList);
+    setReal(e.target.files);
+  };
+  const fileURLChanger = (e: any) => {
+    var list = [];
+    for (const i in e) {
+      list[Number(i)] = URL.createObjectURL(e[i]);
+    }
+    return list;
   };
 
-  // 이미지 보내는건 아직 안만듦. 지선이랑 얘기해보고 만든다.
+  useEffect(() => {
+    if (tempimg) {
+      setPreview(fileURLChanger(tempimg));
+      setFileLink(tempimg);
+    } else {
+      setPreview(fileURLChanger(filelink));
+    }
+  }, [tempimg]);
 
   return (
     <S.Wrapper>

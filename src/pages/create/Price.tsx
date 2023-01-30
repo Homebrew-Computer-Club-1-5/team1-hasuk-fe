@@ -5,38 +5,43 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import * as S from './Price.styled';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
-import { status, information, IhouseData } from './atoms';
+import { status, monthCost, deposit, costOtherInfo } from './atoms';
 
 function Price() {
+  const [stat, setStat] = useRecoilState(status);
+  const [month, setMonth] = useRecoilState(monthCost);
+
+  const [depo, setDepo] = useRecoilState(deposit);
+  const [cost, setCost] = useRecoilState(costOtherInfo);
+  const [tempmonth, setTempMonth] = useState();
+  const [tempdepo, setTempdepo] = useState();
+  const [tempcost, setTempcost] = useState();
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IhouseData>();
-  const [stat, setStat] = useRecoilState(status);
-  const [price, setPrice] = useRecoilState(information);
-  const [month, setMonth] = useState();
-  const [deposit, setDeposit] = useState();
-  const [cost, setCost] = useState();
-  const newInfo = {
-    contact_number: price.contact_number,
-    university_id: price.university_id,
-    region_id: price.region_id,
-    latitude: price.latitude,
-    longitude: price.longitude,
-    month_cost: price.month_cost,
-    deposit: price.deposit,
-    cost_other_info: price.cost_other_info,
-    gender: price.gender,
-    house_category_id: price.house_category_id,
-    house_other_info: price.house_other_info,
-  };
+  } = useForm({
+    mode: 'onSubmit',
+    defaultValues: { month: month, deposit: depo, cost_other_info: cost },
+  });
+
+  useEffect(() => {
+    if (tempdepo) {
+      setDepo(tempdepo);
+    }
+    if (tempmonth) {
+      setMonth(tempmonth);
+    }
+    if (tempcost) {
+      setCost(tempcost);
+    } else {
+      setDepo(depo);
+      setMonth(month);
+      setCost(cost);
+    }
+  }, [tempdepo, tempmonth, tempcost]);
 
   const onValid = () => {
-    newInfo.month_cost = month;
-    newInfo.deposit = deposit;
-    newInfo.cost_other_info = cost;
-    setPrice({ ...newInfo });
     setStat({ status: 4 });
   };
 
@@ -47,15 +52,14 @@ function Price() {
       <form onSubmit={handleSubmit(onValid)}>
         <p>월세</p>
         <InputTemplate
-          defaultValue={price.month_cost ? price.month_cost : ''}
           placeholderText=""
-          registerObject={register('month_cost', {
+          registerObject={register('month', {
             required: '월세를 입력해 주세요',
             pattern: {
               value: /^([0-9]?|)\d{1,4}$/,
               message: '숫자로만 입력해 주세요',
             },
-            onChange: (e: any) => setMonth(e.target.value),
+            onChange: (e: any) => setTempMonth(e.target.value),
           })}
         >
           <p
@@ -68,10 +72,9 @@ function Price() {
             만원/월
           </p>
         </InputTemplate>
-        <span>{errors?.month_cost?.message}</span>
+        <span>{errors?.month?.message}</span>
         <p>보증금</p>
         <InputTemplate
-          defaultValue={price.deposit ? price.deposit : ''}
           placeholderText=""
           registerObject={register('deposit', {
             required: '보증금을 입력해 주세요',
@@ -79,7 +82,7 @@ function Price() {
               value: /^([0-9]?|)\d{1,4}$/,
               message: '숫자로만 입력해 주세요',
             },
-            onChange: (e: any) => setDeposit(e.target.value),
+            onChange: (e: any) => setTempdepo(e.target.value),
           })}
         >
           <p
@@ -95,11 +98,10 @@ function Price() {
         <span>{errors?.deposit?.message}</span>
         <p>공과금(수도세, 인터넷, 난방비, 전깃세, 에어컨비 등)</p>
         <InputTemplate
-          defaultValue={price.cost_other_info ? price.cost_other_info : ''}
           placeholderText=""
           registerObject={register('cost_other_info', {
             required: false,
-            onChange: (e: any) => setCost(e.target.value),
+            onChange: (e: any) => setTempcost(e.target.value),
           })}
         />
         <div>

@@ -3,12 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import WhitePill from './WhitePill';
 import { useRecoilState } from 'recoil';
-import {
-  status,
-  information,
-  IhouseData,
-  tempaddress,
-} from '../../pages/create/atoms';
+import { status, tempaddress } from '../../pages/create/atoms';
 import { template } from '@babel/core';
 import InputTemplate from './InputTemplate';
 import { useForm } from 'react-hook-form';
@@ -75,7 +70,8 @@ function AddressMaker({ getCoordsValue }: IObject) {
     <>
       {address !== '0' ? (
         <div style={resultWrapperStyle}>{address as string}</div>
-      ) : (
+      ) : null}
+      {finish ? null : (
         <WhitePill
           text={'주소검색'}
           onClickNavigator={() => setToggle(!toggle)}

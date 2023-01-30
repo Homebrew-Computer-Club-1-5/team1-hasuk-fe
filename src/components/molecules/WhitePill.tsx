@@ -13,7 +13,7 @@ const Pill = styled.button`
 `;
 
 interface text {
-  onClickNavigator?: () => void;
+  onClickNavigator?: any;
   text: string;
 }
 function WhitePill({ text, onClickNavigator }: text) {
