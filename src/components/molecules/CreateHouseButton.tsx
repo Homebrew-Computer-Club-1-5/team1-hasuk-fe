@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { ReactComponent as CreateHouseIcon } from '../../assets/CreateHouseIcon.svg';
+import { accessTokenAtom } from '../../store/atoms';
 
 const Wrapper = styled.div`
   width: 60px;
@@ -16,11 +18,16 @@ const Wrapper = styled.div`
 `;
 
 function CreateHouseButton() {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
   const navigate = useNavigate();
   return (
     <Wrapper
       onClick={() => {
-        navigate('/auth/login');
+        if (accessToken) navigate('/create');
+        else {
+          alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+          navigate('/auth/login');
+        }
       }}
     >
       <CreateHouseIcon
