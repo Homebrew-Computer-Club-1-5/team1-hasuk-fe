@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import './PillRadio.css';
-
 interface IContent {
   text: string;
   value: number;
@@ -10,6 +9,7 @@ interface IContent {
 interface IObject {
   stuff: IContent[];
   getRadioValue: any;
+  def?: any;
 }
 
 interface Props {
@@ -30,8 +30,12 @@ const Pill = styled.div<Props>`
   border-radius: 20px;
 `;
 
-function PillRadio({ stuff, getRadioValue }: IObject) {
-  const [x, setX] = useState();
+function PillRadio({ stuff, getRadioValue, def }: IObject) {
+  const [x, setX] = useState<any>();
+  useEffect(() => {
+    setX(def);
+  }, [def]);
+
   const handleClickRadioButton2 = (e: any) => {
     setX(e.target.value);
   };
@@ -45,7 +49,7 @@ function PillRadio({ stuff, getRadioValue }: IObject) {
             type="radio"
             className="input-hidden"
             value={content.value}
-            checked={x === content.value}
+            checked={x ? x === content.value : false}
             onChange={handleClickRadioButton2}
           ></input>
           <Pill

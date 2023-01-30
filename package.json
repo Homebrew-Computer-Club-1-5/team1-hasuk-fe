@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "proxy": "http://localhost:8080",
+  "proxy": "http://10.16.161.196:8080/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.nn5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/apollo-upload-client": "^17.0.2",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.26",
@@ -16,6 +17,7 @@
     "@types/react-responsive": "^8.0.5",
     "@types/recoil": "^0.0.9",
     "@types/styled-components": "^5.1.26",
+    "apollo-upload-client": "^17.0.0",
     "eslint-config-prettier": "^8.6.0",
     "graphql": "^16.6.0",
     "react": "^18.2.0",

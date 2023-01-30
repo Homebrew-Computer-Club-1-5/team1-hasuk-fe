@@ -4,25 +4,37 @@ import InputTemplate from '../../components/molecules/InputTemplate';
 import WhitePill from '../../components/molecules/WhitePill';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
-import { status, information, IhouseData } from './atoms';
+import { status, gender, houseCategoryId, houseOtherInfo } from './atoms';
 import { useState, useEffect } from 'react';
 import * as S from './Room.styled';
 import { useForm } from 'react-hook-form';
 function Room() {
-  const { register, handleSubmit } = useForm<IhouseData>();
   const [stat, setStat] = useRecoilState(status);
-  const [room, setRoom] = useRecoilState(information);
-  const [etcInfo, setEtcInfo] = useState();
-  const [gender, setGender] = useState();
-  const [category, setCategory] = useState();
+  const [gen, setGen] = useRecoilState(gender);
+  const [cat, setCat] = useRecoilState(houseCategoryId);
+  const [other, setOther] = useRecoilState(houseOtherInfo);
+
+  const [tempother, setTempother] = useState();
+  const [tempgen, setTempgen] = useState();
+  const [tempcat, setTempcat] = useState();
+  const { register, handleSubmit } = useForm({
+    mode: 'onSubmit',
+    defaultValues: { other: other },
+  });
   const getGenderValue = (x: any) => {
-    setGender(x);
+    setTempgen(x);
   };
   const getCategoryValue = (x: any) => {
-    setCategory(x);
+    setTempcat(x);
   };
-  const onChangeEtc = (e: any) => {
-    setEtcInfo(e.target.value);
+  const onValid = () => {
+    if (tempother) {
+      setOther(tempother);
+    } else {
+      setOther(other);
+    }
+
+    setStat({ status: 5 });
   };
   const inputStyle = {
     width: '300px',
@@ -32,24 +44,17 @@ function Room() {
     backgroundColor: '#e4e4e4',
   };
 
-  const newInfo = {
-    contact_number: room.contact_number,
-    university_id: room.university_id,
-    region_id: room.region_id,
-    latitude: room.latitude,
-    longitude: room.longitude,
-    month_cost: room.month_cost,
-    deposit: room.deposit,
-    cost_other_info: room.cost_other_info,
-    gender: room.gender,
-    house_category_id: room.house_category_id,
-    house_other_info: room.house_other_info,
-  };
   useEffect(() => {
-    newInfo.gender = gender;
-    newInfo.house_category_id = category;
-    newInfo.house_other_info = etcInfo;
-  }, [gender, category, etcInfo]);
+    if (tempgen) {
+      setGen(tempgen);
+    }
+    if (tempcat) {
+      setCat(tempcat);
+    } else {
+      setGen(gen);
+      setCat(cat);
+    }
+  }, [tempgen, tempcat]);
 
   return (
     <S.Wrapper>
@@ -57,6 +62,7 @@ function Room() {
       <NoticeTextWrapper>방 관련 정보를 알려주세요.</NoticeTextWrapper>
       <p>성별</p>
       <PillRadio
+        def={gen ? gen : undefined}
         getRadioValue={getGenderValue}
         stuff={[
           {
@@ -75,6 +81,7 @@ function Room() {
       />
       <p>카테고리</p>
       <PillRadio
+        def={cat ? cat : undefined}
         getRadioValue={getCategoryValue}
         stuff={[
           {
@@ -97,26 +104,16 @@ function Room() {
       />
       <p>기타 정보</p>
       <p>팁: 식사조건, 빨래제공, 화장실 공용여부, 최소거주기간, 채광</p>
-      <input
-        value={room.house_other_info ? room.house_other_info : undefined}
-        style={inputStyle}
-        onChange={onChangeEtc}
-      />
+      <form onSubmit={handleSubmit(onValid)}>
+        <InputTemplate
+          placeholderText=""
+          registerObject={register('other', {
+            onChange: (e: any) => setTempother(e.target.value),
+          })}
+        />
 
-      <WhitePill
-        text={'다음'}
-        onClickNavigator={() => {
-          if (
-            (newInfo.gender &&
-              newInfo.house_category_id &&
-              newInfo.house_other_info) ||
-            (room.gender && room.house_category_id && room.house_other_info)
-          ) {
-            setRoom({ ...newInfo });
-            setStat({ status: 5 });
-          }
-        }}
-      />
+        <WhitePill text={'다음'} onClickNavigator={() => {}} />
+      </form>
     </S.Wrapper>
   );
 }

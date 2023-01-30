@@ -21,11 +21,7 @@ function Selectbox({ stuff, getSelectValue }: IObject) {
     <select onChange={handleChangeSelect}>
       {stuff.map((string) => {
         return (
-          <option
-            key={string.text}
-            value={string.value}
-            selected={string.defaultValue}
-          >
+          <option value={string.value} selected={string.defaultValue}>
             {string.text}
           </option>
         );

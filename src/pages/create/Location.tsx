@@ -3,7 +3,7 @@ import InputTemplate from '../../components/molecules/InputTemplate';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import { useRecoilState } from 'recoil';
-import { status, information, IhouseData } from './atoms';
+import { status, universityId, regionId, latitude, longitude } from './atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState } from 'react';
 import Selectbox from '../../components/molecules/Selectbox';
@@ -16,9 +16,12 @@ function Location() {
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm<IhouseData>();
+  } = useForm();
   const [stat, setStat] = useRecoilState(status);
-  const [location, setLocation] = useRecoilState(information);
+  const [univid, setUnivId] = useRecoilState(universityId);
+  const [regionid, setRegionId] = useRecoilState(regionId);
+  const [lat, setLat] = useRecoilState(latitude);
+  const [long, setLong] = useRecoilState(longitude);
   const [radio, setRadio] = useState();
   const [select, setSelect] = useState();
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
@@ -31,24 +34,22 @@ function Location() {
   const getCoordsValue = (x: any) => {
     setCoords(x);
   };
-  const newInfo = {
-    contact_number: location.contact_number,
-    university_id: location.university_id,
-    region_id: location.region_id,
-    latitude: location.latitude,
-    longitude: location.longitude,
-    month_cost: location.month_cost,
-    deposit: location.deposit,
-    cost_other_info: location.cost_other_info,
-    gender: location.gender,
-    house_category_id: location.house_category_id,
-    house_other_info: location.house_other_info,
-  };
   useEffect(() => {
-    newInfo.region_id = radio;
-    newInfo.university_id = select;
-    newInfo.latitude = coords.latitude;
-    newInfo.longitude = coords.longitude;
+    if (radio) {
+      setRegionId(radio);
+    }
+    if (select) {
+      setUnivId(select);
+    }
+    if (coords) {
+      setLat(coords.latitude);
+      setLong(coords.longitude);
+    } else {
+      setRegionId(regionid);
+      setUnivId(univid);
+      setLat(lat);
+      setLong(long);
+    }
   }, [radio, select, coords]);
 
   return (
@@ -64,11 +65,12 @@ function Location() {
             {
               text: '고려대',
               value: 1,
-              defaultValue: Number(location.university_id) === 1 ? true : false,
+              defaultValue: Number(univid) === 1 ? true : false,
             },
           ]}
         ></Selectbox>
         <PillRadio
+          def={regionid ? regionid : undefined}
           getRadioValue={getRadioValue}
           stuff={[
             {
@@ -93,19 +95,7 @@ function Location() {
         <WhitePill
           text={'다음'}
           onClickNavigator={() => {
-            if (
-              (newInfo.region_id &&
-                newInfo.university_id &&
-                newInfo.latitude &&
-                newInfo.longitude) ||
-              (location.region_id &&
-                location.university_id &&
-                location.latitude &&
-                location.longitude)
-            ) {
-              setLocation({ ...newInfo });
-              setStat({ status: 2 });
-            }
+            setStat({ status: 2 });
           }}
         />
       </div>
