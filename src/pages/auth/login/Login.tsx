@@ -33,7 +33,7 @@ function Login() {
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
-          console.log('백엔드로 리다렉션');
+          window.location.href = 'http://localhost:8080/auth/login/kakao';
         }}
       />
       {/* <form onSubmit={handleSubmit(onValid)}>

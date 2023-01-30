@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-// import '@fontsource/manrope';
 import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import ReactGA from 'react-ga';
