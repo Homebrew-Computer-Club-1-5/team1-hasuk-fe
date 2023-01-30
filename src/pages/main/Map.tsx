@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { mainHousesAtom } from '../../store/atoms';
+import { accessTokenAtom, mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
 import Marker from '../../assets/Marker.svg';
 import hasukIcon from '../../assets/hasuk.png';
@@ -14,6 +14,9 @@ declare global {
   }
 }
 const Map = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const GET_HOUSE = gql`
@@ -141,6 +144,14 @@ const Map = () => {
       console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
+    if (searchParams.get('accessToken')) {
+      setAccessToken((current) => searchParams.get('accessToken') as string);
+      setSearchParams((currentParams) => {
+        const newParams = new URLSearchParams(currentParams);
+        newParams.delete('accessToken');
+        return newParams.toString();
+      });
+    }
   }, [mainHouses]);
 
   return <div id="map" style={{ width: '100%', height: '95vh' }} />;

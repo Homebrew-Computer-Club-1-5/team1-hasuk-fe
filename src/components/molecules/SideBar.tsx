@@ -4,6 +4,8 @@ import { ReactComponent as PowerButton } from '../../assets/PowerButton.svg';
 import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
 
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { accessTokenAtom } from '../../store/atoms';
 interface ISideBar {
   isSideBarOpened: boolean;
   setIsSideBarOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +13,8 @@ interface ISideBar {
 
 function SideBar({ isSideBarOpened, setIsSideBarOpened }: ISideBar) {
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+
   return (
     <S.Container isSideBarOpened={isSideBarOpened}>
       <S.AuthWrapper
@@ -19,12 +23,18 @@ function SideBar({ isSideBarOpened, setIsSideBarOpened }: ISideBar) {
         }}
       >
         <PowerButton />
-        <P_Manrope_Regular>로그인 하기</P_Manrope_Regular>
+        <P_Manrope_Regular>
+          {accessToken ? '로그아웃 하기' : '로그인 하기'}
+        </P_Manrope_Regular>
       </S.AuthWrapper>
       <S.GrayLine />
       <P_Manrope_Regular
         onClick={() => {
-          navigate('/myhouse');
+          if (accessToken) navigate('/myhouse');
+          else {
+            alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+            navigate('/auth/login');
+          }
         }}
       >
         내 방 관리

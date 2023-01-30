@@ -1,4 +1,6 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+const { persistAtom } = recoilPersist();
 
 interface IhouseData_fetchHousesByRegion {
   region_name: string;
@@ -78,4 +80,10 @@ export const mainHousesAtom = atom<ImainHouse[]>({
 export const Login_datasAtom = atom<ILogin_datasAtom>({
   key: 'Login_datas',
   default: {} as any,
+});
+
+export const accessTokenAtom = atom<string>({
+  key: 'accessToken',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
 });

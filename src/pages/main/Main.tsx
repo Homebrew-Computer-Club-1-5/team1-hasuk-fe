@@ -7,6 +7,7 @@ import CreateHouseButton from '../../components/molecules/CreateHouseButton';
 import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
 import { useState } from 'react';
+
 // import icon from '../../assets/haksamo.png';
 function Main() {
   const onchange = () => {
