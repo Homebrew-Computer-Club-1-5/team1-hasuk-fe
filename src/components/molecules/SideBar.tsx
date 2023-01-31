@@ -5,7 +5,6 @@ import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
 
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { accessTokenAtom } from '../../store/atoms';
 interface ISideBar {
   isSideBarOpened: boolean;
   setIsSideBarOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,13 +12,19 @@ interface ISideBar {
 
 function SideBar({ isSideBarOpened, setIsSideBarOpened }: ISideBar) {
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const accessToken = localStorage.getItem('accessToken');
 
   return (
     <S.Container isSideBarOpened={isSideBarOpened}>
       <S.AuthWrapper
         onClick={() => {
-          navigate('/auth/login');
+          if (accessToken) {
+            localStorage.removeItem('accessToken');
+            alert('로그아웃 완료');
+            navigate('/main');
+          } else {
+            navigate('/auth/login');
+          }
         }}
       >
         <PowerButton />

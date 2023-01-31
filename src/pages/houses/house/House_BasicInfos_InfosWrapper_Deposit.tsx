@@ -16,7 +16,7 @@ function House_BasicInfos_InfosWrapper_Deposit() {
   return (
     <Wrapper>
       <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
-        {houseData.cost.deposit}
+        {houseData.house_cost.deposit}
       </P_Manrope_ExtraBold>
       <P_Manrope_Regular
         style={{
