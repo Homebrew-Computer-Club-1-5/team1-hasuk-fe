@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { accessTokenAtom, mainHousesAtom } from '../../store/atoms';
+import { mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
 import Marker from '../../assets/Marker.svg';
 import hasukIcon from '../../assets/hasuk.png';
@@ -15,7 +15,6 @@ declare global {
 }
 const Map = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
 
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
@@ -145,7 +144,10 @@ const Map = () => {
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
     if (searchParams.get('accessToken')) {
-      setAccessToken((current) => searchParams.get('accessToken') as string);
+      localStorage.setItem(
+        'accessToken',
+        searchParams.get('accessToken') as string,
+      );
       setSearchParams((currentParams) => {
         const newParams = new URLSearchParams(currentParams);
         newParams.delete('accessToken');

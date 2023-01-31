@@ -37,7 +37,7 @@ function House() {
           latitude
           longitude
         }
-        cost {
+        house_cost {
           month_cost
           deposit
           other_info
@@ -77,7 +77,7 @@ function House() {
           setIsModalOn={setIsContactNumberModalOn}
         />
         <InfoModal
-          innerText={`금액 관련 기타 정보 :  ${houseData.cost.other_info}`}
+          innerText={`금액 관련 기타 정보 :  ${houseData.house_cost.other_info}`}
           isModalOn={isCostOtherInfoModalOn}
           setIsModalOn={setIsCostOtherInfoModalOn}
         />

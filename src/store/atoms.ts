@@ -24,7 +24,7 @@ interface IhouseData_fetchHouse {
   house_other_info: string;
   has_empty: number;
   is_crolled: number;
-  cost: Icost;
+  house_cost: Icost;
   house_location: Ihouse_location;
   imgs: Ihouse_img[];
   region: Iregion;
@@ -80,10 +80,4 @@ export const mainHousesAtom = atom<ImainHouse[]>({
 export const Login_datasAtom = atom<ILogin_datasAtom>({
   key: 'Login_datas',
   default: {} as any,
-});
-
-export const accessTokenAtom = atom<string>({
-  key: 'accessToken',
-  default: '',
-  effects_UNSTABLE: [persistAtom],
 });
