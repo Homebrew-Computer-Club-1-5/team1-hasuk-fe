@@ -93,6 +93,7 @@ function Summary() {
 
   function resetAllAtoms() {
     setContact('');
+    setStat({ status: 0 });
     setUniv(0);
     setRegion(0);
     setLat(0);
@@ -143,7 +144,7 @@ function Summary() {
           console.log('에러메세지 : ', err.message);
           resetAllAtoms();
           localStorage.removeItem('accessToken');
-          alert('리프레시 토큰이 만료되었습니다. 로그인 페이지로 이동합니다.');
+          alert('로그인 세션이 만료되였습니다. 로그인 페이지로 이동합니다.');
           navigate('/auth/login');
         });
     }
