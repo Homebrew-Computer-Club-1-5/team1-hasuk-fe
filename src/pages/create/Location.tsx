@@ -10,7 +10,33 @@ import Selectbox from '../../components/molecules/Selectbox';
 import PillRadio from '../../components/molecules/PillRadio';
 import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
+
+const FETCH_HOUSE_BY_LOCATION = gql`
+  query ($longitude: Float!, $latitude: Float!) {
+    fetchHouseByLocation(
+      location: { latitude: $latitude, longitude: $longitude }
+    ) {
+      id
+      longitude
+      latitude
+    }
+  }
+`;
+
 function Location() {
+  const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
+    FETCH_HOUSE_BY_LOCATION,
+    {
+      onCompleted(data) {
+        if (data) alert('이미 존재하는 집입니다.');
+      },
+      onError(error) {
+        setStat({ status: 2 });
+      },
+    },
+  );
+
   const {
     register,
     formState: { errors },
@@ -95,7 +121,14 @@ function Location() {
         <WhitePill
           text={'다음'}
           onClickNavigator={() => {
-            setStat({ status: 2 });
+            console.log(lat, long);
+            console.log(parseFloat(lat as any), parseFloat(long as any));
+            fetchHouseByLocation({
+              variables: {
+                latitude: parseFloat(lat as any),
+                longitude: parseFloat(long as any),
+              },
+            });
           }}
         />
       </div>

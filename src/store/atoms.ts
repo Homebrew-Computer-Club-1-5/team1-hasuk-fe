@@ -58,6 +58,17 @@ interface ImainHouse {
 interface ILogin_datasAtom {
   contact_number: string;
 }
+interface IfetchMyHouse {
+  boardDate: number;
+  contact_number: string;
+  img_urls: string[];
+  location: Ihouse_location2;
+}
+
+interface Ihouse_location2 {
+  latitude: number;
+  longitude: number;
+}
 export interface Ihouse_object {
   house_location: Ihouse_location;
 }
@@ -79,5 +90,10 @@ export const mainHousesAtom = atom<ImainHouse[]>({
 
 export const Login_datasAtom = atom<ILogin_datasAtom>({
   key: 'Login_datas',
+  default: {} as any,
+});
+
+export const fetchMyHouseAtom = atom<IfetchMyHouse[]>({
+  key: 'fetchMyHouse',
   default: {} as any,
 });
