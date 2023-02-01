@@ -180,7 +180,7 @@ function Summary() {
               costother: costother,
               region: parseInt(region as any),
               cat: parseInt(cat as any),
-              files: [imgFile[0]],
+              files: imgFile,
             },
           });
         }}

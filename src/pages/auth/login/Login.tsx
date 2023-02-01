@@ -33,7 +33,7 @@ function Login() {
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
-          window.location.href = 'http://localhost:8080/auth/login/kakao';
+          window.location.href = 'http://10.16.161.196:8080/auth/login/kakao';
         }}
       />
       {/* <form onSubmit={handleSubmit(onValid)}>

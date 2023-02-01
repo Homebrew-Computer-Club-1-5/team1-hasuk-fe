@@ -20,19 +20,20 @@ function Create() {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-      navigate('/auth/login');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+  //     navigate('/auth/login');
+  //   }
+  // }, []);
 
   return (
     <Wrapper>
+      <Photo />
       <TitleWrapper2
         onClickBackButton={() => {
           const oldstat = stat.status;
-          setStat(oldstat > 0 ? { status: oldstat - 1 } : { status: 0 });
+          oldstat > 0 ? setStat({ status: oldstat - 1 }) : navigate('/main');
         }}
       />
       <div>
