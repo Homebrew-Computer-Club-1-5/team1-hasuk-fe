@@ -17,6 +17,7 @@ import {
   houseOtherInfo,
   tempaddress,
   realfile,
+  previewAtom,
 } from './atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
@@ -77,6 +78,8 @@ function Summary() {
   const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
   const [imgFile, setImgFile] = useRecoilState(realfile);
+  const [preview, setPreview] = useRecoilState(previewAtom);
+
   const navigate = useNavigate();
 
   const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
@@ -106,6 +109,7 @@ function Summary() {
     setOther('');
     setAddress('');
     setImgFile({});
+    setPreview([]);
     localStorage.removeItem('recoil-persist');
   }
 

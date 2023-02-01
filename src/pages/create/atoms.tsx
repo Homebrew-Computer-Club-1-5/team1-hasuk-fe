@@ -87,3 +87,9 @@ export const realfile = atom<any>({
   dangerouslyAllowMutability: true,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const previewAtom = atom<string[]>({
+  key: 'preveiw',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});

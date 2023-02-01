@@ -8,7 +8,6 @@ import { status } from './atoms';
 import Price from './Price';
 import Room from './Room';
 import Photo from './Photo';
-import SummaryDataBar from '../../components/molecules/SummaryDataBar';
 import Summary from './Summary';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
