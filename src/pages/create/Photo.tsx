@@ -1,7 +1,7 @@
 import * as S from './Photo.styled';
 import { useState, useEffect } from 'react';
 import ImgCarousel from '../../components/molecules/ImgCarousel';
-import { realfile, status, tempfile } from './atoms';
+import { previewAtom, realfile, status, tempfile } from './atoms';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
 import WhitePill from '../../components/molecules/WhitePill';
@@ -12,7 +12,7 @@ function Photo() {
   const [real, setReal] = useRecoilState(realfile);
 
   const [filelink, setFileLink] = useRecoilState(tempfile);
-  const [preview, setPreview] = useState<string[]>();
+  const [preview, setPreview] = useRecoilState(previewAtom);
 
   const inputStyle = {
     display: 'none',
@@ -29,14 +29,12 @@ function Photo() {
     borderRadius: '20px',
   };
   const saveFileImage = (e: any) => {
-    console.log(e.target.files, '원본');
     var rawList = [];
     for (const i in e.target.files) {
       if (Number(i) >= 0) {
         rawList[Number(i)] = e.target.files[i];
       }
     }
-
     setTempimg(rawList);
     setReal(e.target.files);
   };
@@ -76,7 +74,12 @@ function Photo() {
       <WhitePill
         text={'다음'}
         onClickNavigator={() => {
-          setStat({ status: 6 });
+          if (real.length) {
+            setStat({ status: 6 });
+          } else {
+            alert('적어도 1장 이상의 이미지를 등록해주세요');
+          }
+          console.log(real.length);
         }}
       />
     </S.Wrapper>

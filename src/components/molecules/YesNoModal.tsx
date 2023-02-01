@@ -64,9 +64,17 @@ interface IModal {
   innerText: string;
   isModalOn: boolean;
   setIsModalOn: Dispatch<SetStateAction<boolean>>;
+  onClickYes?: () => void;
+  onClickNo?: () => void;
 }
 
-function Modal({ innerText, isModalOn, setIsModalOn }: IModal) {
+function Modal({
+  innerText,
+  isModalOn,
+  setIsModalOn,
+  onClickYes,
+  onClickNo,
+}: IModal) {
   return (
     <Wrapper isModalOn={isModalOn}>
       <ModalWrapper>
@@ -74,13 +82,18 @@ function Modal({ innerText, isModalOn, setIsModalOn }: IModal) {
         <ModalWrapper_YesNoWrapper>
           <ModalWrapper_YesNoWrapper_ButtonWrapper
             onClick={() => {
-              console.log('예 클릭');
+              if (onClickYes) {
+                onClickYes();
+              }
             }}
           >
             <P_Manrope_Medium>예</P_Manrope_Medium>
           </ModalWrapper_YesNoWrapper_ButtonWrapper>
           <ModalWrapper_YesNoWrapper_ButtonWrapper
             onClick={() => {
+              if (onClickNo) {
+                onClickNo();
+              }
               setIsModalOn((current) => !current);
             }}
           >

@@ -59,6 +59,7 @@ interface ILogin_datasAtom {
   contact_number: string;
 }
 interface IfetchMyHouse {
+  id: number;
   boardDate: number;
   contact_number: string;
   img_urls: string[];
