@@ -60,10 +60,15 @@ interface ILogin_datasAtom {
 }
 interface IfetchMyHouse {
   id: number;
-  boardDate: number;
-  contact_number: string;
   img_urls: string[];
+  contact_number: string;
+  gender: number;
+  house_other_info: string;
+  region: number;
+  cost: Icost;
+  house_category: number;
   location: Ihouse_location2;
+  board_date: number;
 }
 
 interface Ihouse_location2 {
