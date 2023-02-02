@@ -3,14 +3,29 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 import ReactGA from 'react-ga';
 const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
 ReactGA.initialize(TRACKING_ID as string);
+
+const uploadLink = createUploadLink({
+  uri: 'http://localhost:8080/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('accessToken');
+  console.log(token);
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 const client = new ApolloClient({
-  link: createUploadLink({
-    uri: 'http://10.16.161.196:8080/graphql',
-  }) as any,
+  link: authLink.concat(uploadLink as any),
   cache: new InMemoryCache(),
 });
 

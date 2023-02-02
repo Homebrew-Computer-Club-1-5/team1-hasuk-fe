@@ -8,17 +8,15 @@ import { status } from './atoms';
 import Price from './Price';
 import Room from './Room';
 import Photo from './Photo';
-import SummaryDataBar from '../../components/molecules/SummaryDataBar';
 import Summary from './Summary';
-import { accessTokenAtom } from '../../store/atoms';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 const Wrapper = styled.div``;
 
 function Create() {
   const [stat, setStat] = useRecoilState(status);
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
   // useEffect(() => {
   //   if (!accessToken) {
@@ -29,7 +27,7 @@ function Create() {
 
   return (
     <Wrapper>
-      <Photo />
+      <Price />
       <TitleWrapper2
         onClickBackButton={() => {
           const oldstat = stat.status;

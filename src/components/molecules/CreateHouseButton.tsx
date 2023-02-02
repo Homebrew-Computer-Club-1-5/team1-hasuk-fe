@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { ReactComponent as CreateHouseIcon } from '../../assets/CreateHouseIcon.svg';
-import { accessTokenAtom } from '../../store/atoms';
 
 const Wrapper = styled.div`
   width: 60px;
@@ -18,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 function CreateHouseButton() {
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
   return (
     <Wrapper

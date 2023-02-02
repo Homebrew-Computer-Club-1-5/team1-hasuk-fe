@@ -7,6 +7,12 @@ import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
 import { status, monthCost, deposit, costOtherInfo } from './atoms';
 
+const NoticeTextWrapperStyle = {
+  paddingTop: '0px',
+  marginTop: '0px',
+  textAlign: 'center',
+};
+
 function Price() {
   const [stat, setStat] = useRecoilState(status);
   const [month, setMonth] = useRecoilState(monthCost);
@@ -48,31 +54,36 @@ function Price() {
   return (
     <S.Wrapper>
       <h1>{stat.status}/5</h1>
-      <NoticeTextWrapper>가격 관련 정보를 알려주세요.</NoticeTextWrapper>
+      <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
+        가격 관련 정보를 <br /> 알려주세요.
+      </NoticeTextWrapper>
       <form onSubmit={handleSubmit(onValid)}>
-        <p>월세</p>
-        <InputTemplate
-          placeholderText=""
-          registerObject={register('month', {
-            required: '월세를 입력해 주세요',
-            pattern: {
-              value: /^([0-9]?|)\d{1,4}$/,
-              message: '숫자로만 입력해 주세요',
-            },
-            onChange: (e: any) => setTempMonth(e.target.value),
-          })}
-        >
-          <p
-            style={{
-              position: 'absolute',
-              marginTop: '-40px',
-              marginLeft: '75%',
-            }}
+        <div id="monthCostWrapper">
+          <p>월세</p>
+          <InputTemplate
+            placeholderText=""
+            registerObject={register('month', {
+              required: '월세를 입력해 주세요',
+              pattern: {
+                value: /^([0-9]?|)\d{1,4}$/,
+                message: '숫자로만 입력해 주세요',
+              },
+              onChange: (e: any) => setTempMonth(e.target.value),
+            })}
           >
-            만원/월
-          </p>
-        </InputTemplate>
+            <p
+              style={{
+                //position: 'absolute',
+                marginTop: '-40px',
+                marginLeft: '75%',
+              }}
+            >
+              만원/월
+            </p>
+          </InputTemplate>
+        </div>
         <span>{errors?.month?.message}</span>
+
         <p>보증금</p>
         <InputTemplate
           placeholderText=""

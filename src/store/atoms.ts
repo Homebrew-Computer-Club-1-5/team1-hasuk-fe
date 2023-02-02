@@ -24,7 +24,7 @@ interface IhouseData_fetchHouse {
   house_other_info: string;
   has_empty: number;
   is_crolled: number;
-  cost: Icost;
+  house_cost: Icost;
   house_location: Ihouse_location;
   imgs: Ihouse_img[];
   region: Iregion;
@@ -58,6 +58,18 @@ interface ImainHouse {
 interface ILogin_datasAtom {
   contact_number: string;
 }
+interface IfetchMyHouse {
+  id: number;
+  boardDate: number;
+  contact_number: string;
+  img_urls: string[];
+  location: Ihouse_location2;
+}
+
+interface Ihouse_location2 {
+  latitude: number;
+  longitude: number;
+}
 export interface Ihouse_object {
   house_location: Ihouse_location;
 }
@@ -82,8 +94,7 @@ export const Login_datasAtom = atom<ILogin_datasAtom>({
   default: {} as any,
 });
 
-export const accessTokenAtom = atom<string>({
-  key: 'accessToken',
-  default: '',
-  effects_UNSTABLE: [persistAtom],
+export const fetchMyHouseAtom = atom<IfetchMyHouse[]>({
+  key: 'fetchMyHouse',
+  default: {} as any,
 });

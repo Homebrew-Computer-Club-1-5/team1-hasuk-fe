@@ -1,7 +1,7 @@
 import SummaryDataBar from '../../components/molecules/SummaryDataBar';
 import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Summary.styled';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   status,
   contactNumber,
@@ -16,11 +16,14 @@ import {
   houseCategoryId,
   houseOtherInfo,
   tempaddress,
-  tempfile,
   realfile,
+  previewAtom,
 } from './atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
@@ -61,27 +64,101 @@ const CREATE_HOUSE = gql`
 `;
 
 function Summary() {
-  const contact = useRecoilValue(contactNumber);
-  const univ = useRecoilValue(universityId);
-  const region = useRecoilValue(regionId);
-  const lat = useRecoilValue(latitude);
-  const long = useRecoilValue(longitude);
-  const month = useRecoilValue(monthCost);
-  const depo = useRecoilValue(deposit);
-  const costother = useRecoilValue(costOtherInfo);
-  const gen = useRecoilValue(gender);
-  const cat = useRecoilValue(houseCategoryId);
-  const other = useRecoilValue(houseOtherInfo);
-  const address = useRecoilValue(tempaddress);
+  const [contact, setContact] = useRecoilState(contactNumber);
+  const [univ, setUniv] = useRecoilState(universityId);
+  const [region, setRegion] = useRecoilState(regionId);
+  const [lat, setLat] = useRecoilState(latitude);
+  const [long, setLong] = useRecoilState(longitude);
+  const [month, setMonth] = useRecoilState(monthCost);
+  const [depo, setDepo] = useRecoilState(deposit);
+  const [costother, setCostother] = useRecoilState(costOtherInfo);
+  const [gen, setGen] = useRecoilState(gender);
+  const [cat, setCat] = useRecoilState(houseCategoryId);
+  const [other, setOther] = useRecoilState(houseOtherInfo);
+  const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
-  const imgFile = useRecoilValue(realfile);
-  const [createHouse, { data }] = useMutation(CREATE_HOUSE);
+  const [imgFile, setImgFile] = useRecoilState(realfile);
+  const [preview, setPreview] = useRecoilState(previewAtom);
+
+  const navigate = useNavigate();
+
+  const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
+    onCompleted: (data) => {
+      console.log(data.createHouse);
+      alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
+      resetAllAtoms();
+      navigate(`/house/${data.createHouse}`);
+    },
+    onError(error, clientOptions) {
+      console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+    },
+  });
+
+  function resetAllAtoms() {
+    setContact('');
+    setStat({ status: 0 });
+    setUniv(0);
+    setRegion(0);
+    setLat(0);
+    setLong(0);
+    setMonth(0);
+    setDepo(0);
+    setCostother('');
+    setGen(0);
+    setCat(0);
+    setOther('');
+    setAddress('');
+    setImgFile({});
+    setPreview([]);
+    localStorage.removeItem('recoil-persist');
+  }
+
+  function executeCreateHouse() {
+    createHouse({
+      variables: {
+        contact: contact,
+        gender: parseInt(gen as any),
+        other: other,
+        lat: parseFloat(lat as any),
+        long: parseFloat(long as any),
+        month: parseInt(month as any),
+        depo: parseInt(depo as any),
+        costother: costother,
+        region: parseInt(region as any),
+        cat: parseInt(cat as any),
+        files: [imgFile[0]],
+      },
+    });
+  }
+
+  useEffect(() => {
+    if (error) {
+      axios
+        .get(`/auth/restore-access-token`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          localStorage.removeItem('accessToken');
+          localStorage.setItem('accessToken', res.data);
+          const newAccessToken = localStorage.getItem('accessToken');
+          console.log('새 accessToken 갱신완료 : ', newAccessToken);
+          executeCreateHouse();
+        })
+        .catch((err) => {
+          console.log('에러메세지 : ', err.message);
+          resetAllAtoms();
+          localStorage.removeItem('accessToken');
+          alert('로그인 세션이 만료되였습니다. 로그인 페이지로 이동합니다.');
+          navigate('/auth/login');
+        });
+    }
+  }, [error]);
 
   return (
     <S.Wrapper>
       <NoticeTextWrapper>정보 입력이 완료되었습니다.</NoticeTextWrapper>
       <NoticeTextWrapper>
-        정🐴 아래 정보와 같이 방 정보를 올리시겠습니까?
+        정말 아래 정보와 같이 방 정보를 올리시겠습니까?
       </NoticeTextWrapper>
       <SummaryDataBar
         title={'연락처'}

@@ -18,13 +18,15 @@ interface Props {
 }
 
 const Pill = styled.div<Props>`
-  display: inline-block;
+  display: block;
   padding: 0px 10px;
   z-index: 6;
   font-size: 17px;
   font-weight: 600;
   border: 1px solid black;
   height: 20px;
+  width: max-content;
+  margin-right: 10px;
   background-color: ${(props) => props.backColor};
   color: ${(props) => props.fontColor};
   border-radius: 20px;
@@ -42,9 +44,9 @@ function PillRadio({ stuff, getRadioValue, def }: IObject) {
   getRadioValue(x);
 
   return (
-    <div>
+    <div id="Wrapper">
       {stuff.map((content) => (
-        <label>
+        <label id="Choice">
           <input
             type="radio"
             className="input-hidden"
