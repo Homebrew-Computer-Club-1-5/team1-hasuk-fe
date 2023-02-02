@@ -93,3 +93,9 @@ export const previewAtom = atom<string[]>({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const isEditingAtom = atom<Boolean>({
+  key: 'isEditing',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});

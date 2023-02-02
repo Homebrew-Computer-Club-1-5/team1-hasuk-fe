@@ -11,6 +11,24 @@ import YesNoModal from '../../components/molecules/YesNoModal';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { fetchMyHouseAtom } from '../../store/atoms';
+import {
+  contactNumber,
+  costOtherInfo,
+  deposit,
+  gender,
+  houseCategoryId,
+  houseOtherInfo,
+  isEditingAtom,
+  latitude,
+  longitude,
+  monthCost,
+  previewAtom,
+  realfile,
+  regionId,
+  status,
+  tempaddress,
+  universityId,
+} from '../create/atoms';
 
 const FETCH_MYHOUSE = gql`
   query {
@@ -18,11 +36,20 @@ const FETCH_MYHOUSE = gql`
       id
       img_urls
       contact_number
+      gender
+      house_other_info
+      region
+      cost {
+        month_cost
+        deposit
+        other_info
+      }
+      house_category
       location {
         longitude
         latitude
       }
-      boardDate
+      board_date
     }
   }
 `;
@@ -34,7 +61,44 @@ const DELETE_MYHOUSE = gql`
 `;
 
 function MyHouse() {
+  const [contact, setContact] = useRecoilState(contactNumber);
+  const [univ, setUniv] = useRecoilState(universityId);
+  const [region, setRegion] = useRecoilState(regionId);
+  const [lat, setLat] = useRecoilState(latitude);
+  const [long, setLong] = useRecoilState(longitude);
+  const [month, setMonth] = useRecoilState(monthCost);
+  const [depo, setDepo] = useRecoilState(deposit);
+  const [costother, setCostother] = useRecoilState(costOtherInfo);
+  const [gen, setGen] = useRecoilState(gender);
+  const [cat, setCat] = useRecoilState(houseCategoryId);
+  const [other, setOther] = useRecoilState(houseOtherInfo);
+  const [address, setAddress] = useRecoilState(tempaddress);
+  const [stat, setStat] = useRecoilState(status);
+  const [imgFile, setImgFile] = useRecoilState(realfile);
+  const [preview, setPreview] = useRecoilState(previewAtom);
+  const [fetchMyHouseData, setFetchMyHouseData] =
+    useRecoilState(fetchMyHouseAtom);
+  const setEditPage = (house_id: number) => {
+    const data = fetchMyHouseData.find((each) => each.id === house_id);
+    setContact(data?.contact_number);
+    setStat({ status: 0 });
+    setUniv(0); //
+    setRegion(data?.region);
+    setLat(data?.location.latitude as any);
+    setLong(data?.location.longitude as any);
+    setMonth(data?.cost.month_cost);
+    setDepo(data?.cost.deposit);
+    setCostother(data?.cost.other_info);
+    setGen(data?.gender);
+    setCat(data?.house_category);
+    setOther(data?.house_other_info);
+    // setAddress('주소');
+    // setImgFile({});
+    // setPreview([]);
+  };
+
   const [clickedHouse_id, setClickedHouse_id] = useState();
+  const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [deleteMyHouse, { loading: loading2 }] = useMutation(DELETE_MYHOUSE, {
     onCompleted(data) {
       if (data.deleteMyHouse === 'success') {
@@ -51,8 +115,6 @@ function MyHouse() {
     },
   });
 
-  const [fetchMyHouseData, setFetchMyHouseData] =
-    useRecoilState(fetchMyHouseAtom);
   const { loading, error, data } = useQuery(FETCH_MYHOUSE, {
     onCompleted(data) {
       setFetchMyHouseData(data.fetchMyHouse);
@@ -106,13 +168,15 @@ function MyHouse() {
               <P_Manrope_Medium>
                 주소 : {each.location.latitude}
               </P_Manrope_Medium>
-              <P_Manrope_Medium>올린 날짜 : {each.boardDate}</P_Manrope_Medium>
+              <P_Manrope_Medium>올린 날짜 : {each.board_date}</P_Manrope_Medium>
             </S.HouseWrapper_InfosWrapper>
             <S.HouseWrapper_ButtonsWrapper>
               <EditButton
                 onClick={() => {
                   setClickedHouse_id(each.id as any);
-                  console.log('수정페이지로 네비게이트');
+                  setIsEditing((current) => true);
+                  setEditPage(each.id);
+                  navigate('/create');
                 }}
               />
               <DeleteButton
