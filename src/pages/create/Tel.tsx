@@ -6,6 +6,12 @@ import { useRecoilState } from 'recoil';
 import { status, contactNumber } from './atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState, useEffect } from 'react';
+
+const NoticeTextWrapperStyle = {
+  paddingTop: '0px',
+  marginTop: '0px',
+};
+
 function RegisterStart() {
   const [stat, setStat] = useRecoilState(status);
   const [tel, setTel] = useRecoilState(contactNumber);
@@ -39,8 +45,9 @@ function RegisterStart() {
     <S.Wrapper>
       <div id="textPlace">
         <h1>{stat.status}/5</h1>
-        <NoticeTextWrapper>
-          연락 받으실 연락처를 입력해 주세요.
+        <NoticeTextWrapper style={NoticeTextWrapperStyle}>
+          연락 받으실 연락처를 <br />
+          입력해 주세요.
         </NoticeTextWrapper>
         <form onSubmit={handleSubmit(onValid, onInvalid)}>
           <InputTemplate

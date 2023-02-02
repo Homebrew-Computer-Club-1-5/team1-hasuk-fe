@@ -15,9 +15,14 @@ const Pill = styled.button`
 interface text {
   onClickNavigator?: any;
   text: string;
+  style?: React.CSSProperties;
 }
-function WhitePill({ text, onClickNavigator }: text) {
-  return <Pill onClick={onClickNavigator}>{text}</Pill>;
+function WhitePill({ text, onClickNavigator, style }: text) {
+  return (
+    <Pill style={style} onClick={onClickNavigator}>
+      {text}
+    </Pill>
+  );
 }
 
 export default WhitePill;

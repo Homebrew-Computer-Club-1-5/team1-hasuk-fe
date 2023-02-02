@@ -158,7 +158,7 @@ function Summary() {
     <S.Wrapper>
       <NoticeTextWrapper>정보 입력이 완료되었습니다.</NoticeTextWrapper>
       <NoticeTextWrapper>
-        정🐴 아래 정보와 같이 방 정보를 올리시겠습니까?
+        정말 아래 정보와 같이 방 정보를 올리시겠습니까?
       </NoticeTextWrapper>
       <SummaryDataBar
         title={'연락처'}
@@ -232,8 +232,34 @@ function Summary() {
       />
       <WhitePill
         onClickNavigator={() => {
-          console.log(imgFile, 'fuck you');
-          executeCreateHouse();
+          console.log(
+            contact,
+            gen,
+            other,
+            lat,
+            long,
+            month,
+            depo,
+            costother,
+            region,
+            cat,
+            imgFile,
+          );
+          createHouse({
+            variables: {
+              contact: contact,
+              gender: parseInt(gen as any),
+              other: other,
+              lat: parseFloat(lat as any),
+              long: parseFloat(long as any),
+              month: parseInt(month as any),
+              depo: parseInt(depo as any),
+              costother: costother,
+              region: parseInt(region as any),
+              cat: parseInt(cat as any),
+              files: imgFile,
+            },
+          });
         }}
         text={'게시하기'}
       />

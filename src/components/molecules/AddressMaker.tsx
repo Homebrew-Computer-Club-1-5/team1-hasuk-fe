@@ -12,19 +12,34 @@ declare global {
     kakao: any;
   }
 }
-const resultWrapperStyle = {
-  width: '300px',
+const searchButtonStyle = {
+  marginBottom: '20px',
+};
+const resultStyle = {
   height: '50px',
   borderRadius: '10px',
   padding: '10px 15px',
   backgroundColor: '#e4e4e4',
 };
-const addressWrapperStyle = {
+const addressStyle = {
   width: '70vw',
   height: '50vh',
-  borderRadius: '10%',
+  border: '2px solid black',
+  borderRadius: '30px',
+  margin: ' 10px auto',
+  overflow: 'hidden',
 };
 
+const resultWrapperStyle = {
+  display: 'flex',
+  marginBottom: '20px',
+};
+
+const resultTitleStyle = {
+  fontWeight: 990,
+  fontSize: '12px',
+  width: '80px',
+};
 interface IObject {
   getCoordsValue: any;
 }
@@ -69,17 +84,25 @@ function AddressMaker({ getCoordsValue }: IObject) {
   return (
     <>
       {address !== '0' ? (
-        <div style={resultWrapperStyle}>{address as string}</div>
+        <div style={resultWrapperStyle}>
+          <p style={resultTitleStyle}>주소</p>
+          <div style={resultStyle}>{address as string}</div>
+        </div>
       ) : null}
-      {finish ? null : (
-        <WhitePill
-          text={'주소검색'}
-          onClickNavigator={() => setToggle(!toggle)}
-        />
-      )}
+      <WhitePill
+        style={searchButtonStyle}
+        text={'주소검색'}
+        onClickNavigator={() => setToggle(!toggle)}
+      />
 
-      <div style={addressWrapperStyle}>
-        {toggle ? <DaumPostcodeEmbed onComplete={handleComplete} /> : null}
+      <div>
+        {toggle ? (
+          <DaumPostcodeEmbed
+            style={addressStyle}
+            onComplete={handleComplete}
+            autoClose={false}
+          />
+        ) : null}
       </div>
     </>
   );

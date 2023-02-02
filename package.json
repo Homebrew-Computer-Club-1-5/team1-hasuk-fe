@@ -18,7 +18,7 @@
     "@types/recoil": "^0.0.9",
     "@types/styled-components": "^5.1.26",
     "apollo-upload-client": "^17.0.0",
-    "axios": "^1.2.6",
+    "axios": "^1.3.0",
     "eslint-config-prettier": "^8.6.0",
     "graphql": "^16.6.0",
     "react": "^18.2.0",

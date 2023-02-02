@@ -1,3 +1,14 @@
 .input-hidden {
   visibility: hidden;
 }
+
+#Wrapper {
+  height: 50px;
+  overflow: scroll;
+  margin-left: 0px;
+  display: flex;
+}
+
+#Choice {
+  display: block;
+}
