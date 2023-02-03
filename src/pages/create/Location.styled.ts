@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
   align-items: center;
   #textPlace {
     width: 80vw;
-    padding-top: 40%;
     text-align: center;
     #selectWrapper {
       align-items: center;

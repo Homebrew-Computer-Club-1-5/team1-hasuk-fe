@@ -36,14 +36,15 @@ function Room() {
 
     setStat({ status: 5 });
   };
-  const inputStyle = {
-    width: '300px',
-    height: '50px',
-    borderRadius: '10px',
-    padding: '10px 15px',
-    backgroundColor: '#e4e4e4',
+
+  const NoticeTextWrapperStyle = {
+    paddingTop: '0px',
+    marginTop: '0px',
   };
 
+  const whitePillStyle = {
+    marginTop: '30px',
+  };
   useEffect(() => {
     if (tempgen) {
       setGen(tempgen);
@@ -59,61 +60,78 @@ function Room() {
   return (
     <S.Wrapper>
       <h1>{stat.status}/5</h1>
-      <NoticeTextWrapper>방 관련 정보를 알려주세요.</NoticeTextWrapper>
-      <p>성별</p>
-      <PillRadio
-        def={gen ? gen : undefined}
-        getRadioValue={getGenderValue}
-        stuff={[
-          {
-            text: '남성 전용',
-            value: 1,
-          },
-          {
-            text: '여성 전용',
-            value: 2,
-          },
-          {
-            text: '남녀 공용',
-            value: 3,
-          },
-        ]}
-      />
-      <p>카테고리</p>
-      <PillRadio
-        def={cat ? cat : undefined}
-        getRadioValue={getCategoryValue}
-        stuff={[
-          {
-            text: '원룸/투룸/자취방',
-            value: 1,
-          },
-          {
-            text: '하숙',
-            value: 2,
-          },
-          {
-            text: '고시원',
-            value: 3,
-          },
-          {
-            text: '기타',
-            value: 4,
-          },
-        ]}
-      />
-      <p>기타 정보</p>
-      <p>팁: 식사조건, 빨래제공, 화장실 공용여부, 최소거주기간, 채광</p>
-      <form onSubmit={handleSubmit(onValid)}>
-        <InputTemplate
-          placeholderText=""
-          registerObject={register('other', {
-            onChange: (e: any) => setTempother(e.target.value),
-          })}
+      <NoticeTextWrapper style={NoticeTextWrapperStyle}>
+        방 관련 정보를 알려주세요.
+      </NoticeTextWrapper>
+      <div className="radioWrapper">
+        <p>성별</p>
+        <PillRadio
+          def={gen ? gen : undefined}
+          getRadioValue={getGenderValue}
+          stuff={[
+            {
+              text: '남성 전용',
+              value: 1,
+            },
+            {
+              text: '여성 전용',
+              value: 2,
+            },
+            {
+              text: '남녀 공용',
+              value: 3,
+            },
+          ]}
         />
+      </div>
+      <div className="radioWrapper">
+        <p>카테고리</p>
+        <PillRadio
+          def={cat ? cat : undefined}
+          getRadioValue={getCategoryValue}
+          stuff={[
+            {
+              text: '원룸/투룸/자취방',
+              value: 1,
+            },
+            {
+              text: '하숙',
+              value: 2,
+            },
+            {
+              text: '고시원',
+              value: 3,
+            },
+            {
+              text: '기타',
+              value: 4,
+            },
+          ]}
+        />
+      </div>
+      <div className="otherInfoWrapper">
+        <p>기타 정보</p>
+        <p className="extra">
+          팁: 식사조건, 빨래제공, 화장실 공용여부 최소거주기간, 채광
+        </p>
 
-        <WhitePill text={'다음'} onClickNavigator={() => {}} />
-      </form>
+        <form onSubmit={handleSubmit(onValid)}>
+          <InputTemplate
+            multipleLines={true}
+            fontsize={15}
+            placeholderText=""
+            registerObject={register('other', {
+              onChange: (e: any) => setTempother(e.target.value),
+            })}
+          />
+
+          <WhitePill
+            style={whitePillStyle}
+            text={'다음'}
+            onClickNavigator={() => {}}
+          />
+        </form>
+      </div>
     </S.Wrapper>
   );
 }
