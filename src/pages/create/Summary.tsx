@@ -84,7 +84,8 @@ const UPDATE_MY_HOUSE = gql`
     $depo: Int
     $costother: String
     $region: Int!
-    $cat: Int! # $files: [Upload!]
+    $cat: Int!
+    $files: [Upload!]
   ) {
     updateMyHouse(
       updateMyHouseInput: {
@@ -102,7 +103,7 @@ const UPDATE_MY_HOUSE = gql`
         }
         region_id: $region
         house_category_id: $cat
-        # imgRawDatas: $files
+        imgRawDatas: $files
       }
     )
   }
@@ -130,7 +131,6 @@ function Summary() {
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   const navigate = useNavigate();
-
   const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
     onCompleted: (data) => {
       alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
@@ -140,7 +140,6 @@ function Summary() {
       console.log('에러가 발생했어요, 에러메세지 : ', error.message);
     },
   });
-
 
   var URLarray: any = [];
 
@@ -155,7 +154,6 @@ function Summary() {
     getFile(url);
   });
 
-
   const [updateMyHouse, { data: data2, loading: loading2, error: error2 }] =
     useMutation(UPDATE_MY_HOUSE, {
       onCompleted(data, clientOptions) {
@@ -166,7 +164,6 @@ function Summary() {
         console.log('에러가 발생했어요, 에러메세지 : ', error.message);
       },
     });
-
 
   function executeCreateHouse() {
     createHouse({
@@ -199,7 +196,7 @@ function Summary() {
         costother: costother,
         region: parseInt(region as any),
         cat: parseInt(cat as any),
-        // files: [imgFile[0]],
+        files: URLarray,
       },
     });
   }
@@ -229,6 +226,19 @@ function Summary() {
         });
     }
   }, [error, error2]);
+  console.log(
+    contact,
+    gen,
+    other,
+    lat,
+    long,
+    month,
+    depo,
+    costother,
+    region,
+    cat,
+    URLarray,
+  );
 
   return (
     <S.Wrapper>
@@ -307,34 +317,11 @@ function Summary() {
       />
       <WhitePill
         onClickNavigator={() => {
-          console.log(
-            contact,
-            gen,
-            other,
-            lat,
-            long,
-            month,
-            depo,
-            costother,
-            region,
-            cat,
-            URLarray,
-          );
-          createHouse({
-            variables: {
-              contact: contact,
-              gender: parseInt(gen as any),
-              other: other,
-              lat: parseFloat(lat as any),
-              long: parseFloat(long as any),
-              month: parseInt(month as any),
-              depo: parseInt(depo as any),
-              costother: costother,
-              region: parseInt(region as any),
-              cat: parseInt(cat as any),
-              files: imgFile,
-            },
-          });
+          if (!isEditing) {
+            executeCreateHouse();
+          } else {
+            executeUpdateMyHouse();
+          }
         }}
         text={'게시하기'}
       />

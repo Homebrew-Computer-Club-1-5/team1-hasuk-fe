@@ -42,7 +42,6 @@ function Houses() {
     },
   });
   console.log(loading);
-  // console.log(data.fetchHousesTest);
   if (loading) {
     return (
       <>

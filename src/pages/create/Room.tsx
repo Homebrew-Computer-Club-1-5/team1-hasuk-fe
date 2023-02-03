@@ -33,13 +33,12 @@ function Room() {
     } else {
       setOther(other);
     }
-
-    setStat({ status: 5 });
   };
 
   const NoticeTextWrapperStyle = {
     paddingTop: '0px',
     marginTop: '0px',
+    fontSize: '24px !important',
   };
 
   const whitePillStyle = {
@@ -60,7 +59,7 @@ function Room() {
   return (
     <S.Wrapper>
       <h1>{stat.status}/5</h1>
-      <NoticeTextWrapper style={NoticeTextWrapperStyle}>
+      <NoticeTextWrapper style={NoticeTextWrapperStyle} fontSize="25px">
         방 관련 정보를 알려주세요.
       </NoticeTextWrapper>
       <div className="radioWrapper">
@@ -128,7 +127,15 @@ function Room() {
           <WhitePill
             style={whitePillStyle}
             text={'다음'}
-            onClickNavigator={() => {}}
+            onClickNavigator={() => {
+              if (gen !== 0 && cat !== 0) {
+                onValid();
+                setStat({ status: 5 });
+              } else {
+                alert('성별과 카테고리를 선택해주세요');
+                return;
+              }
+            }}
           />
         </form>
       </div>

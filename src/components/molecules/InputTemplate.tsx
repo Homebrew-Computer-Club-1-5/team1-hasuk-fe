@@ -49,7 +49,7 @@ interface StyledInputProps {
 }
 interface IInputTemplate {
   children?: React.ReactNode;
-  registerObject: UseFormRegisterReturn;
+  registerObject?: UseFormRegisterReturn;
   placeholderText: string;
   defaultValue?: string | number;
   width?: number;

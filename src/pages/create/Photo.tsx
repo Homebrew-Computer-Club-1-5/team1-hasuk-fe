@@ -74,8 +74,6 @@ function Photo() {
   useEffect(() => {
     setReal(innerreal ? innerreal : real);
     setPreview(innerpreview ? innerpreview : preview);
-    console.log(real, '리얼');
-    console.log(preview, '프리뷰');
   }, [innerreal, innerpreview]);
 
   return (
@@ -83,7 +81,7 @@ function Photo() {
       <h1>{stat.status}/5</h1>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
         사진을 찍어
-        <br /> 업로드 해주세요
+        <br /> 업로드 해주세요.
       </NoticeTextWrapper>
       {preview.length === real.length ? (
         <ImgCarousel img_url={preview} />
@@ -113,7 +111,7 @@ function Photo() {
         <WhitePill
           text={'다음'}
           onClickNavigator={() => {
-            if (real.length) {
+            if (preview.length) {
               setStat({ status: 6 });
             } else {
               alert('적어도 1장 이상의 이미지를 등록해주세요');

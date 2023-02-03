@@ -8,13 +8,12 @@ import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
 import { useEffect, useState } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
+import useCoordToAddress from '../../lib/util/coordToAddress';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
   const resetAllAtoms = useResetAllAtoms();
-  const onchange = () => {
-    console.log();
-  };
+  const onchange = () => {};
   const [isSideBarOpened, setIsSideBarOpened] = useState(false);
   useEffect(() => {
     resetAllAtoms();

@@ -4,6 +4,7 @@
 
 #Wrapper {
   height: 50px;
+  padding-bottom: 10px;
   overflow: scroll;
   margin-left: 0px;
   display: flex;
