@@ -67,7 +67,6 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
   const imgSize = useRef(img_url.length);
   function moveSlide(i: number) {
     let nextIndex = current + i;
-    console.log(nextIndex, 'ni');
 
     if (nextIndex < 0) nextIndex = imgSize.current - 1;
     else if (nextIndex >= imgSize.current) nextIndex = 0;
@@ -75,7 +74,6 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
     setCurrent((current) => {
       return nextIndex;
     });
-    console.log(current);
   }
 
   useEffect(() => {
@@ -107,7 +105,7 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
         }}
         onClick={(event) => {
           moveSlide(1);
-          console.log(1);
+
           event.stopPropagation();
         }}
       />

@@ -103,7 +103,6 @@ const Map = () => {
     houseId: number,
     sortId: number,
   ) {
-    console.log(houseId);
     const hIcon = new window.kakao.maps.MarkerImage(
       hasukIcon,
       new window.kakao.maps.Size(40, 40),
@@ -143,7 +142,6 @@ const Map = () => {
           house.house_location.sortId,
         );
       });
-      console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
     if (searchParams.get('accessToken')) {

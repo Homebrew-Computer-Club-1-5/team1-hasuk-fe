@@ -34,6 +34,7 @@ import {
   universityId,
 } from '../create/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
+import useCoordToAddress from '../../lib/util/coordToAddress';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 
 const FETCH_MYHOUSE = gql`
@@ -84,13 +85,21 @@ function MyHouse() {
   const [stat, setStat] = useRecoilState(status);
   const [imgFile, setImgFile] = useRecoilState(realfile);
   const [preview, setPreview] = useRecoilState(previewAtom);
-  const [fetchMyHouseData, setFetchMyHouseData] = useState<IfetchMyHouse[]>([]);
-  console.log('데이터', fetchMyHouseData);
+  const [fetchMyHouseData, setFetchMyHouseData] =
+    useRecoilState(fetchMyHouseAtom);
+  const coordToAddress = useCoordToAddress();
   const setEditPage = (house_id: number) => {
     const data = fetchMyHouseData.find((each) => each.id === house_id);
+    console.log(data?.cost.other_info);
+    coordToAddress(
+      data?.location.latitude,
+      data?.location.longitude,
+      setAddress,
+    );
+
     setContact(data?.contact_number);
     setStat({ status: 0 });
-    setUniv(0); //
+    setUniv(1);
     setRegion(data?.region);
     setLat(data?.location.latitude as any);
     setLong(data?.location.longitude as any);
@@ -100,9 +109,10 @@ function MyHouse() {
     setGen(data?.gender);
     setCat(data?.house_category);
     setOther(data?.house_other_info);
-    // setAddress('주소');
+
+    //setAddress();
     // setImgFile({});
-    // setPreview([]);
+    setPreview(data?.img_urls as any);
   };
 
   const [clickedHouse_id, setClickedHouse_id] =
@@ -225,6 +235,7 @@ function MyHouse() {
                   setClickedHouse_id(each.id as any);
                   setIsEditing((current) => true);
                   setEditPage(each.id);
+                  setStat({ status: 6 });
                   navigate('/create');
                 }}
               />

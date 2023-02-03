@@ -3,7 +3,14 @@ import InputTemplate from '../../components/molecules/InputTemplate';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import { useRecoilState } from 'recoil';
-import { status, universityId, regionId, latitude, longitude } from './atoms';
+import {
+  status,
+  universityId,
+  regionId,
+  latitude,
+  longitude,
+  isEditingAtom,
+} from './atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState } from 'react';
 import Selectbox from '../../components/molecules/Selectbox';
@@ -33,6 +40,7 @@ const FETCH_HOUSE_BY_LOCATION = gql`
 `;
 
 function Location() {
+  const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
     FETCH_HOUSE_BY_LOCATION,
     {
@@ -74,14 +82,13 @@ function Location() {
     setUnivId(select ? select : univid);
     setLat(coords.latitude ? coords.latitude : lat);
     setLong(coords.longitude ? coords.longitude : long);
-    console.log(radio, select, coords, regionid, univid, lat, long);
   }, [radio, select, coords]);
 
   return (
     <S.Wrapper>
       <div id="textPlace">
         <h1>{stat.status}/5</h1>
-        <NoticeTextWrapper style={NoticeTextWrapperStyle}>
+        <NoticeTextWrapper style={NoticeTextWrapperStyle} fontSize="25px">
           위치 정보를 입력해 주세요.
         </NoticeTextWrapper>
         <div id="selectWrapper">
@@ -131,14 +138,21 @@ function Location() {
         <WhitePill
           text={'다음'}
           onClickNavigator={() => {
-            console.log(lat, long);
-            console.log(parseFloat(lat as any), parseFloat(long as any));
-            fetchHouseByLocation({
-              variables: {
-                latitude: parseFloat(lat as any),
-                longitude: parseFloat(long as any),
-              },
-            });
+            if (univid !== 0 && regionid !== 0 && lat !== 0 && long !== 0) {
+            } else {
+              alert('정보를 모두 입력해주세요');
+              return;
+            }
+            if (!isEditing) {
+              fetchHouseByLocation({
+                variables: {
+                  latitude: parseFloat(lat as any),
+                  longitude: parseFloat(long as any),
+                },
+              });
+            } else {
+              setStat({ status: 2 });
+            }
           }}
         />
       </div>

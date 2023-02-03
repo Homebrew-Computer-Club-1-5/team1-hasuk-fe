@@ -63,7 +63,6 @@ function Focusedmap() {
   }
 
   function makeCluster(kakaoMap: any, text: any, marker: any, id: any) {
-    console.log(marker);
     const clusterer = new window.kakao.maps.MarkerClusterer({
       map: kakaoMap,
       gridSize: 500,
@@ -155,7 +154,6 @@ function Focusedmap() {
           house.house_location.sortId,
         );
       });
-      console.log(markerList);
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
     });
   }, [mainHouses]);

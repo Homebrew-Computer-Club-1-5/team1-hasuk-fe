@@ -75,6 +75,7 @@ function AddressMaker({ getCoordsValue }: IObject) {
     setAddress(fullAddress);
     if (fullAddress) {
       geocoder.addressSearch(fullAddress, callback);
+      setToggle(!toggle);
     }
   };
 

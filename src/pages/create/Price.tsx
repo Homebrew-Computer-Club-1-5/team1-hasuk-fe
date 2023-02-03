@@ -48,8 +48,8 @@ function Price() {
   return (
     <S.Wrapper>
       <h1>{stat.status}/5</h1>
-      <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
-        가격 관련 정보를 <br /> 알려주세요.
+      <NoticeTextWrapper style={NoticeTextWrapperStyle as any} fontSize="23px">
+        가격 관련 정보를 알려주세요.
       </NoticeTextWrapper>
       <form onSubmit={handleSubmit(onValid)}>
         <div className="monthCostWrapper">
@@ -63,6 +63,12 @@ function Price() {
               pattern: {
                 value: /^([0-9]?|)\d{1,4}$/,
                 message: '숫자로만 입력해 주세요',
+              },
+              validate: {
+                nozero: (value) =>
+                  Number(value) === Number(0) || value === undefined
+                    ? '올바른 값을 입력해주세요'
+                    : true,
               },
               onChange: (e: any) => setTempMonth(e.target.value),
             })}

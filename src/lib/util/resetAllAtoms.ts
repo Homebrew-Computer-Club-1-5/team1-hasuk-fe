@@ -38,6 +38,7 @@ export default function useResetAllAtoms() {
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   function resetAllAtoms() {
+    setIsEditing(false);
     setContact('');
     setStat({ status: 0 });
     setUniv(0);

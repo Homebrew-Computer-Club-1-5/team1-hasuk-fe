@@ -30,6 +30,7 @@ const Pill = styled.div<Props>`
   background-color: ${(props) => props.backColor};
   color: ${(props) => props.fontColor};
   border-radius: 20px;
+  box-shadow: 0px 5px lightgray;
 `;
 
 function PillRadio({ stuff, getRadioValue, def }: IObject) {

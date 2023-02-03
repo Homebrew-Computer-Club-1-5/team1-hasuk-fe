@@ -51,12 +51,12 @@ function RegisterStart() {
         </NoticeTextWrapper>
         <form onSubmit={handleSubmit(onValid, onInvalid)}>
           <InputTemplate
-            placeholderText="010-1234-5678"
+            placeholderText="01012345678"
             registerObject={register('tel', {
               required: '전화번호가 필요합니다',
               pattern: {
-                value: /^([-\s]?|)\d{2,3}[-\s]?\d{3,4}[-\s]?\d{4}$/,
-                message: '올바른 형식으로 입력해주세요',
+                value: /^([0-9]?|)\d{9,12}$/,
+                message: '- 표시 제외하고 입력해주세요',
               },
               onChange: onChangeTel,
             })}

@@ -6,13 +6,14 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   .radioWrapper {
-    width: 100%;
-    display: flex;
     margin-bottom: 20px;
+    width: 100%;
     p {
-      width: 80px;
+      margin-bottom: 0px;
+      padding-bottom: 0px;
+      width: 100px;
       font-weight: 990;
-      font-size: 12px;
+      font-size: 20px;
       padding-top: 10px;
     }
   }
@@ -27,14 +28,14 @@ export const Wrapper = styled.div`
     align-items: center;
     width: 100%;
     p {
-      font-size: 12px;
+      font-size: 20px;
       width: 100%;
       font-weight: 990;
       margin: 0px;
     }
     .extra {
       margin-top: 10px;
-      font-size: 10px;
+      font-size: 15px;
       margin-bottom: 10px;
     }
   }

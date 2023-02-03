@@ -85,7 +85,8 @@ const UPDATE_MY_HOUSE = gql`
     $depo: Int
     $costother: String
     $region: Int!
-    $cat: Int! # $files: [Upload!]
+    $cat: Int!
+    $files: [Upload!]
   ) {
     updateMyHouse(
       updateMyHouseInput: {
@@ -103,7 +104,7 @@ const UPDATE_MY_HOUSE = gql`
         }
         region_id: $region
         house_category_id: $cat
-        # imgRawDatas: $files
+        imgRawDatas: $files
       }
     )
   }
@@ -132,7 +133,6 @@ function Summary() {
 
   const navigate = useNavigate();
   const restoreAccessToken = useRestoreAccessToken();
-
   const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
     onCompleted: (data) => {
       alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
@@ -151,7 +151,6 @@ function Summary() {
       });
     }
   }, [error]);
-
   var URLarray: any = [];
 
   async function getFile(url: string) {
@@ -207,11 +206,11 @@ function Summary() {
         costother: costother,
         region: parseInt(region as any),
         cat: parseInt(cat as any),
-        // files: [imgFile[0]],
+        files: URLarray,
       },
     });
   }
-
+  
   return (
     <S.Wrapper>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
@@ -289,20 +288,11 @@ function Summary() {
       />
       <WhitePill
         onClickNavigator={() => {
-          console.log(
-            contact,
-            gen,
-            other,
-            lat,
-            long,
-            month,
-            depo,
-            costother,
-            region,
-            cat,
-            URLarray,
-          );
-          executeCreateHouse();
+          if (!isEditing) {
+            executeCreateHouse();
+          } else {
+            executeUpdateMyHouse();
+          }
         }}
         text={'게시하기'}
       />
