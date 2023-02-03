@@ -6,6 +6,7 @@ import NoticeTextWrapper from '../../../components/molecules/NoticeTextWrapper';
 import TitleWrapper2 from '../../../components/molecules/TitleWrapper2';
 import { Login_datasAtom } from '../../../store/atoms';
 import LoginWithKakaoButton from '../../../assets/LoginWithKakao.png';
+import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +16,10 @@ const Wrapper = styled.div`
 `;
 
 function Login() {
+  // const resetAllAtoms = useResetAllAtoms();
+  // resetAllAtoms();
   const navigate = useNavigate();
+
   return (
     <Wrapper>
       <TitleWrapper2
@@ -33,19 +37,9 @@ function Login() {
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
-          window.location.href = 'http://10.16.161.196:8080/auth/login/kakao';
+          window.location.href = 'http://127.0.0.1:8080/auth/login/kakao';
         }}
       />
-      {/* <form onSubmit={handleSubmit(onValid)}>
-        <InputTemplate
-          registerObject={register('contact_number', {
-            required: true,
-            pattern: /^\d{2,3}-\d{3,4}-\d{4}$/,
-          })}
-          placeholderText={'인풋 placeholder 메세지'}
-        ></InputTemplate>
-        <button>제출 버튼</button>
-      </form> */}
     </Wrapper>
   );
 }

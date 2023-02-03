@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import ImgCarousel from '../../components/molecules/ImgCarousel';
 import HouseInfos from './HouseInfos';
-import { houseDatasAtom } from '../../store/atoms';
-import { useRecoilValue } from 'recoil';
+import { fetchCrawledHousesAtom, houseDatasAtom } from '../../store/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 const Wrapper = styled.div`
   margin: 10px 0px;
@@ -15,14 +15,15 @@ interface IHouseWrapper {
 }
 
 function HouseWrapper({ houseWrapperIndex, onClick }: IHouseWrapper) {
-  const houseDatas = useRecoilValue(houseDatasAtom);
-  const img_urls = houseDatas[houseWrapperIndex].img_urls;
+  const [fetchCrawledHousesData, setFetchCrawledHousesData] = useRecoilState(
+    fetchCrawledHousesAtom,
+  );
+  const img_urls = fetchCrawledHousesData[houseWrapperIndex].img_urls;
 
-  const img_url = img_urls.map((each) => each.img_url);
-  console.log(img_url);
+  console.log(img_urls);
   return (
     <Wrapper onClick={onClick}>
-      <ImgCarousel img_url={img_url ? img_url : []}></ImgCarousel>
+      <ImgCarousel img_url={img_urls ? img_urls : []}></ImgCarousel>
       <HouseInfos houseWrapperIndex={houseWrapperIndex} />
     </Wrapper>
   );

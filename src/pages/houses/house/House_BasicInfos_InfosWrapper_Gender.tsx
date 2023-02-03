@@ -20,7 +20,9 @@ function House_BasicInfos_InfosWrapper_Gender() {
           ? '남성 전용'
           : houseData.gender === 1
           ? '여성 전용'
-          : '남녀 공용'}
+          : houseData.gender === 2
+          ? '남녀 공용'
+          : '전화 문의'}
       </P_Manrope_Regular>
     </Wrapper>
   );
