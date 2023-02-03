@@ -30,6 +30,12 @@ import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
+const NoticeTextWrapperStyle = {
+  paddingTop: '0px',
+  marginTop: '0px',
+  textAlign: 'center',
+};
+
 const categoryArray = ['원룸/투룸/자취방', '하숙', '고시원', '기타'];
 const CREATE_HOUSE = gql`
   mutation (
@@ -135,6 +141,21 @@ function Summary() {
     },
   });
 
+
+  var URLarray: any = [];
+
+  async function getFile(url: string) {
+    const file = await fetch(url)
+      .then((r) => r.blob())
+      .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
+      .then((converted) => (URLarray = [...URLarray, converted]));
+    return file;
+  }
+  preview.map((url) => {
+    getFile(url);
+  });
+
+
   const [updateMyHouse, { data: data2, loading: loading2, error: error2 }] =
     useMutation(UPDATE_MY_HOUSE, {
       onCompleted(data, clientOptions) {
@@ -145,6 +166,7 @@ function Summary() {
         console.log('에러가 발생했어요, 에러메세지 : ', error.message);
       },
     });
+
 
   function executeCreateHouse() {
     createHouse({
@@ -159,7 +181,7 @@ function Summary() {
         costother: costother,
         region: parseInt(region as any),
         cat: parseInt(cat as any),
-        files: [imgFile[0]],
+        files: URLarray,
       },
     });
   }
@@ -210,9 +232,8 @@ function Summary() {
 
   return (
     <S.Wrapper>
-      <NoticeTextWrapper>정보 입력이 완료되었습니다.</NoticeTextWrapper>
-      <NoticeTextWrapper>
-        정말 아래 정보와 같이 방 정보를 올리시겠습니까?
+      <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
+        정말 아래 정보와 같이 <br />방 정보를 올리시겠습니까?
       </NoticeTextWrapper>
       <SummaryDataBar
         title={'연락처'}
@@ -297,7 +318,7 @@ function Summary() {
             costother,
             region,
             cat,
-            imgFile,
+            URLarray,
           );
           createHouse({
             variables: {

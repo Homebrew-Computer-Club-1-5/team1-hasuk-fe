@@ -20,14 +20,14 @@ const resultStyle = {
   borderRadius: '10px',
   padding: '10px 15px',
   backgroundColor: '#e4e4e4',
+  width: '100%',
 };
 const addressStyle = {
   width: '70vw',
   height: '50vh',
-  border: '2px solid black',
-  borderRadius: '30px',
+  border: '1px solid black',
   margin: ' 10px auto',
-  overflow: 'hidden',
+  overflow: 'scroll',
 };
 
 const resultWrapperStyle = {

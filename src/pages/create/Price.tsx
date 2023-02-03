@@ -13,6 +13,10 @@ const NoticeTextWrapperStyle = {
   textAlign: 'center',
 };
 
+const whitePillStyle = {
+  marginTop: '30px',
+};
+
 function Price() {
   const [stat, setStat] = useRecoilState(status);
   const [month, setMonth] = useRecoilState(monthCost);
@@ -32,20 +36,10 @@ function Price() {
   });
 
   useEffect(() => {
-    if (tempdepo) {
-      setDepo(tempdepo);
-    }
-    if (tempmonth) {
-      setMonth(tempmonth);
-    }
-    if (tempcost) {
-      setCost(tempcost);
-    } else {
-      setDepo(depo);
-      setMonth(month);
-      setCost(cost);
-    }
-  }, [tempdepo, tempmonth, tempcost]);
+    setDepo(tempdepo ? tempdepo : depo);
+    setMonth(tempmonth ? tempmonth : month);
+    setCost(tempcost ? tempcost : cost);
+  }, [tempdepo, tempmonth, tempcost, depo, month, cost]);
 
   const onValid = () => {
     setStat({ status: 4 });
@@ -58,9 +52,11 @@ function Price() {
         가격 관련 정보를 <br /> 알려주세요.
       </NoticeTextWrapper>
       <form onSubmit={handleSubmit(onValid)}>
-        <div id="monthCostWrapper">
+        <div className="monthCostWrapper">
           <p>월세</p>
           <InputTemplate
+            multipleLines={false}
+            width={200}
             placeholderText=""
             registerObject={register('month', {
               required: '월세를 입력해 주세요',
@@ -84,39 +80,53 @@ function Price() {
         </div>
         <span>{errors?.month?.message}</span>
 
-        <p>보증금</p>
-        <InputTemplate
-          placeholderText=""
-          registerObject={register('deposit', {
-            required: '보증금을 입력해 주세요',
-            pattern: {
-              value: /^([0-9]?|)\d{1,4}$/,
-              message: '숫자로만 입력해 주세요',
-            },
-            onChange: (e: any) => setTempdepo(e.target.value),
-          })}
-        >
-          <p
-            style={{
-              position: 'absolute',
-              marginTop: '-40px',
-              marginLeft: '80%',
-            }}
+        <div className="monthCostWrapper">
+          <p>보증금 (없으면 0이라고 써주세요)</p>
+          <InputTemplate
+            multipleLines={false}
+            width={200}
+            placeholderText=""
+            registerObject={register('deposit', {
+              required: '보증금을 입력해 주세요',
+              pattern: {
+                value: /^([0-9]?|)\d{1,4}$/,
+                message: '숫자로만 입력해 주세요',
+              },
+              onChange: (e: any) => setTempdepo(e.target.value),
+            })}
           >
-            만원
-          </p>
-        </InputTemplate>
+            <p
+              style={{
+                position: 'absolute',
+                marginTop: '-40px',
+                marginLeft: '65%',
+              }}
+            >
+              만원
+            </p>
+          </InputTemplate>
+        </div>
         <span>{errors?.deposit?.message}</span>
-        <p>공과금(수도세, 인터넷, 난방비, 전깃세, 에어컨비 등)</p>
-        <InputTemplate
-          placeholderText=""
-          registerObject={register('cost_other_info', {
-            required: false,
-            onChange: (e: any) => setTempcost(e.target.value),
-          })}
-        />
+
+        <div className="monthCostWrapper">
+          <p>공과금(수도세, 인터넷, 난방비, 전깃세 등)</p>
+          <InputTemplate
+            multipleLines={true}
+            fontsize={15}
+            width={200}
+            placeholderText=""
+            registerObject={register('cost_other_info', {
+              required: false,
+              onChange: (e: any) => setTempcost(e.target.value),
+            })}
+          />
+        </div>
         <div>
-          <WhitePill text={'다음'} onClickNavigator={() => {}} />
+          <WhitePill
+            style={whitePillStyle}
+            text={'다음'}
+            onClickNavigator={() => {}}
+          />
         </div>
       </form>
     </S.Wrapper>

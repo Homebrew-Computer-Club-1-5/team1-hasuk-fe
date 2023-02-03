@@ -12,6 +12,9 @@ import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
+const emptySpaceStyle = {
+  width: '100%',
+};
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
@@ -66,21 +69,11 @@ function Location() {
     setCoords(x);
   };
   useEffect(() => {
-    if (radio) {
-      setRegionId(radio);
-    }
-    if (select) {
-      setUnivId(select);
-    }
-    if (coords) {
-      setLat(coords.latitude);
-      setLong(coords.longitude);
-    } else {
-      setRegionId(regionid);
-      setUnivId(univid);
-      setLat(lat);
-      setLong(long);
-    }
+    setRegionId(radio ? radio : regionid);
+    setUnivId(select ? select : univid);
+    setLat(coords.latitude ? coords.latitude : lat);
+    setLong(coords.longitude ? coords.longitude : long);
+    console.log(radio, select, coords, regionid, univid, lat, long);
   }, [radio, select, coords]);
 
   return (
@@ -104,31 +97,35 @@ function Location() {
             ]}
           />
         </div>
-        <div id="radioWrapper">
-          <p>지역</p>
-          <PillRadio
-            def={regionid ? regionid : undefined}
-            getRadioValue={getRadioValue}
-            stuff={[
-              {
-                text: '성신여대',
-                value: 1,
-              },
-              {
-                text: '안암역',
-                value: 2,
-              },
-              {
-                text: '제기동',
-                value: 3,
-              },
-              {
-                text: '고대정문',
-                value: 4,
-              },
-            ]}
-          />
-        </div>
+        {univid !== 0 ? (
+          <div id="radioWrapper">
+            <p>지역</p>
+
+            <PillRadio
+              def={regionid ? regionid : undefined}
+              getRadioValue={getRadioValue}
+              stuff={[
+                {
+                  text: '성신여대',
+                  value: 1,
+                },
+                {
+                  text: '안암역',
+                  value: 2,
+                },
+                {
+                  text: '제기동',
+                  value: 3,
+                },
+                {
+                  text: '고대정문',
+                  value: 4,
+                },
+              ]}
+            />
+          </div>
+        ) : null}
+
         <AddressMaker getCoordsValue={getCoordsValue} />
         <WhitePill
           text={'다음'}

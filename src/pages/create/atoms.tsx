@@ -76,8 +76,8 @@ export const tempaddress = atom<string>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const tempfile = atom<Blob[]>({
-  key: 'tempphoto',
+export const tempfile = atom<any>({
+  key: 'tempfile',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
@@ -89,7 +89,7 @@ export const realfile = atom<any>({
 });
 
 export const previewAtom = atom<string[]>({
-  key: 'preveiw',
+  key: 'preview',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });

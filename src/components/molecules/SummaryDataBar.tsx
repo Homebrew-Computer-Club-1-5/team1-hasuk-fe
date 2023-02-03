@@ -3,19 +3,18 @@ import Pencil from '../../assets/Pencil.svg';
 
 const AllWrapper = styled.div`
   background-color: white;
-  width: 100%;
   padding: 20px 20px;
   display: flex;
   .title {
     font-weight: 990;
     font-size: 17px;
     text-align: center;
-    width: 100px;
+    width: 80px;
   }
   .data {
     font-weight: 300;
     font-size: 16px;
-    width: 200px;
+    width: 150px;
     text-align: center;
   }
   .icon {

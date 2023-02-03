@@ -1,22 +1,38 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<StyledWrapperProps>`
   position: relative;
-  width: 300px;
+  width: ${({ width }) => (width ? `${width}px` : '300px')};
   height: 50px;
   border-radius: 10px;
   padding: 10px 15px;
   background-color: #e4e4e4;
+  word-break: break-all;
 `;
 
-const Input = styled.input`
+const Input = styled.input<StyledInputProps>`
   width: 100%;
   height: 100%;
   background-color: transparent;
   border: none;
+  word-break: break-all;
 
-  font-size: 20px;
+  font-size: ${({ fontSize }) => (fontSize ? `${fontSize}px` : '20px')};
+  font-weight: 200px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Textarea = styled.textarea<StyledInputProps>`
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  word-break: break-all;
+
+  font-size: ${({ fontSize }) => (fontSize ? `${fontSize}px` : '20px')};
   font-weight: 200px;
   &:focus {
     outline: none;
@@ -25,11 +41,20 @@ const Input = styled.input`
 
 const InputTemplate_ChildrenWrapper = styled.div``;
 
+interface StyledWrapperProps {
+  width?: number;
+}
+interface StyledInputProps {
+  fontSize?: number;
+}
 interface IInputTemplate {
   children?: React.ReactNode;
   registerObject: UseFormRegisterReturn;
   placeholderText: string;
   defaultValue?: string | number;
+  width?: number;
+  fontsize?: number;
+  multipleLines?: boolean;
 }
 
 function InputTemplate({
@@ -37,14 +62,28 @@ function InputTemplate({
   registerObject,
   placeholderText,
   defaultValue,
+  width,
+  fontsize,
+  multipleLines,
 }: IInputTemplate) {
   return (
-    <Wrapper>
-      <Input
-        value={defaultValue ? defaultValue : undefined}
-        placeholder={placeholderText}
-        {...registerObject}
-      ></Input>
+    <Wrapper width={width}>
+      {multipleLines ? (
+        <Textarea
+          fontSize={fontsize}
+          value={defaultValue ? defaultValue : undefined}
+          placeholder={placeholderText}
+          {...registerObject}
+        ></Textarea>
+      ) : (
+        <Input
+          fontSize={fontsize}
+          value={defaultValue !== '0' ? defaultValue : undefined}
+          placeholder={placeholderText}
+          {...registerObject}
+        ></Input>
+      )}
+
       {children}
     </Wrapper>
   );

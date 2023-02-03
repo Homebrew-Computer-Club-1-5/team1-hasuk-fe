@@ -18,16 +18,15 @@ function Create() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-  //     navigate('/auth/login');
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      navigate('/auth/login');
+    }
+  }, []);
 
   return (
     <Wrapper>
-      <Price />
       <TitleWrapper2
         onClickBackButton={() => {
           const oldstat = stat.status;

@@ -63,15 +63,19 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
   const [marginStyle, setMarginStyle] = useState({
     marginLeft: `-${current}00%`,
   });
-  const imgSize = useRef(img_url.length);
 
+  const imgSize = useRef(img_url.length);
   function moveSlide(i: number) {
     let nextIndex = current + i;
+    console.log(nextIndex, 'ni');
 
     if (nextIndex < 0) nextIndex = imgSize.current - 1;
     else if (nextIndex >= imgSize.current) nextIndex = 0;
 
-    setCurrent(nextIndex);
+    setCurrent((current) => {
+      return nextIndex;
+    });
+    console.log(current);
   }
 
   useEffect(() => {
@@ -102,8 +106,9 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           color: 'white', // 컬러 설정이 안됨
         }}
         onClick={(event) => {
-          event.stopPropagation();
           moveSlide(1);
+          console.log(1);
+          event.stopPropagation();
         }}
       />
       <ImgsWrapper style={marginStyle}>
