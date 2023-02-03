@@ -2,16 +2,18 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function useRestoreAccessToken(
-  {
-    //   errorState,
-    //   onRestoreSuccess,
-    //   onRestoreFail,
-  },
-) {
+interface IrestoreAccessToken {
+  onRestoreSuccess: () => void;
+  onRestoreFail?: () => void;
+}
+
+export default function useRestoreAccessToken() {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  function restoreAccessToken({
+    onRestoreSuccess,
+    onRestoreFail,
+  }: IrestoreAccessToken) {
     axios
       .get(`/auth/restore-access-token`, {
         withCredentials: true,
@@ -19,14 +21,15 @@ function useRestoreAccessToken(
       .then((res) => {
         localStorage.removeItem('accessToken');
         localStorage.setItem('accessToken', res.data);
-        // onRestoreSuccess();
+        console.log('AT 갱신완');
+        onRestoreSuccess();
       })
       .catch((err) => {
-        console.log('에러메세지 : ', err.message);
-        // resetAllAtoms();
+        console.log('로그인 세션 만료 : ', err.message);
         localStorage.removeItem('accessToken');
         alert('로그인 세션이 만료되였습니다. 로그인 페이지로 이동합니다.');
         navigate('/auth/login');
       });
-  }, []);
+  }
+  return restoreAccessToken;
 }

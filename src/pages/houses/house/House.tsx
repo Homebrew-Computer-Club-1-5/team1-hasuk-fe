@@ -59,6 +59,7 @@ function House() {
   `;
 
   const { loading, error, data } = useQuery(GET_TEST_HOUSE, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       console.log(data.fetchHouse);
       setHouseData((current) => data.fetchHouse);
