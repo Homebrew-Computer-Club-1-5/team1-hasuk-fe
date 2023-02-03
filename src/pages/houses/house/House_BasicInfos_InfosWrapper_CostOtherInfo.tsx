@@ -5,11 +5,16 @@ import { useRecoilValue } from 'recoil';
 import { houseDataAtom } from '../../../store/atoms';
 import { Dispatch, SetStateAction } from 'react';
 
-const Wrapper = styled.div`
+interface IWrapper {
+  is_crolled: number;
+}
+
+const Wrapper = styled.div<IWrapper>`
   text-align: center;
   width: 65px;
   height: 90px;
   position: relative;
+  bottom: ${(props) => (props.is_crolled === 0 ? '0px' : '20px')};
 `;
 
 interface IHouse_BasicInfos_InfosWrapper_CostOtherInfo {
@@ -21,7 +26,7 @@ function House_BasicInfos_InfosWrapper_CostOtherInfo({
 }: IHouse_BasicInfos_InfosWrapper_CostOtherInfo) {
   const houseData = useRecoilValue(houseDataAtom);
   return (
-    <Wrapper>
+    <Wrapper is_crolled={houseData.is_crolled}>
       <ExtraInfos
         onClick={() => {
           setIsCostOtherInfoModalOn((current) => !current);

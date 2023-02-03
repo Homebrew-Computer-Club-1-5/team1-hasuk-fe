@@ -1,48 +1,41 @@
 import TitleWrapper from '../../components/molecules/TitleWrapper';
-import FilterWrapper from './FilterWrapper';
 import * as S from './Houses.styled';
 import HouseWrapper from './HouseWrapper';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { houseDatasAtom } from '../../store/atoms';
+import { fetchCrawledHousesAtom, houseDatasAtom } from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 
-function Houses() {
+function ExHouses() {
   const resetAllAtoms = useResetAllAtoms();
   useEffect(() => {
     resetAllAtoms();
   }, []);
 
   const navigate = useNavigate();
-  const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
+  const [fetchCrawledHousesData, setFetchCrawledHousesData] = useRecoilState(
+    fetchCrawledHousesAtom,
+  );
   const { region_id } = useParams();
 
-  const GET_TEST_REGION = gql`
+  const FETCH_CRAWLED_HOUSES = gql`
     query {
-      fetchHousesByRegion(region_id: ${region_id}) {
-        region_name
+      fetchCrawledHouses {
         id
-        month_cost
-        img_urls {
-          img_url
-        }
-        gender
-        has_empty
-        nearest_main_spot_name
+        img_urls
       }
     }
   `;
-  const { loading, error, data } = useQuery(GET_TEST_REGION, {
+
+  const { loading, error, data } = useQuery(FETCH_CRAWLED_HOUSES, {
     onCompleted: (data) => {
-      console.log(data.fetchHousesByRegion);
-      setHouseDatas((current) => data.fetchHousesByRegion);
+      console.log(data.fetchCrawledHouses);
+      setFetchCrawledHousesData((current) => data.fetchCrawledHouses);
     },
   });
-  console.log(loading);
-  // console.log(data.fetchHousesTest);
   if (loading) {
     return (
       <>
@@ -54,20 +47,16 @@ function Houses() {
       <S.Container>
         <TitleWrapper
           navigateRoute={'/main'}
-          isTitleOn={true}
+          isTitleOn={false}
           isBackButtonColorBlack={true}
-        />
-        <ExtraHousesButton
-          onClick={() => {
-            navigate('/exhouses');
-          }}
+          titleText="기타 집 정보"
         />
         {/* <FilterWrapper /> */}
-        {houseDatas.map((houseData, index) => (
+        {fetchCrawledHousesData.map((house, index) => (
           <HouseWrapper
             key={index}
             onClick={() => {
-              navigate(`/house/${houseData.id}`);
+              navigate(`/house/${house.id}`);
             }}
             houseWrapperIndex={index}
           />
@@ -78,4 +67,4 @@ function Houses() {
   }
 }
 
-export default Houses;
+export default ExHouses;

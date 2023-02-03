@@ -24,6 +24,7 @@ const Map = () => {
         name
         id
         houses {
+          id
           house_location {
             latitude
             longitude
@@ -101,6 +102,7 @@ const Map = () => {
     houseId: number,
     sortId: number,
   ) {
+    console.log(houseId);
     const hIcon = new window.kakao.maps.MarkerImage(
       hasukIcon,
       new window.kakao.maps.Size(40, 40),
@@ -136,7 +138,7 @@ const Map = () => {
         return makeMarker(
           house.house_location.latitude,
           house.house_location.longitude,
-          house.house_location.houseId,
+          house.id,
           house.house_location.sortId,
         );
       });

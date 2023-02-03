@@ -20,9 +20,17 @@ interface ITitleWrapper {
   style?: React.CSSProperties;
   navigateRoute: string;
   isTitleOn: boolean;
+  isBackButtonColorBlack: boolean;
+  titleText?: string;
 }
 
-function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
+function TitleWrapper({
+  style,
+  navigateRoute,
+  isTitleOn,
+  isBackButtonColorBlack,
+  titleText,
+}: ITitleWrapper) {
   const houseDatas = useRecoilValue(houseDatasAtom);
   const navigate = useNavigate();
   return (
@@ -31,7 +39,7 @@ function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
         onClick={() => {
           navigate(navigateRoute);
         }}
-        fill={isTitleOn ? 'black' : 'white'}
+        fill={isBackButtonColorBlack ? 'black' : 'white'}
         style={{
           width: '36px', //
           position: 'absolute',
@@ -43,6 +51,7 @@ function TitleWrapper({ style, navigateRoute, isTitleOn }: ITitleWrapper) {
       ) : (
         <></>
       )}
+      {titleText ? <Title>{titleText}</Title> : null}
     </Wrapper>
   );
 }

@@ -27,7 +27,7 @@ function House_BasicInfos_InfosWrapper({
       <House_BasicInfos_InfosWrapper_CostOtherInfo
         setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
       />
-      <House_BasicInfos_InfosWrapper_HasEmpty />
+      {/* <House_BasicInfos_InfosWrapper_HasEmpty /> */}
       <House_BasicInfos_InfosWrapper_Gender />
     </Wrapper>
   );

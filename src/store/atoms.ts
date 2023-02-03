@@ -75,7 +75,13 @@ interface Ihouse_location2 {
   latitude: number;
   longitude: number;
 }
+
+interface IfetchCrawledHouses {
+  id: number;
+  img_urls: string[];
+}
 export interface Ihouse_object {
+  id: number;
   house_location: Ihouse_location;
 }
 export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
@@ -102,4 +108,14 @@ export const Login_datasAtom = atom<ILogin_datasAtom>({
 export const fetchMyHouseAtom = atom<IfetchMyHouse[]>({
   key: 'fetchMyHouse',
   default: {} as any,
+});
+
+export const clickedHouse_idAtom = atom<number>({
+  key: 'clickedHouse_id',
+  default: 0,
+});
+
+export const fetchCrawledHousesAtom = atom<IfetchCrawledHouses[]>({
+  key: 'fetchCrawledHouses',
+  default: [],
 });
