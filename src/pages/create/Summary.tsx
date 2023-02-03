@@ -18,12 +18,15 @@ import {
   tempaddress,
   realfile,
   previewAtom,
+  isEditingAtom,
 } from './atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { clickedHouse_idAtom } from '../../store/atoms';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
@@ -69,7 +72,47 @@ const CREATE_HOUSE = gql`
   }
 `;
 
+const UPDATE_MY_HOUSE = gql`
+  mutation (
+    $house_id: Int
+    $contact: String
+    $gender: Int
+    $other: String
+    $lat: Float!
+    $long: Float!
+    $month: Int!
+    $depo: Int
+    $costother: String
+    $region: Int!
+    $cat: Int! # $files: [Upload!]
+  ) {
+    updateMyHouse(
+      updateMyHouseInput: {
+        house_id: $house_id
+        house: {
+          contact_number: $contact
+          gender: $gender
+          house_other_info: $other
+        }
+        house_location: { latitude: $lat, longitude: $long }
+        house_cost: {
+          month_cost: $month
+          deposit: $depo
+          other_info: $costother
+        }
+        region_id: $region
+        house_category_id: $cat
+        # imgRawDatas: $files
+      }
+    )
+  }
+`;
+
 function Summary() {
+  const resetAllAtoms = useResetAllAtoms();
+  const [clickedHouse_id, setClickedHouse_id] =
+    useRecoilState(clickedHouse_idAtom);
+  const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [contact, setContact] = useRecoilState(contactNumber);
   const [univ, setUniv] = useRecoilState(universityId);
   const [region, setRegion] = useRecoilState(regionId);
@@ -90,15 +133,14 @@ function Summary() {
 
   const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
     onCompleted: (data) => {
-      console.log(data.createHouse);
       alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
-      resetAllAtoms();
       navigate(`/house/${data.createHouse}`);
     },
     onError(error, clientOptions) {
       console.log('에러가 발생했어요, 에러메세지 : ', error.message);
     },
   });
+
 
   var URLarray: any = [];
 
@@ -113,24 +155,18 @@ function Summary() {
     getFile(url);
   });
 
-  function resetAllAtoms() {
-    setContact('');
-    setStat({ status: 0 });
-    setUniv(0);
-    setRegion(0);
-    setLat(0);
-    setLong(0);
-    setMonth(0);
-    setDepo(0);
-    setCostother('');
-    setGen(0);
-    setCat(0);
-    setOther('');
-    setAddress('');
-    setImgFile({});
-    setPreview([]);
-    localStorage.removeItem('recoil-persist');
-  }
+
+  const [updateMyHouse, { data: data2, loading: loading2, error: error2 }] =
+    useMutation(UPDATE_MY_HOUSE, {
+      onCompleted(data, clientOptions) {
+        alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
+        navigate(`/house/${data.updateMyHouse}`);
+      },
+      onError(error, clientOptions) {
+        console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+      },
+    });
+
 
   function executeCreateHouse() {
     createHouse({
@@ -149,9 +185,27 @@ function Summary() {
       },
     });
   }
+  function executeUpdateMyHouse() {
+    updateMyHouse({
+      variables: {
+        house_id: parseInt(clickedHouse_id as any),
+        contact: contact,
+        gender: parseInt(gen as any),
+        other: other,
+        lat: parseFloat(lat as any),
+        long: parseFloat(long as any),
+        month: parseInt(month as any),
+        depo: parseInt(depo as any),
+        costother: costother,
+        region: parseInt(region as any),
+        cat: parseInt(cat as any),
+        // files: [imgFile[0]],
+      },
+    });
+  }
 
   useEffect(() => {
-    if (error) {
+    if (error || error2) {
       axios
         .get(`/auth/restore-access-token`, {
           withCredentials: true,
@@ -161,7 +215,10 @@ function Summary() {
           localStorage.setItem('accessToken', res.data);
           const newAccessToken = localStorage.getItem('accessToken');
           console.log('새 accessToken 갱신완료 : ', newAccessToken);
-          executeCreateHouse();
+          if (error) {
+            executeCreateHouse();
+          } else if (error2) {
+          }
         })
         .catch((err) => {
           console.log('에러메세지 : ', err.message);
@@ -171,7 +228,7 @@ function Summary() {
           navigate('/auth/login');
         });
     }
-  }, [error]);
+  }, [error, error2]);
 
   return (
     <S.Wrapper>

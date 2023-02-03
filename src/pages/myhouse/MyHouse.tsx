@@ -6,11 +6,11 @@ import HouseSampleImg from '../../assets/HouseSampleImg.png';
 import P_Manrope_Medium from '../../components/atoms/P_Manrope_Medium';
 import { ReactComponent as EditButton } from '../../assets/EditButton.svg';
 import { ReactComponent as DeleteButton } from '../../assets/DeleteButton.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import YesNoModal from '../../components/molecules/YesNoModal';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { fetchMyHouseAtom } from '../../store/atoms';
+import { clickedHouse_idAtom, fetchMyHouseAtom } from '../../store/atoms';
 import {
   contactNumber,
   costOtherInfo,
@@ -29,6 +29,7 @@ import {
   tempaddress,
   universityId,
 } from '../create/atoms';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 
 const FETCH_MYHOUSE = gql`
   query {
@@ -61,6 +62,10 @@ const DELETE_MYHOUSE = gql`
 `;
 
 function MyHouse() {
+  const resetAllAtoms = useResetAllAtoms();
+  useEffect(() => {
+    resetAllAtoms();
+  }, []);
   const [contact, setContact] = useRecoilState(contactNumber);
   const [univ, setUniv] = useRecoilState(universityId);
   const [region, setRegion] = useRecoilState(regionId);
@@ -97,7 +102,8 @@ function MyHouse() {
     // setPreview([]);
   };
 
-  const [clickedHouse_id, setClickedHouse_id] = useState();
+  const [clickedHouse_id, setClickedHouse_id] =
+    useRecoilState(clickedHouse_idAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [deleteMyHouse, { loading: loading2 }] = useMutation(DELETE_MYHOUSE, {
     onCompleted(data) {

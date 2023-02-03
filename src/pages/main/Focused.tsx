@@ -32,9 +32,8 @@ function Focusedmap() {
         name
         id
         houses {
+          id
           house_location {
-            houseId
-            sortId
             latitude
             longitude
           }
@@ -42,6 +41,7 @@ function Focusedmap() {
       }
     }
   `;
+
   const { loading, error, data } = useQuery(GET_HOUSE, {
     onCompleted: (data) => {
       setmainHouses((current) => data.fetchAllHouses);

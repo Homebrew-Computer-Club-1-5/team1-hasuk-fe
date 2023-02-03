@@ -6,14 +6,19 @@ import icon from '../../assets/haksamo.png';
 import CreateHouseButton from '../../components/molecules/CreateHouseButton';
 import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
+  const resetAllAtoms = useResetAllAtoms();
   const onchange = () => {
     console.log();
   };
   const [isSideBarOpened, setIsSideBarOpened] = useState(false);
+  useEffect(() => {
+    resetAllAtoms();
+  }, []);
 
   return (
     <S.Container>

@@ -15,8 +15,10 @@ function House_BasicInfos_InfosWrapper_Deposit() {
   const houseData = useRecoilValue(houseDataAtom);
   return (
     <Wrapper>
-      <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
-        {houseData.house_cost.deposit}
+      <P_Manrope_ExtraBold
+        style={{ fontSize: `${!houseData.is_crolled ? '35px' : '15px'}` }}
+      >
+        {!houseData.is_crolled ? houseData.house_cost.deposit : '전화 문의'}
       </P_Manrope_ExtraBold>
       <P_Manrope_Regular
         style={{

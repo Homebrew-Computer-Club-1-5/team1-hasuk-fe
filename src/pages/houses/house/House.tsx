@@ -10,14 +10,19 @@ import House_OtherInfoWrapper from './House_OtherInfoWrapper';
 import House_HouseIdWrapper from './House_HouseIdWrapper';
 import { ReactComponent as ContactButton } from '../../../assets/ContactButton.svg';
 import InfoModal from '../../../components/molecules/InfoModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 
 const Container = styled.div`
   position: relative;
 `;
 
 function House() {
+  const resetAllAtoms = useResetAllAtoms();
+  useEffect(() => {
+    resetAllAtoms();
+  }, []);
   const [isContactNumberModalOn, setIsContactNumberModalOn] = useState(false);
   const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
@@ -27,6 +32,7 @@ function House() {
       fetchHouse(house_id: ${house_id}) {
         id
         contact_number
+        is_crolled
         gender
         house_other_info
         has_empty
@@ -67,7 +73,7 @@ function House() {
     );
   } else {
     const imgs = houseData.imgs;
-    const img_url = imgs.map((each) => each.img_url);
+    const img_url = imgs?.map((each) => each.img_url);
 
     return (
       <Container>
@@ -77,12 +83,19 @@ function House() {
           setIsModalOn={setIsContactNumberModalOn}
         />
         <InfoModal
-          innerText={`금액 관련 기타 정보 :  ${houseData.house_cost.other_info}`}
+          innerText={`금액 관련 기타 정보 :  ${
+            !houseData.is_crolled
+              ? houseData.house_cost.other_info
+              : '금액 관련 기타 정보가 없습니다.'
+          }`}
           isModalOn={isCostOtherInfoModalOn}
           setIsModalOn={setIsCostOtherInfoModalOn}
         />
         <TitleWrapper
-          navigateRoute={`/houses/${houseData.region.id}`}
+          isBackButtonColorBlack={false}
+          navigateRoute={
+            !houseData.is_crolled ? `/houses/${houseData.region.id}` : '/main'
+          }
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
           isTitleOn={false}
         />
@@ -98,12 +111,15 @@ function House() {
             setIsContactNumberModalOn((current) => !current);
           }}
         />
-        <ImgCarousel style={{ borderRadius: '0px' }} img_url={img_url} />
+        <ImgCarousel
+          style={{ borderRadius: '0px' }}
+          img_url={img_url ? img_url : []}
+        />
         <House_HouseIdWrapper />
         <House_BasicInfosWrapper
           setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
         />
-        <House_LocationInfoWrapper />
+        {!houseData.is_crolled ? <House_LocationInfoWrapper /> : null}
         <House_OtherInfoWrapper />
       </Container>
     );

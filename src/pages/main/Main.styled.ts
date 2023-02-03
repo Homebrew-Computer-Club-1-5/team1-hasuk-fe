@@ -25,8 +25,9 @@ export const Header = styled.header`
     font-size: 20px;
   }
   #selectBox {
+    position: absolute;
+    right: 10px;
     border: 1px solid black;
-    margin-left: 170px;
     border-radius: 10px;
     img {
       position: absolute;

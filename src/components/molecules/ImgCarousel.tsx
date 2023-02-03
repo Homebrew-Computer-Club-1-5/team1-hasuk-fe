@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
 import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
+// import HouseSampleImg from '../../assets/HouseSampleImg.png';
 
 const Wrapper = styled.div`
   background: lightgray;
@@ -111,14 +112,22 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
         }}
       />
       <ImgsWrapper style={marginStyle}>
-        {img_url.map((url, index) => (
+        {img_url[0] ? (
+          img_url.map((url, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundImage: `url(${url ? url : '/HouseSampleImg.png'})`,
+              }}
+            ></div>
+          ))
+        ) : (
           <div
-            key={index}
             style={{
-              backgroundImage: `url(${url})`,
+              backgroundImage: `url(/HouseSampleImg.png)`,
             }}
           ></div>
-        ))}
+        )}
       </ImgsWrapper>
       <PositionDotsWrapper>
         {img_url.map((url, index) =>
