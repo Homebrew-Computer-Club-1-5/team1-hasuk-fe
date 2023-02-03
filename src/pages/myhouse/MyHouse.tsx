@@ -8,9 +8,13 @@ import { ReactComponent as EditButton } from '../../assets/EditButton.svg';
 import { ReactComponent as DeleteButton } from '../../assets/DeleteButton.svg';
 import { useEffect, useState } from 'react';
 import YesNoModal from '../../components/molecules/YesNoModal';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { clickedHouse_idAtom, fetchMyHouseAtom } from '../../store/atoms';
+import {
+  clickedHouse_idAtom,
+  fetchMyHouseAtom,
+  IfetchMyHouse,
+} from '../../store/atoms';
 import {
   contactNumber,
   costOtherInfo,
@@ -31,6 +35,7 @@ import {
 } from '../create/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useCoordToAddress from '../../lib/util/coordToAddress';
+import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 
 const FETCH_MYHOUSE = gql`
   query {
@@ -63,10 +68,8 @@ const DELETE_MYHOUSE = gql`
 `;
 
 function MyHouse() {
+  const restoreAccessToken = useRestoreAccessToken();
   const resetAllAtoms = useResetAllAtoms();
-  useEffect(() => {
-    resetAllAtoms();
-  }, []);
   const [contact, setContact] = useRecoilState(contactNumber);
   const [univ, setUniv] = useRecoilState(universityId);
   const [region, setRegion] = useRecoilState(regionId);
@@ -85,7 +88,6 @@ function MyHouse() {
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
   const coordToAddress = useCoordToAddress();
-
   const setEditPage = (house_id: number) => {
     const data = fetchMyHouseData.find((each) => each.id === house_id);
     console.log(data?.cost.other_info);
@@ -116,30 +118,56 @@ function MyHouse() {
   const [clickedHouse_id, setClickedHouse_id] =
     useRecoilState(clickedHouse_idAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [deleteMyHouse, { loading: loading2 }] = useMutation(DELETE_MYHOUSE, {
-    onCompleted(data) {
-      if (data.deleteMyHouse === 'success') {
-        alert('게시물 삭제 완료');
-        setIsDeleteModalOn((current) => !current);
-        window.location.href = '/myhouse';
-      } else if (data.deleteMyHouse === 'failed') {
-        setIsDeleteModalOn((current) => !current);
-        alert('게시물 삭제 실패');
-      }
-    },
-    onError(error, clientOptions) {
-      console.log(error.message);
-    },
-  });
+  const [deleteMyHouse, { loading: loading2, error: deleteMyHouseError }] =
+    useMutation(DELETE_MYHOUSE, {
+      onCompleted(data) {
+        if (data.deleteMyHouse === 'success') {
+          alert('게시물 삭제 완료');
+          setIsDeleteModalOn((current) => !current);
+          window.location.href = '/myhouse';
+        } else if (data.deleteMyHouse === 'failed') {
+          setIsDeleteModalOn((current) => !current);
+          alert('게시물 삭제 실패');
+        }
+      },
+      onError(error, clientOptions) {
+        console.log(error.message);
+      },
+    });
 
-  const { loading, error, data } = useQuery(FETCH_MYHOUSE, {
+  // const [
+  //   fetchMyHouse,
+  //   {
+  //     loading: fetchMyHouseLoading,
+  //     error: fetchMyHouseError,
+  //     data,
+  //     refetch: refetchFetchMyHouse,
+  //   },
+  // ] = useLazyQuery(FETCH_MYHOUSE, {
+  //   onCompleted(data) {
+  //     console.log('컴플릿트!!!!!!');
+  //     setFetchMyHouseData(data.fetchMyHouse);
+  //   },
+  //   onError(error) {
+  //     console.log('액세스 토큰 만료됨', error.message);
+  //   },
+  // });
+  const {
+    loading: fetchMyHouseLoading,
+    error: fetchMyHouseError,
+    data,
+    refetch: refetchFetchMyHouse,
+  } = useQuery(FETCH_MYHOUSE, {
+    fetchPolicy: 'no-cache',
     onCompleted(data) {
+      console.log('컴플릿트!!!!!!');
       setFetchMyHouseData(data.fetchMyHouse);
     },
     onError(error) {
-      console.log(error);
+      console.log('액세스 토큰 만료됨', error.message);
     },
   });
+
   const navigate = useNavigate();
   const [isDeleteModalOn, setIsDeleteModalOn] = useState(false);
 
@@ -152,7 +180,21 @@ function MyHouse() {
     });
   };
 
-  if (loading) {
+  useEffect(() => {
+    resetAllAtoms();
+    // refetchFetchMyHouse();
+  }, []);
+
+  useEffect(() => {
+    if (fetchMyHouseError) {
+      console.log('리프레시 실행');
+      restoreAccessToken({
+        onRestoreSuccess: refetchFetchMyHouse,
+      });
+    }
+  }, [fetchMyHouseError]);
+
+  if (fetchMyHouseLoading) {
     return (
       <>
         <h1>로딩중!!!</h1>
@@ -175,7 +217,7 @@ function MyHouse() {
         <NoticeTextWrapper style={{ marginTop: '30px' }}>
           내가 올린 방 정보를 관리합니다.
         </NoticeTextWrapper>
-        {fetchMyHouseData.map((each, index) => (
+        {fetchMyHouseData?.map((each, index) => (
           <S.HouseWrapper key={index}>
             <S.HouseWrapper_Img src={HouseSampleImg} />
             <S.HouseWrapper_InfosWrapper>

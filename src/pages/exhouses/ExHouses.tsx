@@ -31,6 +31,7 @@ function ExHouses() {
   `;
 
   const { loading, error, data } = useQuery(FETCH_CRAWLED_HOUSES, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       console.log(data.fetchCrawledHouses);
       setFetchCrawledHousesData((current) => data.fetchCrawledHouses);

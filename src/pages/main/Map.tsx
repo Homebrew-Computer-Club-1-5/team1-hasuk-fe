@@ -34,6 +34,7 @@ const Map = () => {
     }
   `;
   const { loading, error, data } = useQuery(GET_HOUSE, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       setmainHouses((current) => data.fetchAllHouses);
     },

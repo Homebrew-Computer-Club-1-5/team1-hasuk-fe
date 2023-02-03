@@ -58,7 +58,7 @@ interface ImainHouse {
 interface ILogin_datasAtom {
   contact_number: string;
 }
-interface IfetchMyHouse {
+export interface IfetchMyHouse {
   id: number;
   img_urls: string[];
   contact_number: string;
@@ -107,7 +107,7 @@ export const Login_datasAtom = atom<ILogin_datasAtom>({
 
 export const fetchMyHouseAtom = atom<IfetchMyHouse[]>({
   key: 'fetchMyHouse',
-  default: {} as any,
+  default: [] as any,
 });
 
 export const clickedHouse_idAtom = atom<number>({

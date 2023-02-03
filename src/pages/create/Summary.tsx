@@ -27,6 +27,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { clickedHouse_idAtom } from '../../store/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
+import useRestoreAccessToken from '../../lib/util/tokenStrategy';
+
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
@@ -35,7 +37,6 @@ const NoticeTextWrapperStyle = {
   marginTop: '0px',
   textAlign: 'center',
 };
-
 const categoryArray = ['원룸/투룸/자취방', '하숙', '고시원', '기타'];
 const CREATE_HOUSE = gql`
   mutation (
@@ -131,6 +132,7 @@ function Summary() {
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   const navigate = useNavigate();
+  const restoreAccessToken = useRestoreAccessToken();
   const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
     onCompleted: (data) => {
       alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
@@ -140,7 +142,15 @@ function Summary() {
       console.log('에러가 발생했어요, 에러메세지 : ', error.message);
     },
   });
-
+  useEffect(() => {
+    if (error) {
+      restoreAccessToken({
+        onRestoreSuccess: () => {
+          executeCreateHouse();
+        },
+      });
+    }
+  }, [error]);
   var URLarray: any = [];
 
   async function getFile(url: string) {
@@ -200,46 +210,7 @@ function Summary() {
       },
     });
   }
-
-  useEffect(() => {
-    if (error || error2) {
-      axios
-        .get(`/auth/restore-access-token`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          localStorage.removeItem('accessToken');
-          localStorage.setItem('accessToken', res.data);
-          const newAccessToken = localStorage.getItem('accessToken');
-          console.log('새 accessToken 갱신완료 : ', newAccessToken);
-          if (error) {
-            executeCreateHouse();
-          } else if (error2) {
-          }
-        })
-        .catch((err) => {
-          console.log('에러메세지 : ', err.message);
-          resetAllAtoms();
-          localStorage.removeItem('accessToken');
-          alert('로그인 세션이 만료되였습니다. 로그인 페이지로 이동합니다.');
-          navigate('/auth/login');
-        });
-    }
-  }, [error, error2]);
-  console.log(
-    contact,
-    gen,
-    other,
-    lat,
-    long,
-    month,
-    depo,
-    costother,
-    region,
-    cat,
-    URLarray,
-  );
-
+  
   return (
     <S.Wrapper>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>

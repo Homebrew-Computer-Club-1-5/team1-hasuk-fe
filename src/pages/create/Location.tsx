@@ -44,6 +44,7 @@ function Location() {
   const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
     FETCH_HOUSE_BY_LOCATION,
     {
+      fetchPolicy: 'no-cache',
       onCompleted(data) {
         if (data) alert('이미 존재하는 집입니다.');
       },
