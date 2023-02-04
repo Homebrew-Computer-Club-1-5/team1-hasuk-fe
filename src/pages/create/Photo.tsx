@@ -1,7 +1,13 @@
 import * as S from './Photo.styled';
 import { useState, useEffect, useRef } from 'react';
 import ImgCarousel from '../../components/molecules/ImgCarousel';
-import { previewAtom, realfile, status, tempfile } from './atoms';
+import {
+  isEditingAtom,
+  previewAtom,
+  realfile,
+  status,
+  tempfile,
+} from './atoms';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
 import WhitePill from '../../components/molecules/WhitePill';
@@ -20,6 +26,7 @@ const NoticeTextWrapperStyle = {
   textAlign: 'center',
 };
 function Photo() {
+  const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const imageInput = useRef();
   const [stat, setStat] = useRecoilState(status);
   // 다음버튼과만 관련있음
@@ -45,6 +52,7 @@ function Photo() {
     fontSize: '17px',
     fontWeight: 600,
     border: '1px solid black',
+    boxShadow: '0px 5px lightgray',
 
     backgroundColor: 'white',
     borderRadius: '20px',
@@ -80,8 +88,13 @@ function Photo() {
     <S.Wrapper>
       <h1>{stat.status}/5</h1>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
-        사진을 찍어
-        <br /> 업로드 해주세요.
+        {!isEditing ? (
+          '사진을 찍어 업로드 해주세요.'
+        ) : (
+          <>
+            <p>사진이 초기화 됩니다.</p> <p>다시 업로드 해주세요.</p>
+          </>
+        )}
       </NoticeTextWrapper>
       {preview.length === real.length ? (
         <ImgCarousel img_url={preview} />
@@ -92,7 +105,7 @@ function Photo() {
         style={inputStyle}
         type="file"
         id="image"
-        accept="img/*"
+        accept="image/*"
         multiple={true}
         onChange={saveFileImage}
         ref={imageInput as any}

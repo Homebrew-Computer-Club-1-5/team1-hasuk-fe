@@ -7,7 +7,7 @@ interface IhouseData_fetchHousesByRegion {
   id: number;
   month_cost: number;
   nearest_main_spot_name: string;
-  img_urls: Iimg_url[];
+  img_urls: string[];
   gender: number;
   has_empty: boolean;
 } // 필수 비필수 설정 해줘야함
@@ -118,4 +118,10 @@ export const clickedHouse_idAtom = atom<number>({
 export const fetchCrawledHousesAtom = atom<IfetchCrawledHouses[]>({
   key: 'fetchCrawledHouses',
   default: [],
+});
+
+export const myHouseAddressAtom = atom<string>({
+  key: 'myHouseAddress',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
 });

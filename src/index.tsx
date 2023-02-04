@@ -10,7 +10,7 @@ const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
 ReactGA.initialize(TRACKING_ID as string);
 
 const uploadLink = createUploadLink({
-  uri: 'http://10.16.161.196:8080/graphql',
+  uri: 'http://172.30.1.91:8080/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

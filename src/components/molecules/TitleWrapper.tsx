@@ -47,7 +47,7 @@ function TitleWrapper({
         }}
       />
       {isTitleOn ? (
-        <Title>{`고려대학교 - ${houseDatas[0].region_name}`}</Title>
+        <Title>{`고려대학교 - ${houseDatas[0]?.region_name}`}</Title>
       ) : (
         <></>
       )}

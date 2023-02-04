@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
+import Loading from '../../components/molecules/Loading';
 
 function Houses() {
   const resetAllAtoms = useResetAllAtoms();
@@ -26,9 +27,7 @@ function Houses() {
         region_name
         id
         month_cost
-        img_urls {
-          img_url
-        }
+        img_urls
         gender
         has_empty
         nearest_main_spot_name
@@ -43,39 +42,35 @@ function Houses() {
     },
   });
   console.log(loading);
-  if (loading) {
-    return (
-      <>
-        <h1>로딩중!!!</h1>
-      </>
-    );
-  } else {
-    return (
-      <S.Container>
-        <TitleWrapper
-          navigateRoute={'/main'}
-          isTitleOn={true}
-          isBackButtonColorBlack={true}
-        />
-        <ExtraHousesButton
-          onClick={() => {
-            navigate('/exhouses');
-          }}
-        />
-        {/* <FilterWrapper /> */}
-        {houseDatas.map((houseData, index) => (
-          <HouseWrapper
-            key={index}
-            onClick={() => {
-              navigate(`/house/${houseData.id}`);
-            }}
-            houseWrapperIndex={index}
-          />
-        ))}
-        {/* <HouseWrapper_OnlyInfos /> */}
-      </S.Container>
-    );
-  }
+
+  return (
+    <S.Container>
+      {loading ? <Loading /> : null}
+      <TitleWrapper
+        navigateRoute={'/main'}
+        isTitleOn={true}
+        isBackButtonColorBlack={true}
+      />
+      <ExtraHousesButton
+        onClick={() => {
+          navigate('/exhouses');
+        }}
+      />
+      {/* <FilterWrapper /> */}
+      {houseDatas[0]
+        ? houseDatas.map((houseData, index) => (
+            <HouseWrapper
+              key={index}
+              onClick={() => {
+                navigate(`/house/${houseData.id}`);
+              }}
+              houseWrapperIndex={index}
+            />
+          ))
+        : null}
+      {/* <HouseWrapper_OnlyInfos /> */}
+    </S.Container>
+  );
 }
 
 export default Houses;

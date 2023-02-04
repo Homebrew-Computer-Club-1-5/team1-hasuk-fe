@@ -14,6 +14,7 @@ import {
   clickedHouse_idAtom,
   fetchMyHouseAtom,
   IfetchMyHouse,
+  myHouseAddressAtom,
 } from '../../store/atoms';
 import {
   contactNumber,
@@ -34,8 +35,10 @@ import {
   universityId,
 } from '../create/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
-import useCoordToAddress from '../../lib/util/coordToAddress';
+// import useCoordToAddress from '../../lib/util/coordToAddress';
+import { coordToAddress2 } from '../../lib/util/coordToAddress';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
+import Loading from '../../components/molecules/Loading';
 
 const FETCH_MYHOUSE = gql`
   query {
@@ -81,21 +84,53 @@ function MyHouse() {
   const [gen, setGen] = useRecoilState(gender);
   const [cat, setCat] = useRecoilState(houseCategoryId);
   const [other, setOther] = useRecoilState(houseOtherInfo);
-  const [address, setAddress] = useRecoilState(tempaddress);
+  // const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
   const [imgFile, setImgFile] = useRecoilState(realfile);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
-  const coordToAddress = useCoordToAddress();
+  // const coordToAddress = useCoordToAddress();
+  const [addresses, setAddresses] = useState<string[]>([]);
+  // const [myHouseAddress, setMyHouseAddress] =
+  //   useRecoilState(myHouseAddressAtom);
+
+  const [address, setAddress] = useRecoilState(tempaddress);
+
+  useEffect(() => {
+    async function func() {
+      const result1 = [];
+      for (let i = 0; i < fetchMyHouseData.length; i++) {
+        const lat = fetchMyHouseData[i].location.latitude;
+        const long = fetchMyHouseData[i].location.longitude;
+        const result2: string = await coordToAddress2({
+          latitude: lat,
+          longitude: long,
+        });
+        result1.push(result2);
+      }
+      setAddresses(result1);
+    }
+    if (fetchMyHouseData) {
+      func();
+    }
+  }, [fetchMyHouseData]);
+
   const setEditPage = (house_id: number) => {
-    const data = fetchMyHouseData.find((each) => each.id === house_id);
+    const data = fetchMyHouseData.find((each, index) => {
+      return each.id === house_id;
+    });
+    const data2 = fetchMyHouseData.findIndex((each) => {
+      return each.id === house_id;
+    });
+    setAddress((current) => addresses[data2]);
+
     console.log(data?.cost.other_info);
-    coordToAddress(
-      data?.location.latitude,
-      data?.location.longitude,
-      setAddress,
-    );
+    // coordToAddress(
+    //   data?.location.latitude,
+    //   data?.location.longitude,
+    //   setAddress,
+    // );
 
     setContact(data?.contact_number);
     setStat({ status: 0 });
@@ -112,7 +147,7 @@ function MyHouse() {
 
     //setAddress();
     // setImgFile({});
-    setPreview(data?.img_urls as any);
+    // setPreview(data?.img_urls as any);
   };
 
   const [clickedHouse_id, setClickedHouse_id] =
@@ -194,63 +229,65 @@ function MyHouse() {
     }
   }, [fetchMyHouseError]);
 
-  if (fetchMyHouseLoading) {
-    return (
-      <>
-        <h1>로딩중!!!</h1>
-      </>
-    );
-  } else {
-    return (
-      <S.Container>
-        <YesNoModal
-          innerText={'정말 삭제하시겠습니까?'}
-          isModalOn={isDeleteModalOn}
-          setIsModalOn={setIsDeleteModalOn}
-          onClickYes={onClickYes_Delete}
-        />
-        <TitleWrapper2
-          onClickBackButton={() => {
-            navigate('/main');
-          }}
-        />
-        <NoticeTextWrapper style={{ marginTop: '30px' }}>
-          내가 올린 방 정보를 관리합니다.
-        </NoticeTextWrapper>
-        {fetchMyHouseData?.map((each, index) => (
-          <S.HouseWrapper key={index}>
-            <S.HouseWrapper_Img src={HouseSampleImg} />
-            <S.HouseWrapper_InfosWrapper>
-              <P_Manrope_Medium>
-                연락처 : {each.contact_number}
-              </P_Manrope_Medium>
-              <P_Manrope_Medium>
-                주소 : {each.location.latitude}
-              </P_Manrope_Medium>
-              <P_Manrope_Medium>올린 날짜 : {each.board_date}</P_Manrope_Medium>
-            </S.HouseWrapper_InfosWrapper>
-            <S.HouseWrapper_ButtonsWrapper>
-              <EditButton
-                onClick={() => {
-                  setClickedHouse_id(each.id as any);
-                  setIsEditing((current) => true);
-                  setEditPage(each.id);
-                  setStat({ status: 6 });
-                  navigate('/create');
-                }}
-              />
-              <DeleteButton
-                onClick={() => {
-                  setClickedHouse_id(each.id as any);
-                  setIsDeleteModalOn((current) => !current);
-                }}
-              />
-            </S.HouseWrapper_ButtonsWrapper>
-          </S.HouseWrapper>
-        ))}
-      </S.Container>
-    );
-  }
+  return (
+    <S.Container>
+      {fetchMyHouseData.length !== addresses.length ? (
+        <Loading loadingText="내 집 정보를 불러오는중.." />
+      ) : null}
+      <YesNoModal
+        innerText={'정말 삭제하시겠습니까?'}
+        isModalOn={isDeleteModalOn}
+        setIsModalOn={setIsDeleteModalOn}
+        onClickYes={onClickYes_Delete}
+      />
+      <TitleWrapper2
+        onClickBackButton={() => {
+          navigate('/main');
+        }}
+      />
+      <NoticeTextWrapper style={{ marginTop: '30px' }}>
+        내가 올린 방 정보를 관리합니다.
+      </NoticeTextWrapper>
+      {fetchMyHouseData[0]
+        ? fetchMyHouseData?.map((each, index) => {
+            const ad = addresses[index];
+            return (
+              <S.HouseWrapper key={index}>
+                <S.HouseWrapper_Img
+                  src={each.img_urls[0] ? each.img_urls[0] : HouseSampleImg}
+                />
+                <S.HouseWrapper_InfosWrapper>
+                  <P_Manrope_Medium>
+                    연락처 : {each.contact_number}
+                  </P_Manrope_Medium>
+                  <P_Manrope_Medium>주소 : {ad}</P_Manrope_Medium>
+                  <P_Manrope_Medium>
+                    올린 날짜 : {new Date(each.board_date).toLocaleString()}
+                  </P_Manrope_Medium>
+                </S.HouseWrapper_InfosWrapper>
+                <S.HouseWrapper_ButtonsWrapper>
+                  <EditButton
+                    onClick={() => {
+                      setClickedHouse_id(each.id as any);
+                      setIsEditing((current) => true);
+                      setEditPage(each.id);
+                      setStat({ status: 5 });
+                      navigate('/create');
+                    }}
+                  />
+                  <DeleteButton
+                    onClick={() => {
+                      setClickedHouse_id(each.id as any);
+                      setIsDeleteModalOn((current) => !current);
+                    }}
+                  />
+                </S.HouseWrapper_ButtonsWrapper>
+              </S.HouseWrapper>
+            );
+          })
+        : null}
+    </S.Container>
+  );
 }
 
 export default MyHouse;

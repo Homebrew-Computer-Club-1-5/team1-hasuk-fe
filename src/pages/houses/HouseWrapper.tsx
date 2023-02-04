@@ -16,10 +16,7 @@ interface IHouseWrapper {
 
 function HouseWrapper({ houseWrapperIndex, onClick }: IHouseWrapper) {
   const houseDatas = useRecoilValue(houseDatasAtom);
-  const img_urls = houseDatas[houseWrapperIndex].img_urls;
-
-  const img_url = img_urls.map((each) => each.img_url);
-  console.log(img_url);
+  const img_url = houseDatas[houseWrapperIndex].img_urls;
   return (
     <Wrapper onClick={onClick}>
       <ImgCarousel img_url={img_url ? img_url : []}></ImgCarousel>
