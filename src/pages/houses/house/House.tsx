@@ -51,6 +51,7 @@ function House() {
         }
         house_category {
           name
+          id
         }
         region {
           id
@@ -93,7 +94,9 @@ function House() {
         <TitleWrapper
           isBackButtonColorBlack={false}
           navigateRoute={
-            !houseData.is_crolled ? `/houses/${houseData.region.id}` : '/main'
+            houseData.is_crolled === 0
+              ? `/houses/${houseData.region.id}`
+              : '/exhouses'
           }
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
           isTitleOn={false}

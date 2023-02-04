@@ -10,6 +10,7 @@ interface IhouseData_fetchHousesByRegion {
   img_urls: string[];
   gender: number;
   has_empty: boolean;
+  house_category_id: number;
 } // 필수 비필수 설정 해줘야함
 
 interface Iimg_url {
@@ -26,8 +27,14 @@ interface IhouseData_fetchHouse {
   is_crolled: number;
   house_cost: Icost;
   house_location: Ihouse_location;
+  house_category: Ihouse_category;
   imgs: Ihouse_img[];
   region: Iregion;
+}
+
+interface Ihouse_category {
+  name: string;
+  id: number;
 }
 
 interface Iregion {
@@ -79,6 +86,7 @@ interface Ihouse_location2 {
 interface IfetchCrawledHouses {
   id: number;
   img_urls: string[];
+  house_category: number;
 }
 export interface Ihouse_object {
   id: number;

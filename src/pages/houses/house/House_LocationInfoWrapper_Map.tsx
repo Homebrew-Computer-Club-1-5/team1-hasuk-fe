@@ -11,7 +11,6 @@ declare global {
 const Wrapper = styled.div`
   background-color: lightgray;
   width: 85%;
-  height: 170px;
   margin: 0 auto;
 `;
 
@@ -40,7 +39,7 @@ function House_LocationInfoWrapper_Map({
 
   return (
     <Wrapper>
-      <div id="map" style={{ width: '100%', height: '170px' }} />
+      <div id="map" style={{ width: '100%', height: '270px' }} />
     </Wrapper>
   );
 }

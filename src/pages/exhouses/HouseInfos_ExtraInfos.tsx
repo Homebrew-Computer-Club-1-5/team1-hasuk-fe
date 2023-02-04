@@ -19,7 +19,9 @@ function HouseInfos_ExtraInfos({ houseWrapperIndex }: IHouseInfos_ExtraInfos) {
   );
   return (
     <Wrapper>
-      <P_Manrope_Bold style={{ position: 'relative', left: '50px' }}>
+      <P_Manrope_Bold
+        style={{ position: 'relative', left: '15px', bottom: '5px' }}
+      >
         연락처, 집 관련 세부 내용만 제공되는 게시물 입니다.
       </P_Manrope_Bold>
     </Wrapper>

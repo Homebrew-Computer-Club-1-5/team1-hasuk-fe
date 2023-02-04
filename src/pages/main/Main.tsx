@@ -22,14 +22,13 @@ function Main() {
 
   return (
     <S.Container>
-      <Photo />
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
         <P_Manrope_ExtraBold>대학방</P_Manrope_ExtraBold>
         <S.versionBox>v {process.env.REACT_APP_VERSION}</S.versionBox>
         <div id="selectBox">
           <img src={icon} />
-          <select onChange={onchange}>
+          <select onChange={onchange} style={{ fontFamily: 'Manrope' }}>
             <option value="고려대">고려대</option>
           </select>
         </div>
