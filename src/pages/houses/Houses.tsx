@@ -31,6 +31,7 @@ function Houses() {
         gender
         has_empty
         nearest_main_spot_name
+        house_category_id
       }
     }
   `;
@@ -68,7 +69,6 @@ function Houses() {
             />
           ))
         : null}
-      {/* <HouseWrapper_OnlyInfos /> */}
     </S.Container>
   );
 }

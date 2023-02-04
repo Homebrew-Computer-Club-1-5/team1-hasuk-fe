@@ -7,7 +7,6 @@ import { fetchCrawledHousesAtom, houseDatasAtom } from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
-import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 import Loading from '../../components/molecules/Loading';
 
 function ExHouses() {
@@ -27,6 +26,7 @@ function ExHouses() {
       fetchCrawledHouses {
         id
         img_urls
+        house_category
       }
     }
   `;
@@ -47,6 +47,9 @@ function ExHouses() {
         isBackButtonColorBlack={true}
         titleText="기타 집 정보"
       />
+      <p style={{ textAlign: 'center' }}>
+        ** 고파스 게시물을 정리해서 게시했음을 밝힙니다. **
+      </p>
       {fetchCrawledHousesData.map((house, index) => (
         <HouseWrapper
           key={index}

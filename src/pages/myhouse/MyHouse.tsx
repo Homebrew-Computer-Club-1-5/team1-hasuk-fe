@@ -125,7 +125,6 @@ function MyHouse() {
     });
     setAddress((current) => addresses[data2]);
 
-    console.log(data?.cost.other_info);
     // coordToAddress(
     //   data?.location.latitude,
     //   data?.location.longitude,
@@ -169,24 +168,6 @@ function MyHouse() {
         console.log(error.message);
       },
     });
-
-  // const [
-  //   fetchMyHouse,
-  //   {
-  //     loading: fetchMyHouseLoading,
-  //     error: fetchMyHouseError,
-  //     data,
-  //     refetch: refetchFetchMyHouse,
-  //   },
-  // ] = useLazyQuery(FETCH_MYHOUSE, {
-  //   onCompleted(data) {
-  //     console.log('컴플릿트!!!!!!');
-  //     setFetchMyHouseData(data.fetchMyHouse);
-  //   },
-  //   onError(error) {
-  //     console.log('액세스 토큰 만료됨', error.message);
-  //   },
-  // });
   const {
     loading: fetchMyHouseLoading,
     error: fetchMyHouseError,
@@ -195,7 +176,6 @@ function MyHouse() {
   } = useQuery(FETCH_MYHOUSE, {
     fetchPolicy: 'no-cache',
     onCompleted(data) {
-      console.log('컴플릿트!!!!!!');
       setFetchMyHouseData(data.fetchMyHouse);
     },
     onError(error) {
@@ -207,7 +187,6 @@ function MyHouse() {
   const [isDeleteModalOn, setIsDeleteModalOn] = useState(false);
 
   const onClickYes_Delete = () => {
-    console.log(clickedHouse_id);
     deleteMyHouse({
       variables: {
         house_id: clickedHouse_id,
@@ -217,7 +196,6 @@ function MyHouse() {
 
   useEffect(() => {
     resetAllAtoms();
-    // refetchFetchMyHouse();
   }, []);
 
   useEffect(() => {
@@ -248,11 +226,17 @@ function MyHouse() {
       <NoticeTextWrapper style={{ marginTop: '30px' }}>
         내가 올린 방 정보를 관리합니다.
       </NoticeTextWrapper>
+      <p>게시물을 클릭하면 내가 올린 게시물을 직접 볼 수 있습니다.</p>
       {fetchMyHouseData[0]
         ? fetchMyHouseData?.map((each, index) => {
             const ad = addresses[index];
             return (
-              <S.HouseWrapper key={index}>
+              <S.HouseWrapper
+                key={index}
+                onClick={() => {
+                  navigate(`/house/${each.id}`);
+                }}
+              >
                 <S.HouseWrapper_Img
                   src={each.img_urls[0] ? each.img_urls[0] : HouseSampleImg}
                 />
@@ -267,7 +251,8 @@ function MyHouse() {
                 </S.HouseWrapper_InfosWrapper>
                 <S.HouseWrapper_ButtonsWrapper>
                   <EditButton
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       setClickedHouse_id(each.id as any);
                       setIsEditing((current) => true);
                       setEditPage(each.id);
@@ -276,7 +261,8 @@ function MyHouse() {
                     }}
                   />
                   <DeleteButton
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       setClickedHouse_id(each.id as any);
                       setIsDeleteModalOn((current) => !current);
                     }}

@@ -15,11 +15,19 @@ interface IHouseInfos_ExtraInfos {
 
 function HouseInfos_ExtraInfos({ houseWrapperIndex }: IHouseInfos_ExtraInfos) {
   const houseDatas = useRecoilValue(houseDatasAtom);
-
+  const category = houseDatas[houseWrapperIndex].house_category_id;
   return (
     <Wrapper>
       <P_Manrope_Bold>
-        {houseDatas[houseWrapperIndex].has_empty ? '공실 있음' : '공실 없음'}
+        {category === 1
+          ? '일반'
+          : category === 2
+          ? '하숙'
+          : category === 3
+          ? '자취방/원룸'
+          : category === 4
+          ? '고시원'
+          : '기타'}
       </P_Manrope_Bold>
       <P_Manrope_Light>
         {houseDatas[houseWrapperIndex].gender === 0
