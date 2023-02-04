@@ -9,6 +9,7 @@ import SideBar from '../../components/molecules/SideBar';
 import { useEffect, useState } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useCoordToAddress from '../../lib/util/coordToAddress';
+import Photo from '../create/Photo';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
@@ -21,6 +22,7 @@ function Main() {
 
   return (
     <S.Container>
+      <Photo />
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
         <P_Manrope_ExtraBold>대학방</P_Manrope_ExtraBold>

@@ -5,6 +5,9 @@ const { persistAtom } = recoilPersist();
 export interface IStates {
   status: number;
 }
+export interface IPreview {
+  link: string;
+}
 
 export const status = atom<IStates>({
   key: 'status',
@@ -91,7 +94,7 @@ export const realfile = atom<any>({
 export const previewAtom = atom<string[]>({
   key: 'preview',
   default: [],
-  effects_UNSTABLE: [persistAtom],
+  //effects_UNSTABLE: [persistAtom],
 });
 
 export const isEditingAtom = atom<Boolean>({
