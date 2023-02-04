@@ -16,7 +16,6 @@ import {
   houseCategoryId,
   houseOtherInfo,
   tempaddress,
-  realfile,
   previewAtom,
   isEditingAtom,
 } from './atoms';
@@ -33,6 +32,7 @@ import Loading from '../../components/molecules/Loading';
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
+
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
@@ -112,37 +112,42 @@ const UPDATE_MY_HOUSE = gql`
 `;
 
 function Summary() {
-  function getIdxedDBValue() {
+  async function getIdxedDBValue() {
     const request = indexedDB.open('linksDB', 2);
     let db;
     request.onerror = (e) => alert('failed');
-    request.onsuccess = (e) => {
-      const db = request.result;
-      const transaction = db.transaction(['links'], 'readwrite');
-      transaction.oncomplete = (e) => {
-        console.log('transaction success');
+    const result = await new Promise((resolve, reject) => {
+      const result1: any = [];
+      request.onsuccess = (e) => {
+        const db = request.result;
+        const transaction = db.transaction(['links'], 'readwrite');
+        transaction.oncomplete = (e) => {
+          console.log('transaction success');
+        };
+        transaction.onerror = (e) => {
+          console.log('transaction fail');
+        };
+        const objStore = transaction.objectStore('links');
+        const cursorRequest = objStore.openCursor();
+        cursorRequest.onsuccess = (e: any) => {
+          let cursor = e.target.result;
+          if (cursor) {
+            const value = objStore.get(cursor.key);
+            value.onsuccess = (e: any) => {
+              result1.push(e.target.result);
+            };
+          }
+          cursor.continue();
+        };
       };
-      transaction.onerror = (e) => {
-        console.log('transaction fail');
-      };
-      const objStore = transaction.objectStore('links');
-      const cursorRequest = objStore.openCursor();
-      cursorRequest.onsuccess = (e: any) => {
-        let cursor = e.target.result;
-        if (cursor) {
-          const value = objStore.get(cursor.key);
-          value.onsuccess = (e: any) => {
-            console.log(e.target.result);
-          };
-        }
-        cursor.continue();
-      };
-    };
+      resolve(result1);
+    });
 
     request.onupgradeneeded = (e: any) => {
       db = e.target.result;
       db.createObjectStore('links', { autoIncrement: true });
     };
+    return result;
   }
   const resetAllAtoms = useResetAllAtoms();
   const [clickedHouse_id, setClickedHouse_id] =
@@ -161,7 +166,6 @@ function Summary() {
   const [other, setOther] = useRecoilState(houseOtherInfo);
   const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
-  const [imgFile, setImgFile] = useRecoilState(realfile);
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   const navigate = useNavigate();

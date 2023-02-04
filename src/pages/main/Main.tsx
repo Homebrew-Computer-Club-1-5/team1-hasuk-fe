@@ -22,7 +22,6 @@ function Main() {
 
   return (
     <S.Container>
-      <Photo />
       <S.Header>
         <img src={hasukLogo} alt="하숙" />
         <P_Manrope_ExtraBold>대학방</P_Manrope_ExtraBold>

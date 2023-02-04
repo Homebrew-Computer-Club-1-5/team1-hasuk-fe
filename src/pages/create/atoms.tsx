@@ -84,9 +84,9 @@ export const tempfile = atom<any>({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
-export const realfile = atom<any>({
-  key: 'realfile',
-  default: {},
+export const countfileAtom = atom<number>({
+  key: 'countfile',
+  default: 0,
   dangerouslyAllowMutability: true,
   effects_UNSTABLE: [persistAtom],
 });
@@ -99,6 +99,12 @@ export const previewAtom = atom<string[]>({
 
 export const isEditingAtom = atom<Boolean>({
   key: 'isEditing',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const isIndexDBSuccessAtom = atom<Boolean>({
+  key: 'isIndexDBSuccess',
   default: false,
   effects_UNSTABLE: [persistAtom],
 });

@@ -28,7 +28,6 @@ import {
   longitude,
   monthCost,
   previewAtom,
-  realfile,
   regionId,
   status,
   tempaddress,
@@ -86,7 +85,6 @@ function MyHouse() {
   const [other, setOther] = useRecoilState(houseOtherInfo);
   // const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
-  const [imgFile, setImgFile] = useRecoilState(realfile);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);

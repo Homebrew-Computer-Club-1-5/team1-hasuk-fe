@@ -12,7 +12,7 @@ import {
   longitude,
   monthCost,
   previewAtom,
-  realfile,
+  countfileAtom,
   regionId,
   status,
   tempaddress,
@@ -34,7 +34,7 @@ export default function useResetAllAtoms() {
   const [other, setOther] = useRecoilState(houseOtherInfo);
   const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(status);
-  const [imgFile, setImgFile] = useRecoilState(realfile);
+  const [imgFile, setImgFile] = useRecoilState(countfileAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   function resetAllAtoms() {
@@ -52,7 +52,7 @@ export default function useResetAllAtoms() {
     setCat(0);
     setOther('');
     setAddress('');
-    setImgFile({});
+    setImgFile(0);
     setPreview([]);
   }
 
