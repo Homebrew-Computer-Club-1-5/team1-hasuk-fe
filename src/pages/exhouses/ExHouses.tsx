@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
+import Loading from '../../components/molecules/Loading';
 
 function ExHouses() {
   const resetAllAtoms = useResetAllAtoms();
@@ -37,35 +38,26 @@ function ExHouses() {
       setFetchCrawledHousesData((current) => data.fetchCrawledHouses);
     },
   });
-  if (loading) {
-    return (
-      <>
-        <h1>로딩중!!!</h1>
-      </>
-    );
-  } else {
-    return (
-      <S.Container>
-        <TitleWrapper
-          navigateRoute={'/main'}
-          isTitleOn={false}
-          isBackButtonColorBlack={true}
-          titleText="기타 집 정보"
+  return (
+    <S.Container>
+      {loading ? <Loading loadingText="기타 집 정보를 불러오는중.." /> : null}
+      <TitleWrapper
+        navigateRoute={'/main'}
+        isTitleOn={false}
+        isBackButtonColorBlack={true}
+        titleText="기타 집 정보"
+      />
+      {fetchCrawledHousesData.map((house, index) => (
+        <HouseWrapper
+          key={index}
+          onClick={() => {
+            navigate(`/house/${house.id}`);
+          }}
+          houseWrapperIndex={index}
         />
-        {/* <FilterWrapper /> */}
-        {fetchCrawledHousesData.map((house, index) => (
-          <HouseWrapper
-            key={index}
-            onClick={() => {
-              navigate(`/house/${house.id}`);
-            }}
-            houseWrapperIndex={index}
-          />
-        ))}
-        {/* <HouseWrapper_OnlyInfos /> */}
-      </S.Container>
-    );
-  }
+      ))}
+    </S.Container>
+  );
 }
 
 export default ExHouses;

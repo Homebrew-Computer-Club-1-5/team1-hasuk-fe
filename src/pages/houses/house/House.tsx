@@ -13,6 +13,7 @@ import InfoModal from '../../../components/molecules/InfoModal';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
+import Loading from '../../../components/molecules/Loading';
 
 const Container = styled.div`
   position: relative;
@@ -67,17 +68,14 @@ function House() {
   });
 
   if (loading) {
-    return (
-      <>
-        <h1>로딩중!!!</h1>
-      </>
-    );
+    return <Loading loadingText="집 정보를 불러오는 중.." />;
   } else {
     const imgs = houseData.imgs;
     const img_url = imgs?.map((each) => each.img_url);
 
     return (
       <Container>
+        {loading ? <Loading loadingText="집 정보를 불러오는 중.." /> : null}
         <InfoModal
           innerText={`전화번호 : ${houseData.contact_number}`}
           isModalOn={isContactNumberModalOn}

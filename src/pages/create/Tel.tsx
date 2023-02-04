@@ -55,8 +55,8 @@ function RegisterStart() {
             registerObject={register('tel', {
               required: '전화번호가 필요합니다',
               pattern: {
-                value: /^([0-9]?|)\d{9,12}$/,
-                message: '- 표시 제외하고 입력해주세요',
+                value: /^([0-9]?|)\d{9,10}$/,
+                message: '- 표시 제외한 정확한 전화번호를 입력해 주세요.',
               },
               onChange: onChangeTel,
             })}

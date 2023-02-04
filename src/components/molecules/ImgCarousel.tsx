@@ -31,8 +31,9 @@ const ImgsWrapper = styled.div`
 const PositionDotsWrapper = styled.div`
   margin-top: 15px;
   display: flex;
-  width: 50px;
-  justify-content: space-between;
+  width: 200px;
+  justify-content: space-evenly;
+  /* gap: 5px; */
   position: absolute;
   bottom: 10px;
   left: 50%;
@@ -90,6 +91,7 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           color: 'white', // 컬러 설정이 안됨
           zIndex: 100,
         }}
+        fill="black"
         onClick={(event) => {
           event.stopPropagation();
           moveSlide(-1);
@@ -102,7 +104,9 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           right: 0,
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
+          zIndex: 100,
         }}
+        fill="black"
         onClick={(event) => {
           moveSlide(1);
 

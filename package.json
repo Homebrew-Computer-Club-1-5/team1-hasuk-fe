@@ -1,11 +1,10 @@
 {
   "name": "my-app",
-  "proxy": "http://10.16.161.196:8080",
+  "proxy": "http://localhost:8080",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.3",
-    "@fontsource/manrope": "^4.5.12",
     "@testing-library/jest-dom": "^5.16.nn5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

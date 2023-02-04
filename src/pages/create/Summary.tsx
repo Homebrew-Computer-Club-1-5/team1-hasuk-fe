@@ -28,6 +28,7 @@ import { useEffect } from 'react';
 import { clickedHouse_idAtom } from '../../store/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
+import Loading from '../../components/molecules/Loading';
 
 const univArray = ['고려대'];
 const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
@@ -75,7 +76,7 @@ const CREATE_HOUSE = gql`
 
 const UPDATE_MY_HOUSE = gql`
   mutation (
-    $house_id: Int
+    $house_id: Int!
     $contact: String
     $gender: Int
     $other: String
@@ -133,15 +134,16 @@ function Summary() {
 
   const navigate = useNavigate();
   const restoreAccessToken = useRestoreAccessToken();
-  const [createHouse, { data, loading, error }] = useMutation(CREATE_HOUSE, {
-    onCompleted: (data) => {
-      alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
-      navigate(`/house/${data.createHouse}`);
-    },
-    onError(error, clientOptions) {
-      console.log('에러가 발생했어요, 에러메세지 : ', error.message);
-    },
-  });
+  const [createHouse, { data, loading: createHouseLoading, error }] =
+    useMutation(CREATE_HOUSE, {
+      onCompleted: (data) => {
+        alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
+        navigate(`/house/${data.createHouse}`);
+      },
+      onError(error, clientOptions) {
+        console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+      },
+    });
   useEffect(() => {
     if (error) {
       restoreAccessToken({
@@ -164,16 +166,18 @@ function Summary() {
     getFile(url);
   });
 
-  const [updateMyHouse, { data: data2, loading: loading2, error: error2 }] =
-    useMutation(UPDATE_MY_HOUSE, {
-      onCompleted(data, clientOptions) {
-        alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
-        navigate(`/house/${data.updateMyHouse}`);
-      },
-      onError(error, clientOptions) {
-        console.log('에러가 발생했어요, 에러메세지 : ', error.message);
-      },
-    });
+  const [
+    updateMyHouse,
+    { data: data2, loading: updateMyHouseLoading, error: error2 },
+  ] = useMutation(UPDATE_MY_HOUSE, {
+    onCompleted(data, clientOptions) {
+      alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
+      navigate(`/house/${data.updateMyHouse}`);
+    },
+    onError(error, clientOptions) {
+      console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+    },
+  });
 
   function executeCreateHouse() {
     createHouse({
@@ -210,9 +214,18 @@ function Summary() {
       },
     });
   }
-  
+
   return (
     <S.Wrapper>
+      {createHouseLoading || updateMyHouseLoading ? (
+        <Loading
+          loadingText={
+            createHouseLoading
+              ? '게시물을 올리는 중입니다..'
+              : '게시물을 업데이트 하는 중입니다..'
+          }
+        />
+      ) : null}
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
         정말 아래 정보와 같이 <br />방 정보를 올리시겠습니까?
       </NoticeTextWrapper>
