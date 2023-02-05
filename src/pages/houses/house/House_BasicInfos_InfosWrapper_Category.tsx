@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 function House_BasicInfos_InfosWrapper_Category() {
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
   const category = houseData.house_category.id;
-  console.log(category, 'sdfsdfsdfsd');
   return (
     <Wrapper>
       {/* <HouseCategory style={{ width: '25px', height: '25px' }} /> */}

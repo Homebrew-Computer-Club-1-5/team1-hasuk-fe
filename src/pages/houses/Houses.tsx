@@ -38,11 +38,9 @@ function Houses() {
   const { loading, error, data } = useQuery(GET_TEST_REGION, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
-      console.log(data.fetchHousesByRegion);
       setHouseDatas((current) => data.fetchHousesByRegion);
     },
   });
-  console.log(loading);
 
   return (
     <S.Container>

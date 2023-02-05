@@ -44,8 +44,11 @@ export async function coordToAddress2({
       },
     )
     .then((res) => {
-      console.log(res.data);
-      return res.data.documents[0].road_address.address_name;
+      if (res.data.documents[0].road_address.address_name) {
+        return res.data.documents[0].road_address.address_name;
+      } else {
+        return res.data.documents[0].address.address_name;
+      }
     });
   return address;
 }

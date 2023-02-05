@@ -15,13 +15,13 @@ export default function useRestoreAccessToken() {
     onRestoreFail,
   }: IrestoreAccessToken) {
     axios
-      .get(`/auth/restore-access-token`, {
+      .get(`/api/auth/restore-access-token`, {
         withCredentials: true,
       })
       .then((res) => {
         localStorage.removeItem('accessToken');
         localStorage.setItem('accessToken', res.data);
-        console.log('AT 갱신완');
+        console.log('액세스 토큰 갱신완료');
         onRestoreSuccess();
       })
       .catch((err) => {

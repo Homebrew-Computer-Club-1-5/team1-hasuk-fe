@@ -59,7 +59,7 @@ export const costOtherInfo = atom<string | undefined>({
 });
 export const gender = atom<number | undefined>({
   key: 'gender',
-  default: 0,
+  default: -1,
   effects_UNSTABLE: [persistAtom],
 });
 export const houseCategoryId = atom<number | undefined>({

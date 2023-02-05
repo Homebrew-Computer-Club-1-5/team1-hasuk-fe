@@ -70,15 +70,15 @@ function Room() {
           stuff={[
             {
               text: '남성 전용',
-              value: 1,
+              value: 0,
             },
             {
               text: '여성 전용',
-              value: 2,
+              value: 1,
             },
             {
               text: '남녀 공용',
-              value: 3,
+              value: 2,
             },
           ]}
         />
