@@ -48,7 +48,7 @@ export interface Ihouse_location {
   latitude: number;
   longitude: number;
   houseId: number;
-  sortId: number;
+  id: number;
 }
 interface Icost {
   month_cost: number;
@@ -90,6 +90,7 @@ interface IfetchCrawledHouses {
 }
 export interface Ihouse_object {
   id: number;
+  house_category: Ihouse_category;
   house_location: Ihouse_location;
 }
 export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({

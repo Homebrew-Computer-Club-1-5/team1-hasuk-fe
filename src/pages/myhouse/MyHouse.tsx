@@ -254,7 +254,7 @@ function MyHouse() {
                       setClickedHouse_id(each.id as any);
                       setIsEditing((current) => true);
                       setEditPage(each.id);
-                      setStat({ status: 5 });
+                      setStat({ status: 0 });
                       navigate('/create');
                     }}
                   />
