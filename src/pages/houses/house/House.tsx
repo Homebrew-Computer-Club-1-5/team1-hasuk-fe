@@ -83,8 +83,8 @@ function House() {
         />
         <InfoModal
           innerText={`금액 관련 기타 정보 :  ${
-            !houseData.is_crolled
-              ? houseData.house_cost.other_info
+            houseData.house_cost?.other_info
+              ? houseData.house_cost?.other_info
               : '금액 관련 기타 정보가 없습니다.'
           }`}
           isModalOn={isCostOtherInfoModalOn}
@@ -93,8 +93,8 @@ function House() {
         <TitleWrapper
           isBackButtonColorBlack={false}
           navigateRoute={
-            houseData.is_crolled === 0
-              ? `/houses/${houseData.region.id}`
+            houseData.region?.id
+              ? `/houses/${houseData.region?.id}`
               : '/exhouses'
           }
           style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
@@ -120,7 +120,7 @@ function House() {
         <House_BasicInfosWrapper
           setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
         />
-        {!houseData.is_crolled ? <House_LocationInfoWrapper /> : null}
+        {houseData.house_location ? <House_LocationInfoWrapper /> : null}
         <House_OtherInfoWrapper />
       </Container>
     );

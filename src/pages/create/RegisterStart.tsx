@@ -16,14 +16,13 @@ function RegisterStart() {
             ? '내가 올린 방 정보를 수정합니다.'
             : '방을 등록해 봅시다.'}
         </NoticeTextWrapper>
-        <div id="buttonPlace">
-          <WhitePill
-            text={'시작'}
-            onClickNavigator={() => {
-              setStat({ status: 1 } as any);
-            }}
-          />
-        </div>
+        <WhitePill
+          text={'시작'}
+          onClickNavigator={() => {
+            setStat({ status: 1 } as any);
+          }}
+          style={{ marginTop: '30px' }}
+        />
       </div>
     </S.Wrapper>
   );

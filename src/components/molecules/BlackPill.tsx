@@ -4,6 +4,7 @@ const Pill = styled.button`
   padding: 0px 10px;
   z-index: 6;
   min-width: 85px;
+  font-family: 'Manrope';
   font-size: 17px;
   font-weight: 600;
   border: 1px solid black;
@@ -16,8 +17,8 @@ interface text {
   onClickNavigator: () => void;
   text: string;
 }
-function WhitePill({ text, onClickNavigator }: text) {
+function BlackPill({ text, onClickNavigator }: text) {
   return <Pill onClick={onClickNavigator}>{text}</Pill>;
 }
 
-export default WhitePill;
+export default BlackPill;

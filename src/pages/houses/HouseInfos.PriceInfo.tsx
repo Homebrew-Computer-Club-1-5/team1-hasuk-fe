@@ -22,7 +22,11 @@ function HouseInfos_PriceInfo({ houseWrapperIndex }: IHouseInfos_PriceInfo) {
       <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
         {houseDatas[houseWrapperIndex].month_cost}
       </P_Manrope_ExtraBold>
-      <P_Manrope_Regular>만 /월</P_Manrope_Regular>
+      <P_Manrope_Regular>
+        {houseDatas[houseWrapperIndex].month_cost
+          ? '만 /월'
+          : '금액 정보 전화 문의'}
+      </P_Manrope_Regular>
     </Wrapper>
   );
 }

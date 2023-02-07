@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 const Wrapper = styled.div<StyledWrapperProps>`
   position: relative;
   width: ${({ width }) => (width ? `${width}px` : '300px')};
-  height: 50px;
+  height: ${({ height }) => (height ? `${height}px` : '50px')};
   border-radius: 10px;
   padding: 10px 15px;
   background-color: #e4e4e4;
@@ -43,6 +43,7 @@ const InputTemplate_ChildrenWrapper = styled.div``;
 
 interface StyledWrapperProps {
   width?: number;
+  height?: number;
 }
 interface StyledInputProps {
   fontSize?: number;
@@ -53,6 +54,7 @@ interface IInputTemplate {
   placeholderText: string;
   defaultValue?: string | number;
   width?: number;
+  height?: number;
   fontsize?: number;
   multipleLines?: boolean;
 }
@@ -63,11 +65,12 @@ function InputTemplate({
   placeholderText,
   defaultValue,
   width,
+  height,
   fontsize,
   multipleLines,
 }: IInputTemplate) {
   return (
-    <Wrapper width={width}>
+    <Wrapper width={width} height={height}>
       {multipleLines ? (
         <Textarea
           fontSize={fontsize}

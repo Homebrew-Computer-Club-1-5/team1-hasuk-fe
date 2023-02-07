@@ -49,7 +49,7 @@ function RegisterStart() {
           연락 받으실 연락처를 <br />
           입력해 주세요.
         </NoticeTextWrapper>
-        <form onSubmit={handleSubmit(onValid, onInvalid)}>
+        <S.Form onSubmit={handleSubmit(onValid, onInvalid)}>
           <InputTemplate
             placeholderText="01012345678"
             registerObject={register('tel', {
@@ -65,7 +65,7 @@ function RegisterStart() {
           <div>
             <WhitePill text={'다음'} onClickNavigator={() => {}} />
           </div>
-        </form>
+        </S.Form>
       </div>
     </S.Wrapper>
   );

@@ -29,15 +29,17 @@ function HouseInfos_ExtraInfos({ houseWrapperIndex }: IHouseInfos_ExtraInfos) {
           ? '고시원'
           : '기타'}
       </P_Manrope_Bold>
-      <P_Manrope_Light>
+      {/* <P_Manrope_Light>
         {houseDatas[houseWrapperIndex].gender === 0
           ? '남성 전용'
           : houseDatas[houseWrapperIndex].gender === 1
           ? '여성 전용'
-          : '남녀 공용'}
-      </P_Manrope_Light>
+          : houseDatas[houseWrapperIndex].gender === 2
+          ? '남녀 공용'
+          : '성별 정보 없음'}
+      </P_Manrope_Light> */}
       <P_Manrope_Light>
-        {`${houseDatas[houseWrapperIndex].nearest_main_spot_name}주변`}
+        {`${houseDatas[houseWrapperIndex].nearest_main_spot_name} 주변`}
       </P_Manrope_Light>
     </Wrapper>
   );

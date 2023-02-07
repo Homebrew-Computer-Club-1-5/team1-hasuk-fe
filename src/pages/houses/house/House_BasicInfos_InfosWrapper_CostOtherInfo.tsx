@@ -26,7 +26,7 @@ function House_BasicInfos_InfosWrapper_CostOtherInfo({
 }: IHouse_BasicInfos_InfosWrapper_CostOtherInfo) {
   const houseData = useRecoilValue(houseDataAtom);
   return (
-    <Wrapper is_crolled={houseData.is_crolled}>
+    <Wrapper is_crolled={Boolean(houseData.house_cost?.other_info) ? 0 : 1}>
       <ExtraInfos
         onClick={() => {
           setIsCostOtherInfoModalOn((current) => !current);

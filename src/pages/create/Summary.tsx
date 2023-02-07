@@ -48,7 +48,14 @@ function clearIdxedDBValue() {
 }
 
 const univArray = ['고려대'];
-const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
+const regionArray = [
+  '성신여대',
+  '보문동',
+  '안암역',
+  '제기동',
+  '고대정문',
+  '법대후문',
+];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
 
 const NoticeTextWrapperStyle = {
@@ -56,7 +63,7 @@ const NoticeTextWrapperStyle = {
   marginTop: '0px',
   textAlign: 'center',
 };
-const categoryArray = ['원룸/투룸/자취방', '하숙', '고시원', '기타'];
+const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
 const CREATE_HOUSE = gql`
   mutation (
     $contact: String
@@ -345,14 +352,14 @@ function Summary() {
       />{' '}
       <SummaryDataBar
         title={'성별'}
-        data={genderArray[Number(gen) - 1]}
+        data={genderArray[Number(gen)]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
       />
       <SummaryDataBar
         title={'카테고리'}
-        data={categoryArray[Number(cat) - 1]}
+        data={categoryArray[Number(cat) - 2]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}

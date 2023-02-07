@@ -38,6 +38,7 @@ function Login() {
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
           window.location.href = '/api/auth/login/kakao';
+          // window.location.href = '/api/auth/login/kakao';
         }}
       />
     </Wrapper>
