@@ -62,6 +62,7 @@ function Photo() {
     backgroundColor: 'white',
     borderRadius: '20px',
     textAlign: 'center',
+    boxShadow: '0px 5px lightgray',
   };
 
   const saveFileImage = (e: any) => {
@@ -93,10 +94,10 @@ function Photo() {
       const transaction = db.transaction(['links'], 'readwrite');
       transaction.oncomplete = (e) => {
         setIsIndexDBSuccess((current) => !current);
-        console.log('transaction success');
+        // console.log('transaction success');
       };
       transaction.onerror = (e) => {
-        console.log('transaction fail');
+        // console.log('transaction fail');
       };
       const objStore = transaction.objectStore('links');
       for (const link of links) {
@@ -123,7 +124,7 @@ function Photo() {
       const objStore = transaction.objectStore('links'); // 2. name 저장소 접근
       const objStoreRequest = objStore.clear(); // 3. 전체 삭제
       objStoreRequest.onsuccess = (e) => {
-        console.log('cleared');
+        // console.log('cleared');
       };
     };
   }
@@ -137,11 +138,11 @@ function Photo() {
       const db = request.result;
       const transaction = db.transaction(['links'], 'readwrite');
       transaction.oncomplete = (e) => {
-        console.log('transaction success');
+        // console.log('transaction success');
         setIsGetIdxValueSuccess((current) => !current);
       };
       transaction.onerror = (e) => {
-        console.log('transaction fail');
+        // console.log('transaction fail');
       };
       const objStore = transaction.objectStore('links');
       const cursorRequest = objStore.openCursor();
@@ -180,11 +181,11 @@ function Photo() {
         : (innerpreviewAfterIdxDB as any),
     );
     setReal(innerreal ? innerreal : innerpreviewAfterIdxDB.length);
-    console.log(innerpreviewAfterIdxDB.length);
+    // console.log(innerpreviewAfterIdxDB.length);
   }, [innerreal, innerpreview, isGetIdxValueSuccess]);
 
   useEffect(() => {
-    console.log(preview, '불러왔을때 preview값');
+    // console.log(preview, '불러왔을때 preview값');
   }, [preview]);
 
   useEffect(() => {
@@ -207,7 +208,7 @@ function Photo() {
         style={inputStyle}
         type="file"
         id="image"
-        accept="img/*"
+        accept="image/*"
         multiple={true}
         onChange={saveFileImage}
         ref={imageInput as any}

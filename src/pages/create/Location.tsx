@@ -118,16 +118,24 @@ function Location() {
                   value: 1,
                 },
                 {
-                  text: '안암역',
+                  text: '보문동',
                   value: 2,
                 },
                 {
-                  text: '제기동',
+                  text: '안암역',
                   value: 3,
                 },
                 {
-                  text: '고대정문',
+                  text: '제기동',
                   value: 4,
+                },
+                {
+                  text: '고대정문',
+                  value: 5,
+                },
+                {
+                  text: '법대후문',
+                  value: 6,
                 },
               ]}
             />

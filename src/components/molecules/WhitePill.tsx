@@ -11,6 +11,7 @@ const Pill = styled.button`
   background-color: white;
   border-radius: 20px;
   box-shadow: 0px 5px lightgray;
+  font-family: 'Manrope';
 `;
 
 interface text {

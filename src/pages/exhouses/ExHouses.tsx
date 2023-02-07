@@ -34,7 +34,7 @@ function ExHouses() {
   const { loading, error, data } = useQuery(FETCH_CRAWLED_HOUSES, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
-      console.log(data.fetchCrawledHouses);
+      // console.log(data.fetchCrawledHouses);
       setFetchCrawledHousesData((current) => data.fetchCrawledHouses);
     },
   });
@@ -48,7 +48,7 @@ function ExHouses() {
         titleText="기타 집 정보"
       />
       <p style={{ textAlign: 'center' }}>
-        ** 고파스 게시물을 정리해서 게시했음을 밝힙니다. **
+        ** 일부 정보는 고파스 게시물을 참조 했음을 밝힙니다. **
       </p>
       {fetchCrawledHousesData.map((house, index) => (
         <HouseWrapper

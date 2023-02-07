@@ -37,7 +37,8 @@ function Login() {
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
-          window.location.href = 'http://172.30.1.91:8080/auth/login/kakao';
+          window.location.href = '/api/auth/login/kakao';
+          // window.location.href = '/api/auth/login/kakao';
         }}
       />
     </Wrapper>

@@ -44,8 +44,17 @@ export async function coordToAddress2({
       },
     )
     .then((res) => {
-      console.log(res.data);
-      return res.data.documents[0].road_address.address_name;
+      if (res?.data?.documents[0]?.road_address) {
+        // console.log(res.data.documents[0]);
+        // return '하위';
+        return res.data.documents[0].road_address.address_name;
+      } else if (res.data.documents[0]?.address) {
+        // console.log(res.data);
+        // return '하위2';
+        return res.data.documents[0]?.address.address_name;
+      } else {
+        return '주소를 불러올 수 없습니다.';
+      }
     });
   return address;
 }

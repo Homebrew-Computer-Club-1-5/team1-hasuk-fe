@@ -120,6 +120,7 @@ function Price() {
             multipleLines={true}
             fontsize={15}
             width={200}
+            height={150}
             placeholderText=""
             registerObject={register('cost_other_info', {
               required: false,

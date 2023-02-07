@@ -163,7 +163,7 @@ function MyHouse() {
         }
       },
       onError(error, clientOptions) {
-        console.log(error.message);
+        alert('게시물 삭제 실패');
       },
     });
   const {

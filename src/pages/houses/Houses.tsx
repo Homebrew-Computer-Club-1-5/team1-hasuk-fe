@@ -38,11 +38,9 @@ function Houses() {
   const { loading, error, data } = useQuery(GET_TEST_REGION, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
-      console.log(data.fetchHousesByRegion);
       setHouseDatas((current) => data.fetchHousesByRegion);
     },
   });
-  console.log(loading);
 
   return (
     <S.Container>
@@ -52,6 +50,9 @@ function Houses() {
         isTitleOn={true}
         isBackButtonColorBlack={true}
       />
+      <p style={{ textAlign: 'center' }}>
+        ** 일부 정보는 고파스 게시물을 참조 했음을 밝힙니다. **
+      </p>
       <ExtraHousesButton
         onClick={() => {
           navigate('/exhouses');

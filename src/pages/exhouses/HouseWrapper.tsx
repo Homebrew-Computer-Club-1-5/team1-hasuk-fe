@@ -20,7 +20,6 @@ function HouseWrapper({ houseWrapperIndex, onClick }: IHouseWrapper) {
   );
   const img_urls = fetchCrawledHousesData[houseWrapperIndex].img_urls;
 
-  console.log(img_urls);
   return (
     <Wrapper onClick={onClick}>
       <ImgCarousel img_url={img_urls ? img_urls : []}></ImgCarousel>

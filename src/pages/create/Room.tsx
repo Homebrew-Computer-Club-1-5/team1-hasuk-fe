@@ -70,15 +70,15 @@ function Room() {
           stuff={[
             {
               text: '남성 전용',
-              value: 1,
+              value: 0,
             },
             {
               text: '여성 전용',
-              value: 2,
+              value: 1,
             },
             {
               text: '남녀 공용',
-              value: 3,
+              value: 2,
             },
           ]}
         />
@@ -90,20 +90,21 @@ function Room() {
           getRadioValue={getCategoryValue}
           stuff={[
             {
-              text: '원룸/투룸/자취방',
-              value: 1,
-            },
-            {
               text: '하숙',
               value: 2,
             },
             {
-              text: '고시원',
+              text: '원룸/자취방',
               value: 3,
+            },
+
+            {
+              text: '고시원',
+              value: 4,
             },
             {
               text: '기타',
-              value: 4,
+              value: 5,
             },
           ]}
         />
@@ -117,6 +118,7 @@ function Room() {
         <form onSubmit={handleSubmit(onValid)}>
           <InputTemplate
             multipleLines={true}
+            height={150}
             fontsize={15}
             placeholderText=""
             registerObject={register('other', {

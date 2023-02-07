@@ -29,8 +29,33 @@ import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 
+function clearIdxedDBValue() {
+  const request = window.indexedDB.open('linksDB', 2); // 1. db 열기
+  request.onerror = (e: any) => console.log(e.target.errorCode);
+
+  request.onsuccess = (e) => {
+    const db = request.result;
+    const transaction = db.transaction(['links'], 'readwrite');
+    transaction.onerror = (e) => console.log('fail');
+    transaction.oncomplete = (e) => console.log('success');
+
+    const objStore = transaction.objectStore('links'); // 2. name 저장소 접근
+    const objStoreRequest = objStore.clear(); // 3. 전체 삭제
+    objStoreRequest.onsuccess = (e) => {
+      // console.log('cleared');
+    };
+  };
+}
+
 const univArray = ['고려대'];
-const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
+const regionArray = [
+  '성신여대',
+  '보문동',
+  '안암역',
+  '제기동',
+  '고대정문',
+  '법대후문',
+];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
 
 const NoticeTextWrapperStyle = {
@@ -38,7 +63,7 @@ const NoticeTextWrapperStyle = {
   marginTop: '0px',
   textAlign: 'center',
 };
-const categoryArray = ['원룸/투룸/자취방', '하숙', '고시원', '기타'];
+const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
 const CREATE_HOUSE = gql`
   mutation (
     $contact: String
@@ -122,10 +147,10 @@ function Summary() {
         const db = request.result;
         const transaction = db.transaction(['links'], 'readwrite');
         transaction.oncomplete = (e) => {
-          console.log('transaction success');
+          // console.log('transaction success');
         };
         transaction.onerror = (e) => {
-          console.log('transaction fail');
+          // console.log('transaction fail');
         };
         const objStore = transaction.objectStore('links');
         const cursorRequest = objStore.openCursor();
@@ -170,25 +195,49 @@ function Summary() {
 
   const navigate = useNavigate();
   const restoreAccessToken = useRestoreAccessToken();
-  const [createHouse, { data, loading: createHouseLoading, error }] =
-    useMutation(CREATE_HOUSE, {
-      onCompleted: (data) => {
-        alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
-        navigate(`/house/${data.createHouse}`);
-      },
-      onError(error, clientOptions) {
-        console.log('에러가 발생했어요, 에러메세지 : ', error.message);
-      },
-    });
+  const [
+    createHouse,
+    { data, loading: createHouseLoading, error: createHouseError },
+  ] = useMutation(CREATE_HOUSE, {
+    onCompleted: (data) => {
+      alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
+      clearIdxedDBValue();
+      navigate(`/house/${data.createHouse}`);
+    },
+    onError(error, clientOptions) {
+      console.log('액세스 토큰 만료 : ', error.message);
+    },
+  });
+
+  const [
+    updateMyHouse,
+    { data: data2, loading: updateMyHouseLoading, error: updateHouseError },
+  ] = useMutation(UPDATE_MY_HOUSE, {
+    onCompleted(data, clientOptions) {
+      alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
+      clearIdxedDBValue();
+      navigate(`/house/${data.updateMyHouse}`);
+    },
+    onError(error, clientOptions) {
+      console.log('액세스 토큰 만료 : ', error.message);
+    },
+  });
+
   useEffect(() => {
-    if (error) {
+    if (createHouseError) {
       restoreAccessToken({
         onRestoreSuccess: () => {
           executeCreateHouse();
         },
       });
+    } else if (updateHouseError) {
+      restoreAccessToken({
+        onRestoreSuccess: () => {
+          executeUpdateMyHouse();
+        },
+      });
     }
-  }, [error]);
+  }, [createHouseError, updateHouseError]);
   var URLarray: any = [];
 
   async function getFile(url: string) {
@@ -200,19 +249,6 @@ function Summary() {
   }
   preview.map((url) => {
     getFile(url);
-  });
-
-  const [
-    updateMyHouse,
-    { data: data2, loading: updateMyHouseLoading, error: error2 },
-  ] = useMutation(UPDATE_MY_HOUSE, {
-    onCompleted(data, clientOptions) {
-      alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
-      navigate(`/house/${data.updateMyHouse}`);
-    },
-    onError(error, clientOptions) {
-      console.log('에러가 발생했어요, 에러메세지 : ', error.message);
-    },
   });
 
   function executeCreateHouse() {
@@ -316,14 +352,14 @@ function Summary() {
       />{' '}
       <SummaryDataBar
         title={'성별'}
-        data={genderArray[Number(gen) - 1]}
+        data={genderArray[Number(gen)]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
       />
       <SummaryDataBar
         title={'카테고리'}
-        data={categoryArray[Number(cat) - 1]}
+        data={categoryArray[Number(cat) - 2]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
