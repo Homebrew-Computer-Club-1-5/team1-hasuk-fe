@@ -120,7 +120,11 @@ function House() {
         <House_BasicInfosWrapper
           setIsCostOtherInfoModalOn={setIsCostOtherInfoModalOn}
         />
-        {houseData.house_location ? <House_LocationInfoWrapper /> : null}
+        {houseData.house_location &&
+        (houseData.house_location as any).longitude !== 0 &&
+        (houseData.house_location as any).latitude !== 0 ? (
+          <House_LocationInfoWrapper />
+        ) : null}
         <House_OtherInfoWrapper />
       </Container>
     );

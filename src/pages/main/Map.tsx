@@ -4,9 +4,11 @@ import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
-import Marker from '../../assets/Marker.svg';
-import hasukIcon from '../../assets/hasuk.png';
-import gosiIcon from '../../assets/gosiwon.png';
+// import Marker from '../../assets/Marker.svg';
+import hasukIconPng from '../../assets/hasukMarker.png';
+import gosiwonIconPng from '../../assets/gosiwonMarker.png';
+import oneRoomIconPng from '../../assets/oneRoomMarker.png';
+import etcIconPng from '../../assets/etcMarker.png';
 
 declare global {
   interface Window {
@@ -28,6 +30,9 @@ const Map = () => {
           house_location {
             latitude
             longitude
+          }
+          house_category {
+            id
           }
         }
       }
@@ -103,15 +108,23 @@ const Map = () => {
     houseId: number,
     sortId: number,
   ) {
-    const hIcon = new window.kakao.maps.MarkerImage(
-      hasukIcon,
+    const hasukIconImage = new window.kakao.maps.MarkerImage(
+      hasukIconPng,
       new window.kakao.maps.Size(40, 40),
-      {
-        shape: 'poly',
-      },
+      {},
     );
-    const gIcon = new window.kakao.maps.MarkerImage(
-      gosiIcon,
+    const oneRoomIconImage = new window.kakao.maps.MarkerImage(
+      oneRoomIconPng,
+      new window.kakao.maps.Size(40, 40),
+      {},
+    );
+    const gosiwonIconImage = new window.kakao.maps.MarkerImage(
+      gosiwonIconPng,
+      new window.kakao.maps.Size(40, 40),
+      {},
+    );
+    const etcIconImage = new window.kakao.maps.MarkerImage(
+      etcIconPng,
       new window.kakao.maps.Size(40, 40),
       {},
     );
@@ -123,9 +136,13 @@ const Map = () => {
       navigate(`/house/${houseId}`);
     });
     if (sortId === 2) {
-      marker.setImage(hIcon);
+      marker.setImage(hasukIconImage);
+    } else if (sortId === 3) {
+      marker.setImage(oneRoomIconImage);
+    } else if (sortId === 4) {
+      marker.setImage(gosiwonIconImage);
     } else {
-      marker.setImage(gIcon);
+      marker.setImage(etcIconImage);
     }
     return marker;
   }
@@ -139,7 +156,7 @@ const Map = () => {
           house.house_location.latitude,
           house.house_location.longitude,
           house.id,
-          house.house_location.sortId,
+          house.house_category.id,
         );
       });
       makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
