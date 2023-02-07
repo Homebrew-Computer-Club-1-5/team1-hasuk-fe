@@ -28,6 +28,7 @@ function Focusedmap() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
+  const [mapLevel, setMapLevel] = useState<number>();
   const GET_HOUSE = gql`
     query {
       fetchAllHouses {
@@ -38,6 +39,9 @@ function Focusedmap() {
           house_location {
             latitude
             longitude
+          }
+          house_category {
+            id
           }
         }
       }
@@ -58,6 +62,9 @@ function Focusedmap() {
       level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
+    window.kakao.maps.event.addListener(map, 'zoom_changed', function () {
+      setMapLevel(map.getLevel());
+    });
     return map;
   }
   function navigateToHouses() {
@@ -161,6 +168,7 @@ function Focusedmap() {
 
     const regionMarkerList = mainHouses.map((mainHouse) => {
       const markerList = mainHouse.houses.map((house) => {
+        console.log(house.house_category);
         return makeMarker(
           house.house_location.latitude,
           house.house_location.longitude,
@@ -191,14 +199,36 @@ function Focusedmap() {
           isSideBarOpened={isSideBarOpened}
           setIsSideBarOpened={setIsSideBarOpened}
         />
-        <div id="map" style={{ width: '100vw', height: '95vh' }}>
-          <div id="buttonplace">
-            <WhitePill
-              onClickNavigator={() => navigateToHouses()}
-              text={'보러 가기'}
-            />
+        <S.mapWrapper_focused>
+          {mapLevel && mapLevel < 5 ? (
+            <div className="legend">
+              <div>
+                <img src={hasukIconPng} />
+                <p>하숙</p>
+              </div>
+              <div>
+                <img src={oneRoomIconPng} />
+                <p>원룸/자취방</p>
+              </div>
+              <div>
+                <img src={gosiwonIconPng} />
+                <p>고시원</p>
+              </div>
+              <div>
+                <img src={etcIconPng} />
+                <p>기타</p>
+              </div>
+            </div>
+          ) : null}
+          <div id="map" style={{ width: '100%', height: '95vh' }}>
+            <div id="buttonplace">
+              <WhitePill
+                onClickNavigator={() => navigateToHouses()}
+                text={'보러 가기'}
+              />
+            </div>
           </div>
-        </div>
+        </S.mapWrapper_focused>
       </S.MapWrapper>
     </S.Container>
   );
