@@ -4,27 +4,26 @@ import RegisterStart from './RegisterStart';
 import Tel from './Tel';
 import Location from './Location';
 import { useRecoilState } from 'recoil';
-import { status } from './atoms';
+import { statusAtom } from '../../store/atoms';
 import Price from './Price';
 import Room from './Room';
 import Photo from './Photo';
 import Summary from './Summary';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import useCoordToAddress from '../../lib/util/coordToAddress';
 const Wrapper = styled.div``;
 
 function Create() {
-  const [stat, setStat] = useRecoilState(status);
+  const [stat, setStat] = useRecoilState(statusAtom);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-      navigate('/auth/login');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+  //     navigate('/auth/login');
+  //   }
+  // }, []);
 
   return (
     <Wrapper>

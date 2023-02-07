@@ -1,39 +1,39 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import {
-  contactNumber,
-  costOtherInfo,
-  deposit,
-  gender,
-  houseCategoryId,
-  houseOtherInfo,
+  contactNumberAtom,
+  costOtherInfoAtom,
+  depositAtom,
+  genderAtom,
+  houseCategoryIdAtom,
+  houseOtherInfoAtom,
   isEditingAtom,
-  latitude,
-  longitude,
-  monthCost,
+  latitudeAtom,
+  longitudeAtom,
+  monthCostAtom,
   previewAtom,
   countfileAtom,
-  regionId,
-  status,
-  tempaddress,
-  universityId,
-} from '../../pages/create/atoms';
+  regionIdAtom,
+  statusAtom,
+  tempaddressAtom,
+  universityIdAtom,
+} from '../../store/atoms';
 
 export default function useResetAllAtoms() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [contact, setContact] = useRecoilState(contactNumber);
-  const [univ, setUniv] = useRecoilState(universityId);
-  const [region, setRegion] = useRecoilState(regionId);
-  const [lat, setLat] = useRecoilState(latitude);
-  const [long, setLong] = useRecoilState(longitude);
-  const [month, setMonth] = useRecoilState(monthCost);
-  const [depo, setDepo] = useRecoilState(deposit);
-  const [costother, setCostother] = useRecoilState(costOtherInfo);
-  const [gen, setGen] = useRecoilState(gender);
-  const [cat, setCat] = useRecoilState(houseCategoryId);
-  const [other, setOther] = useRecoilState(houseOtherInfo);
-  const [address, setAddress] = useRecoilState(tempaddress);
-  const [stat, setStat] = useRecoilState(status);
+  const [contact, setContact] = useRecoilState(contactNumberAtom);
+  const [univ, setUniv] = useRecoilState(universityIdAtom);
+  const [region, setRegion] = useRecoilState(regionIdAtom);
+  const [lat, setLat] = useRecoilState(latitudeAtom);
+  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [month, setMonth] = useRecoilState(monthCostAtom);
+  const [depo, setDepo] = useRecoilState(depositAtom);
+  const [costother, setCostother] = useRecoilState(costOtherInfoAtom);
+  const [gen, setGen] = useRecoilState(genderAtom);
+  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [address, setAddress] = useRecoilState(tempaddressAtom);
+  const [stat, setStat] = useRecoilState(statusAtom);
   const [imgFile, setImgFile] = useRecoilState(countfileAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
 

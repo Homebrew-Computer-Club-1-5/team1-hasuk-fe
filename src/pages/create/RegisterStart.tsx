@@ -2,11 +2,11 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Registerstart.styled';
 import { useRecoilState } from 'recoil';
-import { isEditingAtom, status } from './atoms';
+import { isEditingAtom, statusAtom } from '../../store/atoms';
 
 function RegisterStart() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [stat, setStat] = useRecoilState(status);
+  const [stat, setStat] = useRecoilState(statusAtom);
 
   return (
     <S.Wrapper>

@@ -4,15 +4,20 @@ import InputTemplate from '../../components/molecules/InputTemplate';
 import WhitePill from '../../components/molecules/WhitePill';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
-import { status, gender, houseCategoryId, houseOtherInfo } from './atoms';
+import {
+  statusAtom,
+  genderAtom,
+  houseCategoryIdAtom,
+  houseOtherInfoAtom,
+} from '../../store/atoms';
 import { useState, useEffect } from 'react';
 import * as S from './Room.styled';
 import { useForm } from 'react-hook-form';
 function Room() {
-  const [stat, setStat] = useRecoilState(status);
-  const [gen, setGen] = useRecoilState(gender);
-  const [cat, setCat] = useRecoilState(houseCategoryId);
-  const [other, setOther] = useRecoilState(houseOtherInfo);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [gen, setGen] = useRecoilState(genderAtom);
+  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
 
   const [tempother, setTempother] = useState();
   const [tempgen, setTempgen] = useState();

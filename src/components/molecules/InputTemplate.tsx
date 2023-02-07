@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 const Wrapper = styled.div<StyledWrapperProps>`
   position: relative;
-  width: ${({ width }) => (width ? `${width}px` : '300px')};
+  width: ${({ width }) => (width ? `${width}` : '300px')};
   height: 50px;
   border-radius: 10px;
   padding: 10px 15px;
@@ -42,7 +42,7 @@ const Textarea = styled.textarea<StyledInputProps>`
 const InputTemplate_ChildrenWrapper = styled.div``;
 
 interface StyledWrapperProps {
-  width?: number;
+  width?: String;
 }
 interface StyledInputProps {
   fontSize?: number;
@@ -52,7 +52,7 @@ interface IInputTemplate {
   registerObject?: UseFormRegisterReturn;
   placeholderText: string;
   defaultValue?: string | number;
-  width?: number;
+  width?: string;
   fontsize?: number;
   multipleLines?: boolean;
 }

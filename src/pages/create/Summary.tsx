@@ -3,22 +3,22 @@ import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Summary.styled';
 import { useRecoilState } from 'recoil';
 import {
-  status,
-  contactNumber,
-  universityId,
-  regionId,
-  latitude,
-  longitude,
-  monthCost,
-  deposit,
-  costOtherInfo,
-  gender,
-  houseCategoryId,
-  houseOtherInfo,
-  tempaddress,
+  statusAtom,
+  contactNumberAtom,
+  universityIdAtom,
+  regionIdAtom,
+  latitudeAtom,
+  longitudeAtom,
+  monthCostAtom,
+  depositAtom,
+  costOtherInfoAtom,
+  genderAtom,
+  houseCategoryIdAtom,
+  houseOtherInfoAtom,
+  tempaddressAtom,
   previewAtom,
   isEditingAtom,
-} from './atoms';
+} from '../../store/atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useNavigate } from 'react-router-dom';
@@ -112,60 +112,23 @@ const UPDATE_MY_HOUSE = gql`
 `;
 
 function Summary() {
-  async function getIdxedDBValue() {
-    const request = indexedDB.open('linksDB', 2);
-    let db;
-    request.onerror = (e) => alert('failed');
-    const result = await new Promise((resolve, reject) => {
-      const result1: any = [];
-      request.onsuccess = (e) => {
-        const db = request.result;
-        const transaction = db.transaction(['links'], 'readwrite');
-        transaction.oncomplete = (e) => {
-          console.log('transaction success');
-        };
-        transaction.onerror = (e) => {
-          console.log('transaction fail');
-        };
-        const objStore = transaction.objectStore('links');
-        const cursorRequest = objStore.openCursor();
-        cursorRequest.onsuccess = (e: any) => {
-          let cursor = e.target.result;
-          if (cursor) {
-            const value = objStore.get(cursor.key);
-            value.onsuccess = (e: any) => {
-              result1.push(e.target.result);
-            };
-          }
-          cursor.continue();
-        };
-      };
-      resolve(result1);
-    });
-
-    request.onupgradeneeded = (e: any) => {
-      db = e.target.result;
-      db.createObjectStore('links', { autoIncrement: true });
-    };
-    return result;
-  }
   const resetAllAtoms = useResetAllAtoms();
   const [clickedHouse_id, setClickedHouse_id] =
     useRecoilState(clickedHouse_idAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [contact, setContact] = useRecoilState(contactNumber);
-  const [univ, setUniv] = useRecoilState(universityId);
-  const [region, setRegion] = useRecoilState(regionId);
-  const [lat, setLat] = useRecoilState(latitude);
-  const [long, setLong] = useRecoilState(longitude);
-  const [month, setMonth] = useRecoilState(monthCost);
-  const [depo, setDepo] = useRecoilState(deposit);
-  const [costother, setCostother] = useRecoilState(costOtherInfo);
-  const [gen, setGen] = useRecoilState(gender);
-  const [cat, setCat] = useRecoilState(houseCategoryId);
-  const [other, setOther] = useRecoilState(houseOtherInfo);
-  const [address, setAddress] = useRecoilState(tempaddress);
-  const [stat, setStat] = useRecoilState(status);
+  const [contact, setContact] = useRecoilState(contactNumberAtom);
+  const [univ, setUniv] = useRecoilState(universityIdAtom);
+  const [region, setRegion] = useRecoilState(regionIdAtom);
+  const [lat, setLat] = useRecoilState(latitudeAtom);
+  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [month, setMonth] = useRecoilState(monthCostAtom);
+  const [depo, setDepo] = useRecoilState(depositAtom);
+  const [costother, setCostother] = useRecoilState(costOtherInfoAtom);
+  const [gen, setGen] = useRecoilState(genderAtom);
+  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [address, setAddress] = useRecoilState(tempaddressAtom);
+  const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   const navigate = useNavigate();

@@ -4,13 +4,13 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import { useRecoilState } from 'recoil';
 import {
-  status,
-  universityId,
-  regionId,
-  latitude,
-  longitude,
+  statusAtom,
+  universityIdAtom,
+  regionIdAtom,
+  latitudeAtom,
+  longitudeAtom,
   isEditingAtom,
-} from './atoms';
+} from '../../store/atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState } from 'react';
 import Selectbox from '../../components/molecules/Selectbox';
@@ -19,9 +19,6 @@ import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
-const emptySpaceStyle = {
-  width: '100%',
-};
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
@@ -60,11 +57,11 @@ function Location() {
     handleSubmit,
     setError,
   } = useForm();
-  const [stat, setStat] = useRecoilState(status);
-  const [univid, setUnivId] = useRecoilState(universityId);
-  const [regionid, setRegionId] = useRecoilState(regionId);
-  const [lat, setLat] = useRecoilState(latitude);
-  const [long, setLong] = useRecoilState(longitude);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [univid, setUnivId] = useRecoilState(universityIdAtom);
+  const [regionid, setRegionId] = useRecoilState(regionIdAtom);
+  const [lat, setLat] = useRecoilState(latitudeAtom);
+  const [long, setLong] = useRecoilState(longitudeAtom);
   const [radio, setRadio] = useState();
   const [select, setSelect] = useState();
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
