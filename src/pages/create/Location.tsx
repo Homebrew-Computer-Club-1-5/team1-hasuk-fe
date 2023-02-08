@@ -18,6 +18,7 @@ import PillRadio from '../../components/molecules/PillRadio';
 import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import { FETCH_HOUSE_BY_LOCATION } from '../../lib/gql';
 
 const emptySpaceStyle = {
   width: '100%',
@@ -26,18 +27,6 @@ const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
 };
-
-const FETCH_HOUSE_BY_LOCATION = gql`
-  query ($longitude: Float!, $latitude: Float!) {
-    fetchHouseByLocation(
-      location: { latitude: $latitude, longitude: $longitude }
-    ) {
-      id
-      longitude
-      latitude
-    }
-  }
-`;
 
 function Location() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);

@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 import Loading from '../../../components/molecules/Loading';
+import { FETCH_HOUSE } from '../../../lib/gql';
 
 const Container = styled.div`
   position: relative;
@@ -28,40 +29,12 @@ function House() {
   const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
   const { house_id } = useParams();
-  const GET_TEST_HOUSE = gql`
-    query {
-      fetchHouse(house_id: ${house_id}) {
-        id
-        contact_number
-        is_crolled
-        gender
-        house_other_info
-        has_empty
-        imgs {
-          img_url
-        }
-        house_location {
-          latitude
-          longitude
-        }
-        house_cost {
-          month_cost
-          deposit
-          other_info
-        }
-        house_category {
-          name
-          id
-        }
-        region {
-          id
-        }
-      }
-    }
-  `;
 
-  const { loading, error, data } = useQuery(GET_TEST_HOUSE, {
+  const { loading, error, data } = useQuery(FETCH_HOUSE, {
     fetchPolicy: 'no-cache',
+    variables: {
+      house_id,
+    },
     onCompleted: (data) => {
       setHouseData((current) => data.fetchHouse);
     },

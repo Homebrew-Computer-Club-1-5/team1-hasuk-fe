@@ -15,6 +15,7 @@ import WhitePill from '../../components/molecules/WhitePill';
 import CreateHouseButton from '../../components/molecules/CreateHouseButton';
 import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
+import { FETCH_ALL_HOUSES } from '../../lib/gql';
 
 declare global {
   interface Window {
@@ -29,26 +30,8 @@ function Focusedmap() {
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const [mapLevel, setMapLevel] = useState<number>();
-  const GET_HOUSE = gql`
-    query {
-      fetchAllHouses {
-        name
-        id
-        houses {
-          id
-          house_location {
-            latitude
-            longitude
-          }
-          house_category {
-            id
-          }
-        }
-      }
-    }
-  `;
 
-  const { loading, error, data } = useQuery(GET_HOUSE, {
+  const { loading, error, data } = useQuery(FETCH_ALL_HOUSES, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       setmainHouses((current) => data.fetchAllHouses);

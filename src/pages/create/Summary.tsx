@@ -28,6 +28,7 @@ import { clickedHouse_idAtom } from '../../store/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
+import { CREATE_HOUSE, UPDATE_MY_HOUSE } from '../../lib/gql';
 
 function clearIdxedDBValue() {
   const request = window.indexedDB.open('linksDB', 2); // 1. db 열기
@@ -64,77 +65,6 @@ const NoticeTextWrapperStyle = {
   textAlign: 'center',
 };
 const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
-const CREATE_HOUSE = gql`
-  mutation (
-    $contact: String
-    $gender: Int
-    $other: String
-    $lat: Float!
-    $long: Float!
-    $month: Int!
-    $depo: Int
-    $costother: String
-    $region: Int!
-    $cat: Int!
-    $files: [Upload!]
-  ) {
-    createHouse(
-      createHouseInput: {
-        house: {
-          contact_number: $contact
-          gender: $gender
-          house_other_info: $other
-        }
-        house_location: { latitude: $lat, longitude: $long }
-        house_cost: {
-          month_cost: $month
-          deposit: $depo
-          other_info: $costother
-        }
-        region_id: $region
-        house_category_id: $cat
-        imgRawDatas: $files
-      }
-    )
-  }
-`;
-
-const UPDATE_MY_HOUSE = gql`
-  mutation (
-    $house_id: Int!
-    $contact: String
-    $gender: Int
-    $other: String
-    $lat: Float!
-    $long: Float!
-    $month: Int!
-    $depo: Int
-    $costother: String
-    $region: Int!
-    $cat: Int!
-    $files: [Upload!]
-  ) {
-    updateMyHouse(
-      updateMyHouseInput: {
-        house_id: $house_id
-        house: {
-          contact_number: $contact
-          gender: $gender
-          house_other_info: $other
-        }
-        house_location: { latitude: $lat, longitude: $long }
-        house_cost: {
-          month_cost: $month
-          deposit: $depo
-          other_info: $costother
-        }
-        region_id: $region
-        house_category_id: $cat
-        imgRawDatas: $files
-      }
-    )
-  }
-`;
 
 function Summary() {
   async function getIdxedDBValue() {
