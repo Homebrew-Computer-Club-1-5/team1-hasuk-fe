@@ -3,7 +3,7 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Tel.styled';
 import { useRecoilState } from 'recoil';
-import { status, contactNumber } from './atoms';
+import { statusAtom, contactNumberAtom } from '../../store/atoms';
 import { useForm, useFormState } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 
@@ -13,8 +13,8 @@ const NoticeTextWrapperStyle = {
 };
 
 function RegisterStart() {
-  const [stat, setStat] = useRecoilState(status);
-  const [tel, setTel] = useRecoilState(contactNumber);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [tel, setTel] = useRecoilState(contactNumberAtom);
   const [temp, setTemp] = useState();
   const {
     register,
@@ -24,11 +24,7 @@ function RegisterStart() {
   } = useForm({ mode: 'onSubmit', defaultValues: { tel: tel } });
 
   useEffect(() => {
-    if (temp) {
-      setTel(temp);
-    } else {
-      setTel(tel);
-    }
+    setTel(temp ? temp : tel);
   }, [temp]);
 
   const onChangeTel = (e: any) => {
@@ -49,8 +45,9 @@ function RegisterStart() {
           연락 받으실 연락처를 <br />
           입력해 주세요.
         </NoticeTextWrapper>
-        <S.Form onSubmit={handleSubmit(onValid, onInvalid)}>
+        <form onSubmit={handleSubmit(onValid, onInvalid)}>
           <InputTemplate
+            width="80%"
             placeholderText="01012345678"
             registerObject={register('tel', {
               required: '전화번호가 필요합니다',
@@ -65,7 +62,7 @@ function RegisterStart() {
           <div>
             <WhitePill text={'다음'} onClickNavigator={() => {}} />
           </div>
-        </S.Form>
+        </form>
       </div>
     </S.Wrapper>
   );

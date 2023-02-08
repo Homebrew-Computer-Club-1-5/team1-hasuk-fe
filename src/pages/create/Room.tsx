@@ -4,15 +4,20 @@ import InputTemplate from '../../components/molecules/InputTemplate';
 import WhitePill from '../../components/molecules/WhitePill';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
-import { status, gender, houseCategoryId, houseOtherInfo } from './atoms';
+import {
+  statusAtom,
+  genderAtom,
+  houseCategoryIdAtom,
+  houseOtherInfoAtom,
+} from '../../store/atoms';
 import { useState, useEffect } from 'react';
 import * as S from './Room.styled';
 import { useForm } from 'react-hook-form';
 function Room() {
-  const [stat, setStat] = useRecoilState(status);
-  const [gen, setGen] = useRecoilState(gender);
-  const [cat, setCat] = useRecoilState(houseCategoryId);
-  const [other, setOther] = useRecoilState(houseOtherInfo);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [gen, setGen] = useRecoilState(genderAtom);
+  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
 
   const [tempother, setTempother] = useState();
   const [tempgen, setTempgen] = useState();
@@ -70,15 +75,15 @@ function Room() {
           stuff={[
             {
               text: '남성 전용',
-              value: 0,
-            },
-            {
-              text: '여성 전용',
               value: 1,
             },
             {
-              text: '남녀 공용',
+              text: '여성 전용',
               value: 2,
+            },
+            {
+              text: '남녀 공용',
+              value: 3,
             },
           ]}
         />
@@ -90,21 +95,20 @@ function Room() {
           getRadioValue={getCategoryValue}
           stuff={[
             {
+              text: '원룸/투룸/자취방',
+              value: 1,
+            },
+            {
               text: '하숙',
               value: 2,
             },
             {
-              text: '원룸/자취방',
-              value: 3,
-            },
-
-            {
               text: '고시원',
-              value: 4,
+              value: 3,
             },
             {
               text: '기타',
-              value: 5,
+              value: 4,
             },
           ]}
         />
@@ -118,7 +122,6 @@ function Room() {
         <form onSubmit={handleSubmit(onValid)}>
           <InputTemplate
             multipleLines={true}
-            height={150}
             fontsize={15}
             placeholderText=""
             registerObject={register('other', {

@@ -134,3 +134,115 @@ export const myHouseAddressAtom = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export interface IStates {
+  status: number;
+}
+export interface IPreview {
+  link: string;
+}
+
+export const statusAtom = atom<IStates>({
+  key: 'status',
+  default: { status: 0 },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const contactNumberAtom = atom<string | undefined>({
+  key: 'contactNumber',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const universityIdAtom = atom<number | undefined>({
+  key: 'universityId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const regionIdAtom = atom<number | undefined>({
+  key: 'regionId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const latitudeAtom = atom<number>({
+  key: 'latitude',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const longitudeAtom = atom<number>({
+  key: 'longitude',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const monthCostAtom = atom<number | undefined>({
+  key: 'monthCost',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const depositAtom = atom<number | undefined>({
+  key: 'deposit',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const costOtherInfoAtom = atom<string | undefined>({
+  key: 'costOtherInfo',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+export const genderAtom = atom<number | undefined>({
+  key: 'gender',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const houseCategoryIdAtom = atom<number | undefined>({
+  key: 'houseCategoryId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+export const houseOtherInfoAtom = atom<string | undefined>({
+  key: 'houseOtherInfo',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const tempaddressAtom = atom<string>({
+  key: 'address',
+  default: '0',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const tempfileAtom = atom<any>({
+  key: 'tempfile',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+export const countfileAtom = atom<number>({
+  key: 'countfile',
+  default: 0,
+  dangerouslyAllowMutability: true,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const previewAtom = atom<string[]>({
+  key: 'preview',
+  default: [],
+  //effects_UNSTABLE: [persistAtom],
+});
+
+export const isEditingAtom = atom<Boolean>({
+  key: 'isEditing',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const isGetIdxValueSuccessAtom = atom<Boolean>({
+  key: 'isGetIdxValueSuccess',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const innerpreviewAfterIdxDBAtom = atom<string[]>({
+  key: 'innerpreviewAfterIdxDB',
+  default: [],
+});

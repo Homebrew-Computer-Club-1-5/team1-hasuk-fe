@@ -7,45 +7,6 @@ export const Container = styled.div`
   margin-left: -10px;
 `;
 
-export const mapWrapper_focused = styled.div`
-  width: 100vw;
-  height: 95vh;
-  position: relative;
-  .legend {
-    position: absolute;
-    z-index: 99;
-    top: 90px;
-    background-color: transparent;
-    left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    div {
-      display: flex;
-      img {
-        width: 20px;
-        height: 20px;
-      }
-      p {
-        text-align: center;
-        font-weight: 990;
-        font-size: 10px;
-        font-family: 'Manrope';
-        transform: translate(0px, -5px);
-      }
-    }
-  }
-`;
-
-export const MapWrapper = styled.div`
-  width: 100vw;
-  position: relative;
-  button {
-    position: absolute;
-    margin: 10px 40%;
-  }
-`;
-
 export const Header = styled.header`
   width: 100vw;
   height: 40px;
@@ -59,6 +20,7 @@ export const Header = styled.header`
     margin-left: 0px;
   }
   p {
+    width: 80%;
     position: absolute;
     text-align: center;
     top: 40%;
@@ -73,6 +35,11 @@ export const Header = styled.header`
   div {
     margin: auto;
   }
+`;
+
+export const MapWrapper = styled.div`
+  width: 100vw;
+  position: relative;
 `;
 
 export const versionBox = styled.span`

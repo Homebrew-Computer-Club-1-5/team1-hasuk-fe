@@ -15,7 +15,7 @@ ReactGA.initialize(ANALYTICS_TRACKING_ID);
 
 // apollo-client
 const uploadLink = createUploadLink({
-  uri: '/graphql',
+  uri: 'http://172.30.1.65:8080/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
