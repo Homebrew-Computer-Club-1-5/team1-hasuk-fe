@@ -1,5 +1,6 @@
 import Router from './pages/Router';
 import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
 import RouteChangeTracker from './RouteChangeTracker';
 
 function App() {
