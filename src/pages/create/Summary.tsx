@@ -3,22 +3,22 @@ import WhitePill from '../../components/molecules/WhitePill';
 import * as S from './Summary.styled';
 import { useRecoilState } from 'recoil';
 import {
-  status,
-  contactNumber,
-  universityId,
-  regionId,
-  latitude,
-  longitude,
-  monthCost,
-  deposit,
-  costOtherInfo,
-  gender,
-  houseCategoryId,
-  houseOtherInfo,
-  tempaddress,
+  statusAtom,
+  contactNumberAtom,
+  universityIdAtom,
+  regionIdAtom,
+  latitudeAtom,
+  longitudeAtom,
+  monthCostAtom,
+  depositAtom,
+  costOtherInfoAtom,
+  genderAtom,
+  houseCategoryIdAtom,
+  houseOtherInfoAtom,
+  tempaddressAtom,
   previewAtom,
   isEditingAtom,
-} from './atoms';
+} from '../../store/atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useNavigate } from 'react-router-dom';
@@ -30,33 +30,8 @@ import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 import { CREATE_HOUSE, UPDATE_MY_HOUSE } from '../../lib/gql';
 
-function clearIdxedDBValue() {
-  const request = window.indexedDB.open('linksDB', 2); // 1. db 열기
-  request.onerror = (e: any) => console.log(e.target.errorCode);
-
-  request.onsuccess = (e) => {
-    const db = request.result;
-    const transaction = db.transaction(['links'], 'readwrite');
-    transaction.onerror = (e) => console.log('fail');
-    transaction.oncomplete = (e) => console.log('success');
-
-    const objStore = transaction.objectStore('links'); // 2. name 저장소 접근
-    const objStoreRequest = objStore.clear(); // 3. 전체 삭제
-    objStoreRequest.onsuccess = (e) => {
-      // console.log('cleared');
-    };
-  };
-}
-
 const univArray = ['고려대'];
-const regionArray = [
-  '성신여대',
-  '보문동',
-  '안암역',
-  '제기동',
-  '고대정문',
-  '법대후문',
-];
+const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
 
 const NoticeTextWrapperStyle = {
@@ -64,110 +39,51 @@ const NoticeTextWrapperStyle = {
   marginTop: '0px',
   textAlign: 'center',
 };
+
 const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
 
-function Summary() {
-  async function getIdxedDBValue() {
-    const request = indexedDB.open('linksDB', 2);
-    let db;
-    request.onerror = (e) => alert('failed');
-    const result = await new Promise((resolve, reject) => {
-      const result1: any = [];
-      request.onsuccess = (e) => {
-        const db = request.result;
-        const transaction = db.transaction(['links'], 'readwrite');
-        transaction.oncomplete = (e) => {
-          // console.log('transaction success');
-        };
-        transaction.onerror = (e) => {
-          // console.log('transaction fail');
-        };
-        const objStore = transaction.objectStore('links');
-        const cursorRequest = objStore.openCursor();
-        cursorRequest.onsuccess = (e: any) => {
-          let cursor = e.target.result;
-          if (cursor) {
-            const value = objStore.get(cursor.key);
-            value.onsuccess = (e: any) => {
-              result1.push(e.target.result);
-            };
-          }
-          cursor.continue();
-        };
-      };
-      resolve(result1);
-    });
 
-    request.onupgradeneeded = (e: any) => {
-      db = e.target.result;
-      db.createObjectStore('links', { autoIncrement: true });
-    };
-    return result;
-  }
+function Summary() {
   const resetAllAtoms = useResetAllAtoms();
   const [clickedHouse_id, setClickedHouse_id] =
     useRecoilState(clickedHouse_idAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [contact, setContact] = useRecoilState(contactNumber);
-  const [univ, setUniv] = useRecoilState(universityId);
-  const [region, setRegion] = useRecoilState(regionId);
-  const [lat, setLat] = useRecoilState(latitude);
-  const [long, setLong] = useRecoilState(longitude);
-  const [month, setMonth] = useRecoilState(monthCost);
-  const [depo, setDepo] = useRecoilState(deposit);
-  const [costother, setCostother] = useRecoilState(costOtherInfo);
-  const [gen, setGen] = useRecoilState(gender);
-  const [cat, setCat] = useRecoilState(houseCategoryId);
-  const [other, setOther] = useRecoilState(houseOtherInfo);
-  const [address, setAddress] = useRecoilState(tempaddress);
-  const [stat, setStat] = useRecoilState(status);
+  const [contact, setContact] = useRecoilState(contactNumberAtom);
+  const [univ, setUniv] = useRecoilState(universityIdAtom);
+  const [region, setRegion] = useRecoilState(regionIdAtom);
+  const [lat, setLat] = useRecoilState(latitudeAtom);
+  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [month, setMonth] = useRecoilState(monthCostAtom);
+  const [depo, setDepo] = useRecoilState(depositAtom);
+  const [costother, setCostother] = useRecoilState(costOtherInfoAtom);
+  const [gen, setGen] = useRecoilState(genderAtom);
+  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [address, setAddress] = useRecoilState(tempaddressAtom);
+  const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
 
   const navigate = useNavigate();
   const restoreAccessToken = useRestoreAccessToken();
-  const [
-    createHouse,
-    { data, loading: createHouseLoading, error: createHouseError },
-  ] = useMutation(CREATE_HOUSE, {
-    onCompleted: (data) => {
-      alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
-      clearIdxedDBValue();
-      navigate(`/house/${data.createHouse}`);
-    },
-    onError(error, clientOptions) {
-      console.log('액세스 토큰 만료 : ', error.message);
-    },
-  });
-
-  const [
-    updateMyHouse,
-    { data: data2, loading: updateMyHouseLoading, error: updateHouseError },
-  ] = useMutation(UPDATE_MY_HOUSE, {
-    onCompleted(data, clientOptions) {
-      alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
-      clearIdxedDBValue();
-      navigate(`/house/${data.updateMyHouse}`);
-    },
-    onError(error, clientOptions) {
-      console.log('액세스 토큰 만료 : ', error.message);
-    },
-  });
-
+  const [createHouse, { data, loading: createHouseLoading, error }] =
+    useMutation(CREATE_HOUSE, {
+      onCompleted: (data) => {
+        alert('게시물 등록이 완료되었습니다. 게시물 페이지로 이동합니다.');
+        navigate(`/house/${data.createHouse}`);
+      },
+      onError(error, clientOptions) {
+        console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+      },
+    });
   useEffect(() => {
-    if (createHouseError) {
+    if (error) {
       restoreAccessToken({
         onRestoreSuccess: () => {
           executeCreateHouse();
         },
       });
-    } else if (updateHouseError) {
-      restoreAccessToken({
-        onRestoreSuccess: () => {
-          executeUpdateMyHouse();
-        },
-      });
     }
-  }, [createHouseError, updateHouseError]);
+  }, [error]);
   var URLarray: any = [];
 
   async function getFile(url: string) {
@@ -179,6 +95,19 @@ function Summary() {
   }
   preview.map((url) => {
     getFile(url);
+  });
+
+  const [
+    updateMyHouse,
+    { data: data2, loading: updateMyHouseLoading, error: error2 },
+  ] = useMutation(UPDATE_MY_HOUSE, {
+    onCompleted(data, clientOptions) {
+      alert('게시물 업데이트가 완료되었습니다. 게시물 페이지로 이동합니다.');
+      navigate(`/house/${data.updateMyHouse}`);
+    },
+    onError(error, clientOptions) {
+      console.log('에러가 발생했어요, 에러메세지 : ', error.message);
+    },
   });
 
   function executeCreateHouse() {
@@ -282,14 +211,14 @@ function Summary() {
       />{' '}
       <SummaryDataBar
         title={'성별'}
-        data={genderArray[Number(gen)]}
+        data={genderArray[Number(gen) - 1]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
       />
       <SummaryDataBar
         title={'카테고리'}
-        data={categoryArray[Number(cat) - 2]}
+        data={categoryArray[Number(cat) - 1]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}

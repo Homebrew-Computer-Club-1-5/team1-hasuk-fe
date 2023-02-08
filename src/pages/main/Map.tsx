@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { mainHousesAtom } from '../../store/atoms';
@@ -12,12 +12,17 @@ import etcIconPng from '../../assets/etcMarker.png';
 import * as S from './Map.styled';
 import Loading from '../../components/molecules/Loading';
 
+interface ICoordinate {
+  exlatitude?: number;
+  exlongitude?: number;
+  children?: React.ReactNode;
+}
 declare global {
   interface Window {
     kakao: any;
   }
 }
-const Map = () => {
+function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [mapLevel, setMapLevel] = useState<number>();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -52,7 +57,10 @@ const Map = () => {
   function drawKakaoMap() {
     let container = document.getElementById('map');
     let options = {
-      center: new window.kakao.maps.LatLng(37.586383, 127.029233),
+      center:
+        exlatitude && exlongitude
+          ? new window.kakao.maps.LatLng(exlatitude, exlongitude)
+          : new window.kakao.maps.LatLng(37.586383, 127.029233),
       level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
@@ -203,9 +211,11 @@ const Map = () => {
           </div>
         </div>
       ) : null}
-      <div id="map" style={{ width: '100%', height: '95vh' }} />
+      <div id="map" style={{ width: '100%', height: '95vh' }}>
+        {children}
+      </div>
     </S.mapWrapper>
   );
-};
+}
 
 export default Map;

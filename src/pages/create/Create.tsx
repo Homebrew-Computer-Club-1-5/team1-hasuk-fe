@@ -4,18 +4,17 @@ import RegisterStart from './RegisterStart';
 import Tel from './Tel';
 import Location from './Location';
 import { useRecoilState } from 'recoil';
-import { status } from './atoms';
+import { statusAtom } from '../../store/atoms';
 import Price from './Price';
 import Room from './Room';
 import Photo from './Photo';
 import Summary from './Summary';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import useCoordToAddress from '../../lib/util/coordToAddress';
-const Wrapper = styled.div``;
+import * as S from './Create.styled';
 
 function Create() {
-  const [stat, setStat] = useRecoilState(status);
+  const [stat, setStat] = useRecoilState(statusAtom);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
@@ -27,7 +26,7 @@ function Create() {
   }, []);
 
   return (
-    <Wrapper>
+    <S.Container>
       <TitleWrapper2
         onClickBackButton={() => {
           const oldstat = stat.status;
@@ -51,7 +50,7 @@ function Create() {
           <Summary />
         )}
       </div>
-    </Wrapper>
+    </S.Container>
   );
 }
 

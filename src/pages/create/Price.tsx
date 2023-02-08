@@ -5,7 +5,12 @@ import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import * as S from './Price.styled';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
-import { status, monthCost, deposit, costOtherInfo } from './atoms';
+import {
+  statusAtom,
+  monthCostAtom,
+  depositAtom,
+  costOtherInfoAtom,
+} from '../../store/atoms';
 
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
@@ -18,11 +23,11 @@ const whitePillStyle = {
 };
 
 function Price() {
-  const [stat, setStat] = useRecoilState(status);
-  const [month, setMonth] = useRecoilState(monthCost);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [month, setMonth] = useRecoilState(monthCostAtom);
 
-  const [depo, setDepo] = useRecoilState(deposit);
-  const [cost, setCost] = useRecoilState(costOtherInfo);
+  const [depo, setDepo] = useRecoilState(depositAtom);
+  const [cost, setCost] = useRecoilState(costOtherInfoAtom);
   const [tempmonth, setTempMonth] = useState();
   const [tempdepo, setTempdepo] = useState();
   const [tempcost, setTempcost] = useState();
@@ -56,7 +61,7 @@ function Price() {
           <p>월세</p>
           <InputTemplate
             multipleLines={false}
-            width={200}
+            width="200px"
             placeholderText=""
             registerObject={register('month', {
               required: '월세를 입력해 주세요',
@@ -90,7 +95,7 @@ function Price() {
           <p>보증금 (없으면 0이라고 써주세요)</p>
           <InputTemplate
             multipleLines={false}
-            width={200}
+            width="200px"
             placeholderText=""
             registerObject={register('deposit', {
               required: '보증금을 입력해 주세요',
@@ -119,8 +124,7 @@ function Price() {
           <InputTemplate
             multipleLines={true}
             fontsize={15}
-            width={200}
-            height={150}
+            width="200px"
             placeholderText=""
             registerObject={register('cost_other_info', {
               required: false,

@@ -8,8 +8,8 @@ import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
 import { useEffect, useState } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
-import useCoordToAddress from '../../lib/util/coordToAddress';
-import Photo from '../create/Photo';
+import ImgWrapper from '../../components/atoms/ImgWrapper';
+import Selectbox from '../../components/molecules/Selectbox';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
@@ -23,15 +23,13 @@ function Main() {
   return (
     <S.Container>
       <S.Header>
-        <img src={hasukLogo} alt="하숙" />
+        <ImgWrapper source={hasukLogo} alternative={'대학방'} />
         <P_Manrope_ExtraBold>대학방</P_Manrope_ExtraBold>
         <S.versionBox>v {process.env.REACT_APP_VERSION}</S.versionBox>
-        <div id="selectBox">
-          <img src={icon} />
-          <select onChange={onchange} style={{ fontFamily: 'Manrope' }}>
-            <option value="고려대">고려대</option>
-          </select>
-        </div>
+        <Selectbox
+          source={icon}
+          stuff={[{ text: '고려대', value: 1, defaultValue: false }]}
+        />
       </S.Header>
       <S.MapWrapper>
         <CreateHouseButton />
@@ -40,7 +38,6 @@ function Main() {
             setIsSideBarOpened((current) => !current);
           }}
         />
-        {/*  */}
         <SideBar
           isSideBarOpened={isSideBarOpened}
           setIsSideBarOpened={setIsSideBarOpened}

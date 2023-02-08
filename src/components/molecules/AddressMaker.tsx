@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import WhitePill from './WhitePill';
 import { useRecoilState } from 'recoil';
-import { status, tempaddress } from '../../pages/create/atoms';
+import { statusAtom, tempaddressAtom } from '../../store/atoms';
 import { template } from '@babel/core';
 import InputTemplate from './InputTemplate';
 import { useForm } from 'react-hook-form';
@@ -48,7 +48,7 @@ function AddressMaker({ getCoordsValue }: IObject) {
   const { register } = useForm();
   const [toggle, setToggle] = useState(false);
   const [finish, setFinish] = useState(false);
-  const [address, setAddress] = useRecoilState(tempaddress);
+  const [address, setAddress] = useRecoilState(tempaddressAtom);
   const [coordinate, setCoordinate] = useState({ latitude: 0, longitude: 0 });
 
   const geocoder = new window.kakao.maps.services.Geocoder();
