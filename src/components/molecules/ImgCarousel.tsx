@@ -104,7 +104,7 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           right: 0,
           top: '105px',
           color: 'white', // 컬러 설정이 안됨
-          zIndex: 100,
+          // zIndex: 100,
         }}
         fill="black"
         onClick={(event) => {
