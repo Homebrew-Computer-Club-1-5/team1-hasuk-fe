@@ -38,36 +38,7 @@ import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { coordToAddress2 } from '../../lib/util/coordToAddress';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
-
-const FETCH_MYHOUSE = gql`
-  query {
-    fetchMyHouse {
-      id
-      img_urls
-      contact_number
-      gender
-      house_other_info
-      region
-      cost {
-        month_cost
-        deposit
-        other_info
-      }
-      house_category
-      location {
-        longitude
-        latitude
-      }
-      board_date
-    }
-  }
-`;
-
-const DELETE_MYHOUSE = gql`
-  mutation ($house_id: Float!) {
-    deleteMyHouse(house_id: $house_id)
-  }
-`;
+import { DELETE_MYHOUSE, FETCH_MYHOUSE } from '../../lib/gql';
 
 function MyHouse() {
   const restoreAccessToken = useRestoreAccessToken();

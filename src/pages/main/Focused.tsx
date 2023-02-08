@@ -9,6 +9,8 @@ import MenuButton from '../../components/molecules/MenuButton';
 import SideBar from '../../components/molecules/SideBar';
 import Map from './Map';
 import ImgWrapper from '../../components/atoms/ImgWrapper';
+import { FETCH_ALL_HOUSES } from '../../lib/gql';
+
 
 declare global {
   interface Window {

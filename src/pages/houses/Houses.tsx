@@ -1,8 +1,7 @@
 import TitleWrapper from '../../components/molecules/TitleWrapper';
-import FilterWrapper from './FilterWrapper';
 import * as S from './Houses.styled';
 import HouseWrapper from './HouseWrapper';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { houseDatasAtom } from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +9,7 @@ import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 import Loading from '../../components/molecules/Loading';
+import { FETCH_HOUSES_BY_REGION } from '../../lib/gql';
 
 function Houses() {
   const resetAllAtoms = useResetAllAtoms();
@@ -21,22 +21,11 @@ function Houses() {
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
   const { region_id } = useParams();
 
-  const GET_TEST_REGION = gql`
-    query {
-      fetchHousesByRegion(region_id: ${region_id}) {
-        region_name
-        id
-        month_cost
-        img_urls
-        gender
-        has_empty
-        nearest_main_spot_name
-        house_category_id
-      }
-    }
-  `;
-  const { loading, error, data } = useQuery(GET_TEST_REGION, {
+  const { loading, error, data } = useQuery(FETCH_HOUSES_BY_REGION, {
     fetchPolicy: 'no-cache',
+    variables: {
+      region_id: 3,
+    },
     onCompleted: (data) => {
       setHouseDatas((current) => data.fetchHousesByRegion);
     },
@@ -50,9 +39,9 @@ function Houses() {
         isTitleOn={true}
         isBackButtonColorBlack={true}
       />
-      <p style={{ textAlign: 'center' }}>
+      <S.NoticeP>
         ** 일부 정보는 고파스 게시물을 참조 했음을 밝힙니다. **
-      </p>
+      </S.NoticeP>
       <ExtraHousesButton
         onClick={() => {
           navigate('/exhouses');
