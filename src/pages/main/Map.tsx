@@ -158,7 +158,6 @@ const Map = () => {
     const kakaoMap = drawKakaoMap();
     const regionMarkerList = mainHouses.map((mainHouse) => {
       const markerList = mainHouse.houses.map((house) => {
-        console.log(house);
         return makeMarker(
           house.house_location.latitude,
           house.house_location.longitude,
