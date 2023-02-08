@@ -6,9 +6,14 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 import ReactGA from 'react-ga';
-const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
-ReactGA.initialize(TRACKING_ID as string);
 
+// react-ga
+export const ANALYTICS_TRACKING_ID = process.env
+  .REACT_APP_GOOGLE_ANALYTICS_ANALYTICS_TRACKING_ID as string;
+ReactGA.initialize(ANALYTICS_TRACKING_ID);
+// ReactGA.pageview(window.location.pathname + window.location.search);
+
+// apollo-client
 const uploadLink = createUploadLink({
   uri: '/graphql',
 });

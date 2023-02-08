@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
@@ -9,6 +9,8 @@ import hasukIconPng from '../../assets/hasukMarker.png';
 import gosiwonIconPng from '../../assets/gosiwonMarker.png';
 import oneRoomIconPng from '../../assets/oneRoomMarker.png';
 import etcIconPng from '../../assets/etcMarker.png';
+import * as S from './Map.styled';
+import Loading from '../../components/molecules/Loading';
 
 declare global {
   interface Window {
@@ -16,8 +18,9 @@ declare global {
   }
 }
 const Map = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [mapLevel, setMapLevel] = useState<number>();
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const GET_HOUSE = gql`
@@ -30,6 +33,7 @@ const Map = () => {
           house_location {
             latitude
             longitude
+            id
           }
           house_category {
             id
@@ -52,6 +56,9 @@ const Map = () => {
       level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
+    window.kakao.maps.event.addListener(map, 'zoom_changed', function () {
+      setMapLevel(map.getLevel());
+    });
     return map;
   }
 
@@ -149,7 +156,6 @@ const Map = () => {
 
   useEffect(() => {
     const kakaoMap = drawKakaoMap();
-
     const regionMarkerList = mainHouses.map((mainHouse) => {
       const markerList = mainHouse.houses.map((house) => {
         return makeMarker(
@@ -174,7 +180,32 @@ const Map = () => {
     }
   }, [mainHouses]);
 
-  return <div id="map" style={{ width: '100%', height: '95vh' }} />;
+  return (
+    <S.mapWrapper>
+      {loading ? <Loading loadingText="메인 페이지 로딩중.." /> : null}
+      {mapLevel && mapLevel < 5 ? (
+        <div className="legend">
+          <div>
+            <img src={hasukIconPng} />
+            <p>하숙</p>
+          </div>
+          <div>
+            <img src={oneRoomIconPng} />
+            <p>원룸/자취방</p>
+          </div>
+          <div>
+            <img src={gosiwonIconPng} />
+            <p>고시원</p>
+          </div>
+          <div>
+            <img src={etcIconPng} />
+            <p>기타</p>
+          </div>
+        </div>
+      ) : null}
+      <div id="map" style={{ width: '100%', height: '95vh' }} />
+    </S.mapWrapper>
+  );
 };
 
 export default Map;
