@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import './PillRadio.css';
-interface IContent {
+export interface IContent {
   text: string;
   value: number;
+  onClickPill?: () => void;
 }
 
 interface IObject {
   stuff: IContent[];
-  getRadioValue: any;
-  def?: any;
+  getRadioValue?: any;
+  defaultValue?: any;
 }
 
 interface Props {
@@ -33,21 +34,23 @@ const Pill = styled.div<Props>`
   box-shadow: 0px 5px lightgray;
 `;
 
-function PillRadio({ stuff, getRadioValue, def }: IObject) {
+function PillRadio({ stuff, getRadioValue, defaultValue }: IObject) {
   const [x, setX] = useState<any>();
   useEffect(() => {
-    setX(def);
-  }, [def]);
+    setX(defaultValue);
+  }, [defaultValue]);
 
   const handleClickRadioButton2 = (e: any) => {
     setX(e.target.value);
   };
-  getRadioValue(x);
+  if (getRadioValue) {
+    getRadioValue(x);
+  }
 
   return (
     <div id="Wrapper">
-      {stuff.map((content) => (
-        <label id="Choice">
+      {stuff.map((content, index) => (
+        <label id="Choice" key={index} onClick={content.onClickPill}>
           <input
             type="radio"
             className="input-hidden"

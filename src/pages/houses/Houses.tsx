@@ -3,24 +3,33 @@ import * as S from './Houses.styled';
 import HouseWrapper from './HouseWrapper';
 import { useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { houseDatasAtom } from '../../store/atoms';
+import {
+  filteredHouseDatasAtom,
+  houseDatasAtom,
+  isHousesFirstLoadedAtom,
+} from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 import Loading from '../../components/molecules/Loading';
 import { FETCH_HOUSES_BY_REGION } from '../../lib/gql';
 import FilterWrapper from './FilterWrapper';
+import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 
 function Houses() {
-  const resetAllAtoms = useResetAllAtoms();
-  useEffect(() => {
-    resetAllAtoms();
-  }, []);
-
   const navigate = useNavigate();
-  const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
   const { region_id } = useParams();
+
+  const [Main, setMain] = useState();
+  const resetAllAtoms = useResetAllAtoms();
+  const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
+  const [filteredHouseDatas, setFilteredHouseDatas] = useRecoilState(
+    filteredHouseDatasAtom,
+  );
+  const [isHousesFirstLoaded, setIsHousesFirstLoaded] = useRecoilState(
+    isHousesFirstLoadedAtom,
+  );
 
   const { loading, error, data } = useQuery(FETCH_HOUSES_BY_REGION, {
     fetchPolicy: 'no-cache',
@@ -31,6 +40,20 @@ function Houses() {
       setHouseDatas((current) => data.fetchHousesByRegion);
     },
   });
+
+  useEffect(() => {
+    resetAllAtoms();
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      setIsHousesFirstLoaded(true);
+    }
+  }, [loading]);
+
+  useEffect(() => {}, [houseDatas, filteredHouseDatas]);
+
+  // console.log('render', houseDatas[0]?.id, filteredHouseDatas[0]?.id);
 
   return (
     <S.Container>
@@ -52,17 +75,23 @@ function Houses() {
         <FilterWrapper />
       </S.Header>
       <S.Main>
-        {houseDatas[0]
-          ? houseDatas.map((houseData, index) => (
-              <HouseWrapper
-                key={index}
-                onClick={() => {
-                  navigate(`/house/${houseData.id}`);
-                }}
-                houseWrapperIndex={index}
-              />
+        {filteredHouseDatas[0]
+          ? filteredHouseDatas.map((filteredHouseData, index) => (
+              <HouseWrapper key={index} houseData={filteredHouseData} />
             ))
+          : !filteredHouseDatas[0] && filteredHouseDatas[0] !== null // 첫 로딩시
+          ? houseDatas.map((houseData, index) => (
+              <HouseWrapper key={index} houseData={houseData} />
+            ))
+          : filteredHouseDatas[0] === null
+          ? null
           : null}
+        {filteredHouseDatas[0] === null ? (
+          <S.HouseNotExistsWrapper>
+            <p>해당하는 집이</p>
+            <p>존재하지 않습니다 :{'('}</p>
+          </S.HouseNotExistsWrapper>
+        ) : null}
       </S.Main>
     </S.Container>
   );

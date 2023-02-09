@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 const { persistAtom } = recoilPersist();
 
-interface IhouseData_fetchHousesByRegion {
+export interface IhouseData_fetchHousesByRegion {
   region_name: string;
   id: number;
   month_cost: number;
@@ -96,6 +96,16 @@ export interface Ihouse_object {
 }
 export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
   key: 'houseDatas',
+  default: [],
+});
+
+export const isHousesFirstLoadedAtom = atom<boolean>({
+  key: 'isHousesFirstLoaded',
+  default: true,
+});
+
+export const filteredHouseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
+  key: 'filteredHouseDatas',
   default: [],
 });
 

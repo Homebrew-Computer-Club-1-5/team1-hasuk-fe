@@ -70,7 +70,7 @@ function Room() {
       <div className="radioWrapper">
         <p>성별</p>
         <PillRadio
-          def={gen ? gen : undefined}
+          defaultValue={gen ? gen : undefined}
           getRadioValue={getGenderValue}
           stuff={[
             {
@@ -91,7 +91,7 @@ function Room() {
       <div className="radioWrapper">
         <p>카테고리</p>
         <PillRadio
-          def={cat ? cat : undefined}
+          defaultValue={cat ? cat : undefined}
           getRadioValue={getCategoryValue}
           stuff={[
             {

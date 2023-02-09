@@ -99,7 +99,7 @@ function Location() {
             <p>지역</p>
 
             <PillRadio
-              def={regionid ? regionid : undefined}
+              defaultValue={regionid ? regionid : undefined}
               getRadioValue={getRadioValue}
               stuff={[
                 {

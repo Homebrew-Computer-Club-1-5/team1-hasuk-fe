@@ -1,5 +1,8 @@
 import ImgCarousel from '../../components/molecules/ImgCarousel';
-import { houseDatasAtom } from '../../store/atoms';
+import {
+  houseDatasAtom,
+  IhouseData_fetchHousesByRegion,
+} from '../../store/atoms';
 import { useRecoilValue } from 'recoil';
 import P_Manrope_Bold from '../../components/atoms/P_Manrope_Bold';
 import P_Manrope_Light from '../../components/atoms/P_Manrope_Light';
@@ -7,16 +10,15 @@ import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 import P_Manrope_Regular from '../../components/atoms/P_Manrope_Regular';
 import * as S from './HouseWrapper.styled';
 import { convertTimestamp } from '../../lib/util/time';
+import { useNavigate } from 'react-router-dom';
 
 interface IHouseWrapper {
-  houseWrapperIndex: number;
-  onClick: () => void;
+  houseData: IhouseData_fetchHousesByRegion;
 }
 
-function HouseWrapper({ houseWrapperIndex, onClick }: IHouseWrapper) {
-  const houseDatas = useRecoilValue(houseDatasAtom);
+function HouseWrapper({ houseData }: IHouseWrapper) {
+  const navigate = useNavigate();
 
-  const houseData = houseDatas[houseWrapperIndex];
   const img_url = houseData.img_urls;
   const category = houseData.house_category_id;
   const board_date = parseInt(houseData.board_date);
@@ -27,7 +29,11 @@ function HouseWrapper({ houseWrapperIndex, onClick }: IHouseWrapper) {
   );
 
   return (
-    <S.Container onClick={onClick}>
+    <S.Container
+      onClick={() => {
+        navigate(`/house/${houseData.id}`);
+      }}
+    >
       <ImgCarousel img_url={img_url ? img_url : []}></ImgCarousel>
       <S.InfosWrapper>
         <S.ExtraInfosWrapper>
