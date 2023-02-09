@@ -11,6 +11,7 @@ interface IhouseData_fetchHousesByRegion {
   gender: number;
   has_empty: boolean;
   house_category_id: number;
+  board_date: string; // 야매
 } // 필수 비필수 설정 해줘야함
 
 interface Iimg_url {

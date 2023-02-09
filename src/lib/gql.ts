@@ -11,6 +11,7 @@ export const FETCH_HOUSES_BY_REGION = gql`
       has_empty
       nearest_main_spot_name
       house_category_id
+      board_date
     }
   }
 `;
