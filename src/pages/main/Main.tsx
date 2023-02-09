@@ -10,9 +10,12 @@ import { useEffect, useState } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import ImgWrapper from '../../components/atoms/ImgWrapper';
 import Selectbox from '../../components/molecules/Selectbox';
+import WhitePill from '../../components/molecules/WhitePill';
+import { useNavigate } from 'react-router-dom';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
+  const navigate = useNavigate();
   const resetAllAtoms = useResetAllAtoms();
   const onchange = () => {};
   const [isSideBarOpened, setIsSideBarOpened] = useState(false);
@@ -36,6 +39,19 @@ function Main() {
         <MenuButton
           onClick={() => {
             setIsSideBarOpened((current) => !current);
+          }}
+        />
+        <WhitePill
+          text="모든 집 보기"
+          onClickNavigator={() => {
+            navigate('/allhouses');
+          }}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            right: '50%',
+            top: '30px',
+            transform: 'translate(-50%, -50%)',
           }}
         />
         <SideBar

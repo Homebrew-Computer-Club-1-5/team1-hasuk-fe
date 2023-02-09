@@ -8,9 +8,33 @@ export const FETCH_HOUSES_BY_REGION = gql`
       month_cost
       img_urls
       gender
-      has_empty
       nearest_main_spot_name
       house_category_id
+      board_date
+    }
+  }
+`;
+
+export const FETCH_ALL_HOUSES = gql`
+  query {
+    fetchAllHouses {
+      id
+      gender
+      board_date
+      region {
+        id
+        name
+      }
+      house_cost {
+        month_cost
+      }
+      imgs {
+        img_url
+      }
+      house_category {
+        id
+        name
+      }
     }
   }
 `;
@@ -141,9 +165,9 @@ export const FETCH_CRAWLED_HOUSES = gql`
   }
 `;
 
-export const FETCH_ALL_HOUSES = gql`
+export const FETCH_ALL_HOUSES_GROUPED_BY_REGION = gql`
   query {
-    fetchAllHouses {
+    fetchAllHousesGroupedByRegion {
       name
       id
       houses {

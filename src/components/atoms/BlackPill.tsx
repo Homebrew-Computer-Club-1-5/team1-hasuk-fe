@@ -11,13 +11,19 @@ const Wrapper = styled.p`
   border-radius: 30px;
   padding: 0px 7px;
   text-align: center;
+  margin: 0;
 `;
 interface IBlackPill {
   innerText: string;
   style?: React.CSSProperties;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-function BlackPill({ innerText, style }: IBlackPill) {
-  return <Wrapper style={style}>{innerText}</Wrapper>;
+function BlackPill({ innerText, style, onClick }: IBlackPill) {
+  return (
+    <Wrapper style={style} onClick={onClick}>
+      {innerText}
+    </Wrapper>
+  );
 }
 export default BlackPill;
