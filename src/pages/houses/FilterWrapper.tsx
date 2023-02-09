@@ -6,7 +6,6 @@ import {
   houseDatasAtom,
   isHousesFirstLoadedAtom,
 } from '../../store/atoms';
-import { filterByUpdated } from '../../lib/util/filter';
 import { useEffect, useState } from 'react';
 import PillRadio, { IContent } from '../../components/molecules/PillRadio';
 
@@ -47,11 +46,6 @@ function FilterWrapper() {
         setFilteredHouseDatas((current) => [null] as any);
       }
     }
-    // const filteredByUpdatedHouseData = filterByUpdated(
-    //   [...houseDatas],
-    //   'board_date',
-    // );
-    // setFilteredHouseDatas((current) => filteredByUpdatedHouseData);
   }, [filterState]);
 
   const filterObjects: IContent[] = [
@@ -95,7 +89,7 @@ function FilterWrapper() {
   return (
     <Container>
       <PillRadio stuff={filterObjects} defaultValue={1} />
-      <FilterButton />
+      {/* <FilterButton /> */}
     </Container>
   );
 }

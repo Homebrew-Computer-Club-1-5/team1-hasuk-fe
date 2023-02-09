@@ -16,6 +16,7 @@ import Loading from '../../components/molecules/Loading';
 import { FETCH_HOUSES_BY_REGION } from '../../lib/gql';
 import FilterWrapper from './FilterWrapper';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
+import { filterByUpdated } from '../../lib/util/filter';
 
 function Houses() {
   const navigate = useNavigate();
@@ -37,7 +38,11 @@ function Houses() {
       region_id: parseFloat(region_id as string),
     },
     onCompleted: (data) => {
-      setHouseDatas((current) => data.fetchHousesByRegion);
+      const filteredByUpdatedHouseData = filterByUpdated(
+        [...data.fetchHousesByRegion],
+        'board_date',
+      );
+      setHouseDatas((current) => filteredByUpdatedHouseData);
     },
   });
 
@@ -52,8 +57,6 @@ function Houses() {
   }, [loading]);
 
   useEffect(() => {}, [houseDatas, filteredHouseDatas]);
-
-  // console.log('render', houseDatas[0]?.id, filteredHouseDatas[0]?.id);
 
   return (
     <S.Container>
