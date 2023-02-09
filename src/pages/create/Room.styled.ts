@@ -1,42 +1,40 @@
 import styled from 'styled-components';
-export const Wrapper = styled.div`
+export const Container = styled.div`
   width: 80vw;
   margin: 0px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .radioWrapper {
-    margin-bottom: 20px;
-    width: 100%;
-    p {
-      margin-bottom: 0px;
-      padding-bottom: 0px;
-      width: 100px;
-      font-weight: 990;
-      font-size: 20px;
-      padding-top: 10px;
-    }
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .otherInfoWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    p {
-      font-size: 20px;
-      width: 100%;
-      font-weight: 990;
-      margin: 0px;
-    }
-    .extra {
-      margin-top: 10px;
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-  }
+`;
+
+export const NumberH1 = styled.h1``;
+export const RadioWrapper = styled.div`
+  width: 100%;
+`;
+
+export const OtherInfoWrapper = styled.div`
+  width: 100%;
+`;
+
+export const TitleP = styled.p`
+  font-size: 20px;
+  font-weight: 990;
+
+  margin-left: 10px;
+`;
+
+export const ExtraP = styled.p`
+  font-size: 11px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  margin-left: 10px;
+  margin-top: -20px;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 `;

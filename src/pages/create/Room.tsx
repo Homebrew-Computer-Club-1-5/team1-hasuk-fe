@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from 'react';
 import * as S from './Room.styled';
 import { useForm } from 'react-hook-form';
+
 function Room() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const [gen, setGen] = useRecoilState(genderAtom);
@@ -50,25 +51,18 @@ function Room() {
     marginTop: '30px',
   };
   useEffect(() => {
-    if (tempgen) {
-      setGen(tempgen);
-    }
-    if (tempcat) {
-      setCat(tempcat);
-    } else {
-      setGen(gen);
-      setCat(cat);
-    }
+    setGen(tempgen ? tempgen : gen);
+    setCat(tempcat ? tempcat : cat);
   }, [tempgen, tempcat]);
 
   return (
-    <S.Wrapper>
-      <h1>{stat.status}/5</h1>
+    <S.Container>
+      <S.NumberH1>{stat.status}/5</S.NumberH1>
       <NoticeTextWrapper style={NoticeTextWrapperStyle} fontSize="25px">
         방 관련 정보를 알려주세요.
       </NoticeTextWrapper>
-      <div className="radioWrapper">
-        <p>성별</p>
+      <S.RadioWrapper>
+        <S.TitleP>성별</S.TitleP>
         <PillRadio
           def={gen ? gen : undefined}
           getRadioValue={getGenderValue}
@@ -87,9 +81,9 @@ function Room() {
             },
           ]}
         />
-      </div>
-      <div className="radioWrapper">
-        <p>카테고리</p>
+      </S.RadioWrapper>
+      <S.RadioWrapper>
+        <S.TitleP>카테고리</S.TitleP>
         <PillRadio
           def={cat ? cat : undefined}
           getRadioValue={getCategoryValue}
@@ -112,14 +106,14 @@ function Room() {
             },
           ]}
         />
-      </div>
-      <div className="otherInfoWrapper">
-        <p>기타 정보</p>
-        <p className="extra">
+      </S.RadioWrapper>
+      <S.OtherInfoWrapper>
+        <S.TitleP>기타 정보</S.TitleP>
+        <S.ExtraP>
           팁: 식사조건, 빨래제공, 화장실 공용여부 최소거주기간, 채광
-        </p>
+        </S.ExtraP>
 
-        <form onSubmit={handleSubmit(onValid)}>
+        <S.Form>
           <InputTemplate
             multipleLines={true}
             fontsize={15}
@@ -142,9 +136,9 @@ function Room() {
               }
             }}
           />
-        </form>
-      </div>
-    </S.Wrapper>
+        </S.Form>
+      </S.OtherInfoWrapper>
+    </S.Container>
   );
 }
 export default Room;

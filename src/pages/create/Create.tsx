@@ -18,12 +18,12 @@ function Create() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-      navigate('/auth/login');
-    }
-  }, []);
+  //useEffect(() => {
+  //  if (!accessToken) {
+  //    alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+  //    navigate('/auth/login');
+  //  }
+  //}, []);
 
   return (
     <S.Container>
@@ -33,23 +33,21 @@ function Create() {
           oldstat > 0 ? setStat({ status: oldstat - 1 }) : navigate('/main');
         }}
       />
-      <div>
-        {stat.status === 0 ? (
-          <RegisterStart />
-        ) : stat.status === 1 ? (
-          <Location />
-        ) : stat.status === 2 ? (
-          <Tel />
-        ) : stat.status === 3 ? (
-          <Price />
-        ) : stat.status === 4 ? (
-          <Room />
-        ) : stat.status === 5 ? (
-          <Photo />
-        ) : (
-          <Summary />
-        )}
-      </div>
+      {stat.status === 0 ? (
+        <RegisterStart />
+      ) : stat.status === 1 ? (
+        <Location />
+      ) : stat.status === 2 ? (
+        <Tel />
+      ) : stat.status === 3 ? (
+        <Price />
+      ) : stat.status === 4 ? (
+        <Room />
+      ) : stat.status === 5 ? (
+        <Photo />
+      ) : (
+        <Summary />
+      )}
     </S.Container>
   );
 }

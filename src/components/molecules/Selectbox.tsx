@@ -1,27 +1,20 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-const SelectBoxStyle = {
-  TextAlignLast: 'center',
-  textAlign: 'center',
-  width: '150px',
-  borderRadius: '5px',
-  border: '1px solid black',
-};
 
 export const SelBox = styled.div`
   position: absolute;
   right: 10px;
   border: 1px solid black;
   border-radius: 10px;
+  display: flex;
   .image {
-    position: absolute;
     width: 20px;
     height: 20px;
   }
   .select {
+    margin-top: 0px;
     border: none;
     background-color: transparent;
-    margin-left: 25px;
   }
 `;
 interface IContent {

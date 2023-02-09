@@ -8,8 +8,10 @@ import { useForm, useFormState } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 
 const NoticeTextWrapperStyle = {
+  textAlign: 'center',
   paddingTop: '0px',
   marginTop: '0px',
+  marginBottom: '20px',
 };
 
 function RegisterStart() {
@@ -20,7 +22,6 @@ function RegisterStart() {
     register,
     formState: { errors },
     handleSubmit,
-    setError,
   } = useForm({ mode: 'onSubmit', defaultValues: { tel: tel } });
 
   useEffect(() => {
@@ -38,33 +39,34 @@ function RegisterStart() {
     return errors?.tel?.message;
   };
   return (
-    <S.Wrapper>
-      <div id="textPlace">
-        <h1>{stat.status}/5</h1>
-        <NoticeTextWrapper style={NoticeTextWrapperStyle}>
-          연락 받으실 연락처를 <br />
-          입력해 주세요.
-        </NoticeTextWrapper>
-        <form onSubmit={handleSubmit(onValid, onInvalid)}>
-          <InputTemplate
-            width="80%"
-            placeholderText="01012345678"
-            registerObject={register('tel', {
-              required: '전화번호가 필요합니다',
-              pattern: {
-                value: /^([0-9]?|)\d{9,10}$/,
-                message: '- 표시 제외한 정확한 전화번호를 입력해 주세요.',
-              },
-              onChange: onChangeTel,
-            })}
-          />
-          {onInvalid() ? <span>{onInvalid()}</span> : null}
-          <div>
-            <WhitePill text={'다음'} onClickNavigator={() => {}} />
-          </div>
-        </form>
-      </div>
-    </S.Wrapper>
+    <S.Container>
+      <S.NumberH1>{stat.status}/5</S.NumberH1>
+      <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
+        연락 받으실 연락처를 <br />
+        입력해 주세요.
+      </NoticeTextWrapper>
+      <S.Form onSubmit={handleSubmit(onValid, onInvalid)}>
+        <InputTemplate
+          width="80%"
+          placeholderText="01012345678"
+          registerObject={register('tel', {
+            required: '전화번호가 필요합니다',
+            pattern: {
+              value: /^([0-9]?|)\d{9,10}$/,
+              message: '- 표시 제외하고 입력해 주세요.',
+            },
+            onChange: onChangeTel,
+          })}
+        />
+        {onInvalid() ? <S.ErrorSpan>{onInvalid()}</S.ErrorSpan> : null}
+
+        <WhitePill
+          style={{ marginTop: '20px' }}
+          text={'다음'}
+          onClickNavigator={() => {}}
+        />
+      </S.Form>
+    </S.Container>
   );
 }
 
