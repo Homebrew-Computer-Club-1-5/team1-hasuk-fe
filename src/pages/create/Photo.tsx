@@ -15,35 +15,9 @@ import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useClearIdxedDBValue from '../../lib/util/clearIdxedDBValue';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 
-const divStyle = {
-  background: 'lightgray',
-  borderRadius: '12px',
-  width: '100%',
-  height: '30vh',
-  position: 'relative',
-  overflow: 'hidden',
-};
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
-  textAlign: 'center',
-};
-const inputStyle = {
-  display: 'none',
-};
-const labelStyle = {
-  paddingLeft: '10px',
-  paddingRight: '10px',
-  paddingTop: '5px',
-  paddingBottom: '5px',
-  zIndex: 6,
-  minWidth: '85px',
-  fontSize: '17px',
-  fontWeight: 600,
-  border: '1px solid black',
-
-  backgroundColor: 'white',
-  borderRadius: '20px',
   textAlign: 'center',
 };
 
@@ -103,16 +77,12 @@ function Photo() {
   }, [innerreal, innerpreview, isGetIdxValueSuccess]);
 
   useEffect(() => {
-    console.log(preview, '불러왔을때 preview값');
-  }, [preview]);
-
-  useEffect(() => {
     getIdxedDBValue();
   }, []);
 
   return (
     <S.Wrapper>
-      <h1>{stat.status}/5</h1>
+      <S.NumberH1>{stat.status}/5</S.NumberH1>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
         사진을 찍어
         <br /> 업로드 해주세요.
@@ -120,10 +90,9 @@ function Photo() {
       {preview.length === Number(real) && Number(real) !== 0 ? (
         <ImgCarousel img_url={preview} />
       ) : (
-        <div style={divStyle as any}></div>
+        <S.EmptyImage></S.EmptyImage>
       )}
-      <input
-        style={inputStyle}
+      <S.ImageInput
         type="file"
         id="image"
         accept="img/*"
@@ -131,10 +100,8 @@ function Photo() {
         onChange={saveFileImage}
         ref={imageInput as any}
       />
-      <div className="buttons">
-        <label style={labelStyle as any} htmlFor="image">
-          업로드
-        </label>
+      <S.ButtonsWrapper>
+        <S.UploadLabel htmlFor="image">업로드</S.UploadLabel>
         <WhitePill
           text={'이미지 지우기'}
           onClickNavigator={() => {
@@ -153,7 +120,7 @@ function Photo() {
             }
           }}
         />
-      </div>
+      </S.ButtonsWrapper>
     </S.Wrapper>
   );
 }

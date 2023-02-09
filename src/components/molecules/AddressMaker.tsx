@@ -13,6 +13,7 @@ declare global {
   }
 }
 const searchButtonStyle = {
+  marginTop: '20px',
   marginBottom: '20px',
 };
 const resultStyle = {
@@ -33,9 +34,11 @@ const addressStyle = {
 const resultWrapperStyle = {
   display: 'flex',
   marginBottom: '20px',
+  width: '100%',
 };
 
 const resultTitleStyle = {
+  marginLeft: '10px',
   fontWeight: 990,
   fontSize: '12px',
   width: '80px',
@@ -45,7 +48,6 @@ interface IObject {
 }
 
 function AddressMaker({ getCoordsValue }: IObject) {
-  const { register } = useForm();
   const [toggle, setToggle] = useState(false);
   const [finish, setFinish] = useState(false);
   const [address, setAddress] = useRecoilState(tempaddressAtom);

@@ -1,5 +1,4 @@
 import * as S from './Location.styled';
-import InputTemplate from '../../components/molecules/InputTemplate';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import WhitePill from '../../components/molecules/WhitePill';
 import { useRecoilState } from 'recoil';
@@ -11,7 +10,6 @@ import {
   longitudeAtom,
   isEditingAtom,
 } from '../../store/atoms';
-import { useForm, useFormState } from 'react-hook-form';
 import { useState } from 'react';
 import Selectbox from '../../components/molecules/Selectbox';
 import PillRadio from '../../components/molecules/PillRadio';
@@ -20,9 +18,6 @@ import { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { FETCH_HOUSE_BY_LOCATION } from '../../lib/gql';
 
-const emptySpaceStyle = {
-  width: '100%',
-};
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
   marginTop: '0px',
@@ -43,12 +38,6 @@ function Location() {
     },
   );
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    setError,
-  } = useForm();
   const [stat, setStat] = useRecoilState(statusAtom);
   const [univid, setUnivId] = useRecoilState(universityIdAtom);
   const [regionid, setRegionId] = useRecoilState(regionIdAtom);
@@ -66,6 +55,24 @@ function Location() {
   const getCoordsValue = (x: any) => {
     setCoords(x);
   };
+
+  function whitePillEventListener() {
+    if (univid !== 0 && regionid !== 0 && lat !== 0 && long !== 0) {
+    } else {
+      alert('정보를 모두 입력해주세요');
+      return;
+    }
+    if (!isEditing) {
+      fetchHouseByLocation({
+        variables: {
+          latitude: parseFloat(lat as any),
+          longitude: parseFloat(long as any),
+        },
+      });
+    } else {
+      setStat({ status: 2 });
+    }
+  }
   useEffect(() => {
     setRegionId(radio ? radio : regionid);
     setUnivId(select ? select : univid);
@@ -74,86 +81,72 @@ function Location() {
   }, [radio, select, coords]);
 
   return (
-    <S.Wrapper>
-      <div id="textPlace">
-        <h1>{stat.status}/5</h1>
-        <NoticeTextWrapper style={NoticeTextWrapperStyle} fontSize="25px">
-          위치 정보를 입력해 주세요.
-        </NoticeTextWrapper>
-        <div id="selectWrapper">
-          <p>대학</p>
-          <Selectbox
-            getSelectValue={getSelectValue}
+    <S.Container>
+      <S.NumberH1>{stat.status}/5</S.NumberH1>
+      <NoticeTextWrapper style={NoticeTextWrapperStyle} fontSize="25px">
+        위치 정보를 입력해 주세요.
+      </NoticeTextWrapper>
+      <S.SelectBoxWrapper>
+        <S.TitleP>대학</S.TitleP>
+        <Selectbox
+          getSelectValue={getSelectValue}
+          stuff={[
+            { text: '선택하세요', value: 0, defaultValue: true },
+            {
+              text: '고려대',
+              value: 1,
+              defaultValue: Number(univid) === 1 ? true : false,
+            },
+          ]}
+        />
+      </S.SelectBoxWrapper>
+
+      {univid !== 0 ? (
+        <S.RadioWrapper>
+          <S.TitleP>지역</S.TitleP>
+
+          <PillRadio
+            def={regionid ? regionid : undefined}
+            getRadioValue={getRadioValue}
             stuff={[
-              { text: '선택하세요', value: 0, defaultValue: true },
               {
-                text: '고려대',
+                text: '성신여대',
                 value: 1,
-                defaultValue: Number(univid) === 1 ? true : false,
+              },
+              {
+                text: '보문동',
+                value: 2,
+              },
+              {
+                text: '안암역',
+                value: 3,
+              },
+              {
+                text: '제기동',
+                value: 4,
+              },
+              {
+                text: '고대정문',
+                value: 5,
+              },
+              {
+                text: '법대후문',
+                value: 6,
               },
             ]}
           />
-        </div>
-        {univid !== 0 ? (
-          <div id="radioWrapper">
-            <p>지역</p>
+        </S.RadioWrapper>
+      ) : null}
 
-            <PillRadio
-              defaultValue={regionid ? regionid : undefined}
-              getRadioValue={getRadioValue}
-              stuff={[
-                {
-                  text: '성신여대',
-                  value: 1,
-                },
-                {
-                  text: '보문동',
-                  value: 2,
-                },
-                {
-                  text: '안암역',
-                  value: 3,
-                },
-                {
-                  text: '제기동',
-                  value: 4,
-                },
-                {
-                  text: '고대정문',
-                  value: 5,
-                },
-                {
-                  text: '법대후문',
-                  value: 6,
-                },
-              ]}
-            />
-          </div>
-        ) : null}
+      <AddressMaker getCoordsValue={getCoordsValue} />
+      <WhitePill
+        text={'다음'}
+        onClickNavigator={() => {
+          whitePillEventListener();
+        }}
+      />
+    </S.Container>
 
-        <AddressMaker getCoordsValue={getCoordsValue} />
-        <WhitePill
-          text={'다음'}
-          onClickNavigator={() => {
-            if (univid !== 0 && regionid !== 0 && lat !== 0 && long !== 0) {
-            } else {
-              alert('정보를 모두 입력해주세요');
-              return;
-            }
-            if (!isEditing) {
-              fetchHouseByLocation({
-                variables: {
-                  latitude: parseFloat(lat as any),
-                  longitude: parseFloat(long as any),
-                },
-              });
-            } else {
-              setStat({ status: 2 });
-            }
-          }}
-        />
-      </div>
-    </S.Wrapper>
   );
 }
 export default Location;

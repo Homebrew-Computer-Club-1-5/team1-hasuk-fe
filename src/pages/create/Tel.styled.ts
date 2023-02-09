@@ -1,22 +1,10 @@
 import styled from 'styled-components';
-export const Wrapper = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 80vw;
   margin: 0px auto;
   align-items: center;
-
-  #textPlace {
-    width: 80vw;
-
-    text-align: center;
-    form {
-      margin-top: 100px;
-      div {
-        margin-top: 30px;
-      }
-    }
-  }
 `;
 
 export const Form = styled.form`
@@ -24,4 +12,10 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+export const NumberH1 = styled.h1``;
+
+export const ErrorSpan = styled.span`
+  text-align: center;
 `;
