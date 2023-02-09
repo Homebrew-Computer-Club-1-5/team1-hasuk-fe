@@ -11,6 +11,7 @@ import oneRoomIconPng from '../../assets/oneRoomMarker.png';
 import etcIconPng from '../../assets/etcMarker.png';
 import * as S from './Map.styled';
 import Loading from '../../components/molecules/Loading';
+import { FETCH_ALL_HOUSES_GROUPED_BY_REGION } from '../../lib/gql';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -28,31 +29,15 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
-  const GET_HOUSE = gql`
-    query {
-      fetchAllHouses {
-        name
-        id
-        houses {
-          id
-          house_location {
-            latitude
-            longitude
-            id
-          }
-          house_category {
-            id
-          }
-        }
-      }
-    }
-  `;
-  const { loading, error, data } = useQuery(GET_HOUSE, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
-      setmainHouses((current) => data.fetchAllHouses);
+  const { loading, error, data } = useQuery(
+    FETCH_ALL_HOUSES_GROUPED_BY_REGION,
+    {
+      fetchPolicy: 'no-cache',
+      onCompleted: (data) => {
+        setmainHouses((current) => data.fetchAllHousesGroupedByRegion);
+      },
     },
-  });
+  );
 
   function drawKakaoMap() {
     let container = document.getElementById('map');

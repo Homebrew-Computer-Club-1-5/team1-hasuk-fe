@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect } from 'react';
 import Loading from '../../components/molecules/Loading';
+import { FETCH_CRAWLED_HOUSES } from '../../lib/gql';
 
 function ExHouses() {
   const resetAllAtoms = useResetAllAtoms();
@@ -20,16 +21,6 @@ function ExHouses() {
     fetchCrawledHousesAtom,
   );
   const { region_id } = useParams();
-
-  const FETCH_CRAWLED_HOUSES = gql`
-    query {
-      fetchCrawledHouses {
-        id
-        img_urls
-        house_category
-      }
-    }
-  `;
 
   const { loading, error, data } = useQuery(FETCH_CRAWLED_HOUSES, {
     fetchPolicy: 'no-cache',

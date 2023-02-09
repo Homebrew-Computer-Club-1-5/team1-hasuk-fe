@@ -9,13 +9,14 @@ import ReactGA from 'react-ga';
 
 // react-ga
 export const ANALYTICS_TRACKING_ID = process.env
-  .REACT_APP_GOOGLE_ANALYTICS_ANALYTICS_TRACKING_ID as string;
+  .REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID as string;
 ReactGA.initialize(ANALYTICS_TRACKING_ID);
 // ReactGA.pageview(window.location.pathname + window.location.search);
 
 // apollo-client
+const ENV = process.env.REACT_APP_ENV;
 const uploadLink = createUploadLink({
-  uri: 'http://172.30.1.65:8080/graphql',
+  uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {

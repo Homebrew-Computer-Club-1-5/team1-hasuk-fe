@@ -64,7 +64,7 @@ function Room() {
       <S.RadioWrapper>
         <S.TitleP>성별</S.TitleP>
         <PillRadio
-          def={gen ? gen : undefined}
+          defaultValue={gen ? gen : undefined}
           getRadioValue={getGenderValue}
           stuff={[
             {
@@ -85,7 +85,7 @@ function Room() {
       <S.RadioWrapper>
         <S.TitleP>카테고리</S.TitleP>
         <PillRadio
-          def={cat ? cat : undefined}
+          defaultValue={cat ? cat : undefined}
           getRadioValue={getCategoryValue}
           stuff={[
             {

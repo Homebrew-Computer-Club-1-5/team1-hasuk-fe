@@ -2,7 +2,27 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 const { persistAtom } = recoilPersist();
 
-interface IhouseData_fetchHousesByRegion {
+export interface IhouseData_fetchAllHouses {
+  id: number;
+  gender: number | null;
+  board_date: number;
+  region: {
+    id: number;
+    name: string;
+  } | null;
+  house_cost: {
+    month_cost: number;
+  } | null;
+  imgs: {
+    img_url: string;
+  }[];
+  house_category: {
+    id: number;
+    name: string;
+  } | null;
+}
+
+export interface IhouseData_fetchHousesByRegion {
   region_name: string;
   id: number;
   month_cost: number;
@@ -11,6 +31,7 @@ interface IhouseData_fetchHousesByRegion {
   gender: number;
   has_empty: boolean;
   house_category_id: number;
+  board_date: string; // 야매
 } // 필수 비필수 설정 해줘야함
 
 interface Iimg_url {
@@ -95,6 +116,31 @@ export interface Ihouse_object {
 }
 export const houseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
   key: 'houseDatas',
+  default: [],
+});
+
+export const houseDatas2Atom = atom<IhouseData_fetchAllHouses[]>({
+  key: 'houseDatas2',
+  default: [],
+});
+
+export const isHousesFirstLoadedAtom = atom<boolean>({
+  key: 'isHousesFirstLoaded',
+  default: true,
+});
+
+export const isHousesFirstLoaded2Atom = atom<boolean>({
+  key: 'isHousesFirstLoaded2',
+  default: true,
+});
+
+export const filteredHouseDatasAtom = atom<IhouseData_fetchHousesByRegion[]>({
+  key: 'filteredHouseDatas',
+  default: [],
+});
+
+export const filteredHouseDatas2Atom = atom<IhouseData_fetchAllHouses[]>({
+  key: 'filteredHouseDatas2',
   default: [],
 });
 

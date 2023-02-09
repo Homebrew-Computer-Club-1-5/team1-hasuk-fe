@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { ReactComponent as FilterButton } from '../../assets/FilterButton.svg';
 import { useRecoilState } from 'recoil';
-import { filteredHouseDatasAtom, houseDatasAtom } from '../../store/atoms';
+import {
+  filteredHouseDatas2Atom,
+  filteredHouseDatasAtom,
+  houseDatas2Atom,
+  houseDatasAtom,
+} from '../../store/atoms';
 import { useEffect, useState } from 'react';
 import PillRadio, { IContent } from '../../components/molecules/PillRadio';
 
@@ -16,9 +21,9 @@ const Container = styled.div`
 `;
 
 function FilterWrapper() {
-  const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
-  const [filteredHouseDatas, setFilteredHouseDatas] = useRecoilState(
-    filteredHouseDatasAtom,
+  const [houseDatas, setHouseDatas] = useRecoilState(houseDatas2Atom);
+  const [filteredHouseDatas2, setFilteredHouseDatas2] = useRecoilState(
+    filteredHouseDatas2Atom,
   );
 
   const [filterState, setFilterState] = useState<number>(1);
@@ -26,15 +31,15 @@ function FilterWrapper() {
   useEffect(() => {
     if (filterState === 1) {
       setHouseDatas((current) => [...current]);
-      setFilteredHouseDatas((current) => []);
+      setFilteredHouseDatas2((current) => []);
     } else if (filterState !== 1) {
       const result = houseDatas.filter(
-        (houseData) => houseData.house_category_id === filterState,
+        (houseData) => houseData.house_category?.id === filterState,
       );
       if (result[0]) {
-        setFilteredHouseDatas((current) => result as any);
+        setFilteredHouseDatas2((current) => result as any);
       } else {
-        setFilteredHouseDatas((current) => [null] as any);
+        setFilteredHouseDatas2((current) => [null] as any);
       }
     }
   }, [filterState]);

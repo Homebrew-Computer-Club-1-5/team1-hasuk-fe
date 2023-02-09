@@ -10,7 +10,7 @@ const Pill = styled.button`
   height: 35px;
   background-color: white;
   border-radius: 20px;
-  box-shadow: 0px 5px lightgray;
+  box-shadow: 0px 3px 3px 0px gray;
   font-family: 'Manrope';
 `;
 

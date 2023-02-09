@@ -1,9 +1,4 @@
 import ImgCarousel from '../../components/molecules/ImgCarousel';
-import {
-  houseDatasAtom,
-  IhouseData_fetchHousesByRegion,
-} from '../../store/atoms';
-import { useRecoilValue } from 'recoil';
 import P_Manrope_Bold from '../../components/atoms/P_Manrope_Bold';
 import P_Manrope_Light from '../../components/atoms/P_Manrope_Light';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
@@ -11,18 +6,19 @@ import P_Manrope_Regular from '../../components/atoms/P_Manrope_Regular';
 import * as S from './HouseWrapper.styled';
 import { convertTimestamp } from '../../lib/util/time';
 import { useNavigate } from 'react-router-dom';
+import { IhouseData_fetchAllHouses } from '../../store/atoms';
 
 interface IHouseWrapper {
-  houseData: IhouseData_fetchHousesByRegion;
+  houseData: IhouseData_fetchAllHouses;
 }
 
 function HouseWrapper({ houseData }: IHouseWrapper) {
   const navigate = useNavigate();
 
-  const img_url = houseData.img_urls;
-  const category = houseData.house_category_id;
-  const board_date = parseInt(houseData.board_date);
-  // console.log(board_date);
+  const img_urls = houseData.imgs.map((imgObj: any) => imgObj.img_url);
+  const category = houseData.house_category?.id;
+  const board_date = houseData.board_date;
+
   const currentTime = Date.now();
   const { days, hours, minutes, totalSeconds } = convertTimestamp(
     currentTime - board_date,
@@ -34,7 +30,7 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
         navigate(`/house/${houseData.id}`);
       }}
     >
-      <ImgCarousel img_url={img_url ? img_url : []}></ImgCarousel>
+      <ImgCarousel img_url={img_urls ? img_urls : []}></ImgCarousel>
       <S.InfosWrapper>
         <S.ExtraInfosWrapper>
           <P_Manrope_Bold>
@@ -49,7 +45,9 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
               : '기타'}
           </P_Manrope_Bold>
           <P_Manrope_Light>
-            {`${houseData.nearest_main_spot_name} 주변`}
+            {houseData.region?.name
+              ? `${houseData.region?.name} 지역`
+              : '지역정보 없음'}
           </P_Manrope_Light>
           <P_Manrope_Light>
             {days !== 0
@@ -64,10 +62,12 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
         </S.ExtraInfosWrapper>
         <S.PriceInfoWrapper>
           <P_Manrope_ExtraBold style={{ fontSize: '35px' }}>
-            {houseData.month_cost}
+            {houseData.house_cost?.month_cost}
           </P_Manrope_ExtraBold>
           <P_Manrope_Regular>
-            {houseData.month_cost ? '만 /월' : '금액 정보 전화 문의'}
+            {houseData.house_cost?.month_cost
+              ? '만 /월'
+              : '금액 정보 전화 문의'}
           </P_Manrope_Regular>
         </S.PriceInfoWrapper>
       </S.InfosWrapper>
