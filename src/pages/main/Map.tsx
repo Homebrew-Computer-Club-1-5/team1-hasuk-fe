@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { mainHousesAtom } from '../../store/atoms';
+import {
+  currentLocationAtom,
+  isCurrentLocationButtonClickedAtom,
+  mainHousesAtom,
+} from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
 // import Marker from '../../assets/Marker.svg';
 import hasukIconPng from '../../assets/hasukMarker.png';
@@ -12,6 +16,12 @@ import etcIconPng from '../../assets/etcMarker.png';
 import * as S from './Map.styled';
 import Loading from '../../components/molecules/Loading';
 import { FETCH_ALL_HOUSES_GROUPED_BY_REGION } from '../../lib/gql';
+import {
+  deleteMarker,
+  displayMarker,
+  Ilocation,
+} from '../../lib/util/kakaoMap';
+import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -23,9 +33,12 @@ declare global {
     kakao: any;
   }
 }
-function Map({ exlatitude, exlongitude, children }: ICoordinate) {
-  const [mapLevel, setMapLevel] = useState<number>();
 
+function Map({ exlatitude, exlongitude, children }: ICoordinate) {
+  const [kakaoMap, setKakaoMap] = useState();
+  const [mapLevel, setMapLevel] = useState<number>();
+  const [currentLocation, setCurrentLocation] =
+    useRecoilState(currentLocationAtom);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
@@ -38,6 +51,80 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       },
     },
   );
+  const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
+    useRecoilState(isCurrentLocationButtonClickedAtom);
+  const [marker, setMarker] = useState();
+
+  useEffect(() => {
+    // qs에 at있는지 체크하고, 로컬스토리지에 저장
+    if (searchParams.get('accessToken')) {
+      localStorage.setItem(
+        'accessToken',
+        searchParams.get('accessToken') as string,
+      );
+      setSearchParams((currentParams) => {
+        const newParams = new URLSearchParams(currentParams);
+        newParams.delete('accessToken');
+        return newParams.toString();
+      });
+    }
+
+    // 지도 기본틀 그려주기
+    const result2 = drawKakaoMap();
+    setKakaoMap(result2);
+  }, []);
+
+  // houseData 로딩 다되면, 클러스터들 그려주기
+  useEffect(() => {
+    if (kakaoMap) {
+      const regionMarkerList = mainHouses.map((mainHouse) => {
+        const markerList = mainHouse.houses.map((house) => {
+          return makeMarker(
+            house.house_location.latitude,
+            house.house_location.longitude,
+            house.id,
+            house.house_category.id,
+          );
+        });
+        makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
+      });
+    }
+  }, [mainHouses, kakaoMap]);
+
+  // 실시간으로 마커 그리기~
+  useEffect(() => {
+    if (
+      isCurrentLocationButtonClicked &&
+      currentLocation.longitude &&
+      currentLocation.latitude
+    ) {
+      const locPosition = new window.kakao.maps.LatLng(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      );
+      const resultMarker = displayMarker({
+        locPosition,
+        map: kakaoMap,
+      });
+      console.log(resultMarker);
+      setMarker((current) => resultMarker);
+    }
+  }, [currentLocation]);
+
+  // 마커 제거
+  useEffect(() => {
+    if (
+      !isCurrentLocationButtonClicked &&
+      currentLocation.longitude &&
+      currentLocation.latitude
+    ) {
+      const locPosition = new window.kakao.maps.LatLng(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      );
+      deleteMarker({ locPosition, map: kakaoMap, marker });
+    }
+  }, [isCurrentLocationButtonClicked]);
 
   function drawKakaoMap() {
     let container = document.getElementById('map');
@@ -49,6 +136,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
+
     window.kakao.maps.event.addListener(map, 'zoom_changed', function () {
       setMapLevel(map.getLevel());
     });
@@ -147,34 +235,9 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     return marker;
   }
 
-  useEffect(() => {
-    const kakaoMap = drawKakaoMap();
-    const regionMarkerList = mainHouses.map((mainHouse) => {
-      const markerList = mainHouse.houses.map((house) => {
-        return makeMarker(
-          house.house_location.latitude,
-          house.house_location.longitude,
-          house.id,
-          house.house_category.id,
-        );
-      });
-      makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
-    });
-    if (searchParams.get('accessToken')) {
-      localStorage.setItem(
-        'accessToken',
-        searchParams.get('accessToken') as string,
-      );
-      setSearchParams((currentParams) => {
-        const newParams = new URLSearchParams(currentParams);
-        newParams.delete('accessToken');
-        return newParams.toString();
-      });
-    }
-  }, [mainHouses]);
-
   return (
     <S.mapWrapper>
+      <CurrentLocationButton />
       {loading ? <Loading loadingText="메인 페이지 로딩중.." /> : null}
       {mapLevel && mapLevel < 5 ? (
         <div className="legend">

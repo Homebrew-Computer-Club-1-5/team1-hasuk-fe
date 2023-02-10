@@ -15,6 +15,12 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../../components/molecules/NavBar';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 // import icon from '../../assets/haksamo.png';
 function Main() {
   const navigate = useNavigate();
@@ -37,7 +43,6 @@ function Main() {
         />
       </S.Header>
       <S.MapWrapper>
-        <CurrentLocationButton />
         <Map />
       </S.MapWrapper>
     </S.Container>
