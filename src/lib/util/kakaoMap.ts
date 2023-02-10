@@ -4,14 +4,15 @@ import {
   currentLocationAtom,
   isCurrentLocationButtonClickedAtom,
 } from '../../store/atoms';
+import CurrentLocationPin from '../../assets/CurrentLocationPin.png';
 
 interface IdisplayMarker {
   locPosition: any;
+  markerImage: any;
   map: any;
 }
 
 interface IdeleteMarker {
-  locPosition: any;
   map: any;
   marker: any;
 }
@@ -46,7 +47,7 @@ export function useLiveLocation(): IuseLiveLocation {
       (error) => {
         setIsCurrentLocationButtonClicked((current) => !current);
         alert(
-          '위치 정보에 동의하지 않으셨습니다. 이용 하려면 브라우저 설정을 바꿔 주세요.',
+          '위치 정보에 동의하지 않으셨습니다. 이용 하려면 브라우저 설정을 바꾸고 새로고침 주세요.',
         );
       },
       { enableHighAccuracy: true },
@@ -55,17 +56,21 @@ export function useLiveLocation(): IuseLiveLocation {
     return watchId;
   }
   function stopGetLocationLively({ watchId }: IstopGetLocationLively) {
-    console.log('실시간으로 위치정보 불러오기를 중단합니다.', watchId);
     navigator.geolocation.clearWatch(watchId as any);
   }
 
   return { getLocationLively, stopGetLocationLively };
 }
 
-export function displayMarker({ locPosition, map }: IdisplayMarker) {
+export function displayMarker({
+  locPosition,
+  markerImage,
+  map,
+}: IdisplayMarker) {
   // 마커를 생성
   var marker = new window.kakao.maps.Marker({
     position: locPosition,
+    image: markerImage,
   });
 
   // marker.setMap(null);
@@ -77,6 +82,15 @@ export function displayMarker({ locPosition, map }: IdisplayMarker) {
   return marker;
 }
 
-export function deleteMarker({ locPosition, map, marker }: IdeleteMarker) {
+export function deleteMarker({ map, marker }: IdeleteMarker) {
   marker.setMap(null);
+}
+
+export function makeLiveLocationMarkerImage() {
+  const liveLocationMarkerImage = new window.kakao.maps.MarkerImage(
+    CurrentLocationPin,
+    new window.kakao.maps.Size(20, 20),
+    {},
+  );
+  return liveLocationMarkerImage;
 }
