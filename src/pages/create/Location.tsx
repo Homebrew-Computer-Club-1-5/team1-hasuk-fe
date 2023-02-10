@@ -106,7 +106,7 @@ function Location() {
           <S.TitleP>지역</S.TitleP>
 
           <PillRadio
-            defaultValue={regionid ? regionid : undefined}
+            def={regionid ? regionid : undefined}
             getRadioValue={getRadioValue}
             stuff={[
               {
@@ -146,6 +146,7 @@ function Location() {
         }}
       />
     </S.Container>
+
   );
 }
 export default Location;
