@@ -15,6 +15,12 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../../components/molecules/NavBar';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 // import icon from '../../assets/haksamo.png';
 function Main() {
   const navigate = useNavigate();
@@ -24,6 +30,17 @@ function Main() {
   useEffect(() => {
     resetAllAtoms();
   }, []);
+
+  // navigator.geolocation.getCurrentPosition((position) => {
+  //   const { latitude, longitude } = position.coords;
+  //   // console.log(latitude, longitude);
+  // });
+  // navigator.geolocation.watchPosition((position) => {
+  //   const { latitude, longitude } = position.coords;
+  //   console.log(latitude, longitude);
+  //   const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
+  //   const message = '<div style="padding:5px;">여기에 계신가요?!</div>';
+  // });
 
   return (
     <S.Container>
@@ -37,7 +54,6 @@ function Main() {
         />
       </S.Header>
       <S.MapWrapper>
-        <CurrentLocationButton />
         <Map />
       </S.MapWrapper>
     </S.Container>

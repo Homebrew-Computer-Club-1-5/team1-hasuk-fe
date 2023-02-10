@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import { mainHousesAtom } from '../../store/atoms';
+import { currentLiveLocationAtom, mainHousesAtom } from '../../store/atoms';
 import btnDesign from '../../assets/Btndesign.png';
 // import Marker from '../../assets/Marker.svg';
 import hasukIconPng from '../../assets/hasukMarker.png';
@@ -12,6 +12,8 @@ import etcIconPng from '../../assets/etcMarker.png';
 import * as S from './Map.styled';
 import Loading from '../../components/molecules/Loading';
 import { FETCH_ALL_HOUSES_GROUPED_BY_REGION } from '../../lib/gql';
+import { displayMarker, Ilocation } from '../../lib/util/kakaoMap';
+import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -23,9 +25,10 @@ declare global {
     kakao: any;
   }
 }
+
 function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [mapLevel, setMapLevel] = useState<number>();
-
+  const [currentLocation, setCurrentLocation] = useState<Ilocation>({} as any);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
@@ -171,10 +174,31 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
         return newParams.toString();
       });
     }
-  }, [mainHouses]);
+    if (currentLocation.longitude && currentLocation.latitude) {
+      const locPosition = new window.kakao.maps.LatLng(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      );
+      console.log('하위');
+      displayMarker({ locPosition, map: kakaoMap });
+    } else {
+      // deleteMarker({})
+    }
+  }, [mainHouses, currentLocation]);
+
+  // useEffect(() => {
+  //   navigator.geolocation.watchPosition((position) => {
+  //     const { latitude, longitude } = position.coords;
+  //     console.log(latitude, longitude);
+  //     const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
+  //     const message = '<div style="padding:5px;">여기에 계신가요?!</div>';
+  //     displayMarker({ locPosition, message, map: kakaoMap });
+  //   });
+  // });
 
   return (
     <S.mapWrapper>
+      <CurrentLocationButton setCurrentLocation={setCurrentLocation} />
       {loading ? <Loading loadingText="메인 페이지 로딩중.." /> : null}
       {mapLevel && mapLevel < 5 ? (
         <div className="legend">

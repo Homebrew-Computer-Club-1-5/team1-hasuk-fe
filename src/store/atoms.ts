@@ -292,3 +292,17 @@ export const innerpreviewAfterIdxDBAtom = atom<string[]>({
   key: 'innerpreviewAfterIdxDB',
   default: [],
 });
+
+export const isCurrentLocationButtonClickedAtom = atom<boolean>({
+  key: 'isCurrentLocationButtonClicked',
+  default: false,
+});
+
+interface IcurrentLiveLocation {
+  longitude: number;
+  latitude: number;
+}
+export const currentLiveLocationAtom = atom<IcurrentLiveLocation>({
+  key: 'currentLiveLocation',
+  default: {} as any,
+});
