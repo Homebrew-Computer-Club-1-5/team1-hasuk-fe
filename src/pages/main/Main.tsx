@@ -12,6 +12,8 @@ import ImgWrapper from '../../components/atoms/ImgWrapper';
 import Selectbox from '../../components/molecules/Selectbox';
 import WhitePill from '../../components/molecules/WhitePill';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../../components/molecules/NavBar';
+import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
@@ -35,29 +37,7 @@ function Main() {
         />
       </S.Header>
       <S.MapWrapper>
-        <CreateHouseButton />
-        <MenuButton
-          onClick={() => {
-            setIsSideBarOpened((current) => !current);
-          }}
-        />
-        <WhitePill
-          text="모든 집 보기"
-          onClickNavigator={() => {
-            navigate('/allhouses');
-          }}
-          style={{
-            position: 'absolute',
-            left: '50%',
-            right: '50%',
-            top: '30px',
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
-        <SideBar
-          isSideBarOpened={isSideBarOpened}
-          setIsSideBarOpened={setIsSideBarOpened}
-        />
+        <CurrentLocationButton />
         <Map />
       </S.MapWrapper>
     </S.Container>

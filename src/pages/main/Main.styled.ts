@@ -4,6 +4,7 @@ export const Container = styled.div`
   margin-left: -10px;
   width: 100vw;
   height: 100vh;
+  position: relative;
 `;
 
 export const MapWrapper = styled.div`
