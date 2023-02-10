@@ -11,7 +11,6 @@ import Map from './Map';
 import ImgWrapper from '../../components/atoms/ImgWrapper';
 import { FETCH_ALL_HOUSES } from '../../lib/gql';
 
-
 declare global {
   interface Window {
     kakao: any;
@@ -35,8 +34,8 @@ function Focusedmap() {
         <P_Manrope_ExtraBold>고려대-{`${state.name}`}</P_Manrope_ExtraBold>
       </S.Header>
       <S.MapWrapper>
-        <CreateHouseButton />
-        <MenuButton
+        {/* <CreateHouseButton /> */}
+        {/* <MenuButton
           onClick={() => {
             setIsSideBarOpened((current) => !current);
           }}
@@ -44,7 +43,7 @@ function Focusedmap() {
         <SideBar
           isSideBarOpened={isSideBarOpened}
           setIsSideBarOpened={setIsSideBarOpened}
-        />
+        /> */}
 
         <Map exlatitude={state.Latitude} exlongitude={state.Longitude}>
           <WhitePill
