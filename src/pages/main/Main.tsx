@@ -31,17 +31,6 @@ function Main() {
     resetAllAtoms();
   }, []);
 
-  // navigator.geolocation.getCurrentPosition((position) => {
-  //   const { latitude, longitude } = position.coords;
-  //   // console.log(latitude, longitude);
-  // });
-  // navigator.geolocation.watchPosition((position) => {
-  //   const { latitude, longitude } = position.coords;
-  //   console.log(latitude, longitude);
-  //   const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
-  //   const message = '<div style="padding:5px;">여기에 계신가요?!</div>';
-  // });
-
   return (
     <S.Container>
       <S.Header>

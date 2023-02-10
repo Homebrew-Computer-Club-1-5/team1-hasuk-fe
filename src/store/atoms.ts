@@ -298,11 +298,11 @@ export const isCurrentLocationButtonClickedAtom = atom<boolean>({
   default: false,
 });
 
-interface IcurrentLiveLocation {
+interface IcurrentLocation {
   longitude: number;
   latitude: number;
 }
-export const currentLiveLocationAtom = atom<IcurrentLiveLocation>({
-  key: 'currentLiveLocation',
+export const currentLocationAtom = atom<IcurrentLocation>({
+  key: 'currentLocation',
   default: {} as any,
 });

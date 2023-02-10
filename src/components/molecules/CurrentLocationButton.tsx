@@ -3,37 +3,30 @@ import { ReactComponent as CurrentLocation } from '../../assets/CurrentLocation.
 import { useRecoilState } from 'recoil';
 import { isCurrentLocationButtonClickedAtom } from '../../store/atoms';
 import { Ilocation, useLiveLocation } from '../../lib/util/kakaoMap';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-interface ICurrentLocationButton {
-  setCurrentLocation: React.Dispatch<React.SetStateAction<Ilocation>>;
-}
-
-function CurrentLocationButton({ setCurrentLocation }: ICurrentLocationButton) {
+function CurrentLocationButton() {
   const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
     useRecoilState(isCurrentLocationButtonClickedAtom);
-  const { getLocationLively, stopGetLocationLively, currentLiveLocation } =
-    useLiveLocation();
+  const { getLocationLively, stopGetLocationLively } = useLiveLocation();
+  const [watchId, setWatchId] = useState<number>();
 
   useEffect(() => {
-    setCurrentLocation(currentLiveLocation);
-  }, [currentLiveLocation]);
+    // 2. 동의 됬을시 현재 좌표 정보 업데이트
+    if (isCurrentLocationButtonClicked) {
+      console.log('버튼이 눌림');
+      const watchId = getLocationLively();
+      setWatchId((current) => watchId as any);
+    } else {
+      console.log('버튼이 꺼짐', isCurrentLocationButtonClicked);
+      stopGetLocationLively({ watchId: watchId as any });
+    }
+  }, [isCurrentLocationButtonClicked]);
 
   return (
     <S.Container
       onClick={() => {
-        setIsCurrentLocationButtonClicked((current) => {
-          if (current === false) {
-            getLocationLively();
-            // navigator.geolocation.watchPosition((position) => {
-            //   console.log('실시간으로 위치정보를 불러옵니다.');
-            //   const { latitude, longitude } = position.coords;
-            // });
-          } else {
-            stopGetLocationLively();
-          }
-          return !current;
-        });
+        setIsCurrentLocationButtonClicked((current) => !current);
       }}
       isCurrentLocationButtonClicked={isCurrentLocationButtonClicked}
     >

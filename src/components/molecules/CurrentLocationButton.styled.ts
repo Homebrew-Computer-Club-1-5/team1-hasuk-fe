@@ -11,7 +11,7 @@ export const Container = styled.div<IContainer>`
   right: 10px;
   top: 55px;
   background-color: ${(props) =>
-    !props.isCurrentLocationButtonClicked ? 'white' : '#818181'};
+    props.isCurrentLocationButtonClicked ? '#818181' : 'white'};
   border-radius: 5px;
   box-shadow: 0px 4px 4px 0px lightgray;
   cursor: pointer;
