@@ -6,3 +6,6 @@ html,
 body {
   font-family: 'Manrope';
 }
+#root > div {
+  padding-bottom: 60px;
+}

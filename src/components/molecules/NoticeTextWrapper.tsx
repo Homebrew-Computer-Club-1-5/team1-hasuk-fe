@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import P_Manrope_ExtraBold from '../atoms/P_Manrope_ExtraBold';
 
-const Wrapper = styled.div`
+const Container = styled.div`
   margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: cetner;
+  text-align: center;
 `;
 
 interface INoticeTextWrapper {
@@ -12,13 +16,13 @@ interface INoticeTextWrapper {
 }
 function NoticeTextWrapper({ children, style, fontSize }: INoticeTextWrapper) {
   return (
-    <Wrapper style={style}>
+    <Container style={style}>
       <P_Manrope_ExtraBold
         style={{ fontSize: `${fontSize ? fontSize : '26px'}` }}
       >
         {children}
       </P_Manrope_ExtraBold>
-    </Wrapper>
+    </Container>
   );
 }
 

@@ -42,7 +42,6 @@ const NoticeTextWrapperStyle = {
 
 const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
 
-
 function Summary() {
   const resetAllAtoms = useResetAllAtoms();
   const [clickedHouse_id, setClickedHouse_id] =
@@ -231,7 +230,7 @@ function Summary() {
         }}
       />
       <WhitePill
-        onClickNavigator={() => {
+        onClick={() => {
           if (!isEditing) {
             executeCreateHouse();
           } else {

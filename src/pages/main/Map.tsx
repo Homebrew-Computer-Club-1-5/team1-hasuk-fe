@@ -284,7 +284,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
               left: '50%',
               transform: 'translate(-50%,0%)',
             }}
-            onClickNavigator={() => navigateToHouses()}
+            onClick={() => navigateToHouses()}
             text={'보러 가기'}
           />
         ) : null}

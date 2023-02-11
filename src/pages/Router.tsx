@@ -8,6 +8,7 @@ import Houses from './houses/Houses';
 import Main from './main/Main';
 import MyHouse from './myhouse/MyHouse';
 import NotFound from './NotFound';
+import Up from './up/Up';
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/allhouses" element={<AllHouses />} />
       <Route path="/exhouses" element={<ExHouses />} />
       <Route path="/house/:house_id" element={<House />} />
+      <Route path="/up" element={<Up />} />
       <Route path="/main" element={<Main />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/myhouse" element={<MyHouse />} />

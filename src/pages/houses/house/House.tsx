@@ -1,7 +1,7 @@
 import ImgCarousel from '../../../components/molecules/ImgCarousel';
 import { useQuery, gql } from '@apollo/client';
-import { useRecoilState } from 'recoil';
-import { houseDataAtom } from '../../../store/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { houseDataAtom, isUppingAtom } from '../../../store/atoms';
 import styled from 'styled-components';
 import TitleWrapper from '../../../components/molecules/TitleWrapper';
 import House_BasicInfosWrapper from './House_BasicInfosWrapper';
@@ -11,16 +11,17 @@ import House_HouseIdWrapper from './House_HouseIdWrapper';
 import { ReactComponent as ContactButton } from '../../../assets/ContactButton.svg';
 import InfoModal from '../../../components/molecules/InfoModal';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 import Loading from '../../../components/molecules/Loading';
 import { FETCH_HOUSE } from '../../../lib/gql';
-
-const Container = styled.div`
-  position: relative;
-`;
+import WhitePill from '../../../components/molecules/WhitePill';
+import * as S from './House.styled';
 
 function House() {
+  const isUpping = useRecoilValue(isUppingAtom);
+  const { state } = useLocation();
+  console.log(state?.fromUp);
   const resetAllAtoms = useResetAllAtoms();
   useEffect(() => {
     resetAllAtoms();
@@ -47,7 +48,7 @@ function House() {
     const img_url = imgs?.map((each) => each.img_url);
 
     return (
-      <Container>
+      <S.Container>
         {loading ? <Loading loadingText="집 정보를 불러오는 중.." /> : null}
         <InfoModal
           innerText={`전화번호 : ${houseData.contact_number}`}
@@ -99,7 +100,31 @@ function House() {
           <House_LocationInfoWrapper />
         ) : null}
         <House_OtherInfoWrapper />
-      </Container>
+        {state?.fromUp ? (
+          <S.UpWrapper>
+            <WhitePill
+              text="UP 하기"
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+              }}
+              onClick={() => {
+                console.log('up!!!');
+              }}
+            />
+            <WhitePill
+              text="게시물 수정"
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+              }}
+              onClick={() => {
+                console.log('수정');
+              }}
+            />
+          </S.UpWrapper>
+        ) : null}
+      </S.Container>
     );
   }
 }

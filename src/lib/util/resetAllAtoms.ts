@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   contactNumberAtom,
   costOtherInfoAtom,
@@ -17,6 +17,7 @@ import {
   statusAtom,
   tempaddressAtom,
   universityIdAtom,
+  isUppingAtom,
 } from '../../store/atoms';
 
 export default function useResetAllAtoms() {
@@ -36,6 +37,7 @@ export default function useResetAllAtoms() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const [imgFile, setImgFile] = useRecoilState(countfileAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
+  const setIsUpping = useSetRecoilState(isUppingAtom);
 
   function resetAllAtoms() {
     setIsEditing(false);
@@ -54,6 +56,7 @@ export default function useResetAllAtoms() {
     setAddress('');
     setImgFile(0);
     setPreview([]);
+    setIsUpping(false);
   }
 
   return resetAllAtoms;

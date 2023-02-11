@@ -11,7 +11,7 @@ function NotFound() {
       <p>주소를 바르게 입력해 주세요!</p>
       <WhitePill
         text="메인 페이지로"
-        onClickNavigator={() => {
+        onClick={() => {
           navigate('/main');
         }}
         style={{ marginTop: '50px' }}

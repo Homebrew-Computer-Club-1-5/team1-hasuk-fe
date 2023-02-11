@@ -126,7 +126,7 @@ function Room() {
           <WhitePill
             style={whitePillStyle}
             text={'다음'}
-            onClickNavigator={() => {
+            onClick={() => {
               if (gen !== 0 && cat !== 0) {
                 onValid();
                 setStat({ status: 5 });

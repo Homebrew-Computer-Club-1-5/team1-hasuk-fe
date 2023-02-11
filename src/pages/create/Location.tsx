@@ -159,7 +159,7 @@ function Location() {
       <AddressMaker getCoordsValue={getCoordsValue} />
       <WhitePill
         text={'다음'}
-        onClickNavigator={() => {
+        onClick={() => {
           whitePillEventListener();
         }}
       />

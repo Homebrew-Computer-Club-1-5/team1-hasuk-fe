@@ -63,7 +63,7 @@ function RegisterStart() {
         <WhitePill
           style={{ marginTop: '20px' }}
           text={'다음'}
-          onClickNavigator={() => {}}
+          onClick={() => {}}
         />
       </S.Form>
     </S.Container>

@@ -75,11 +75,7 @@ export const FETCH_HOUSE_BY_LOCATION = gql`
   query ($longitude: Float!, $latitude: Float!) {
     fetchHouseByLocation(
       location: { latitude: $latitude, longitude: $longitude }
-    ) {
-      id
-      longitude
-      latitude
-    }
+    )
   }
 `;
 
