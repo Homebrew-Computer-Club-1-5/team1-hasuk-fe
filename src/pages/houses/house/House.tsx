@@ -33,7 +33,7 @@ function House() {
   const { loading, error, data } = useQuery(FETCH_HOUSE, {
     fetchPolicy: 'no-cache',
     variables: {
-      house_id,
+      house_id: parseFloat(house_id as any),
     },
     onCompleted: (data) => {
       setHouseData((current) => data.fetchHouse);

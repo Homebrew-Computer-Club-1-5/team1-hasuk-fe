@@ -20,6 +20,7 @@ import {
   deleteMarker,
   displayMarker,
   Ilocation,
+  makeLiveLocationMarkerImage,
 } from '../../lib/util/kakaoMap';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 import WhitePill from '../../components/molecules/WhitePill';
@@ -76,8 +77,8 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     }
 
     // 지도 기본틀 그려주기
-    const result2 = drawKakaoMap();
-    setKakaoMap(result2);
+    const result = drawKakaoMap();
+    setKakaoMap(result);
   }, []);
 
   // houseData 로딩 다되면, 클러스터들 그려주기
@@ -97,19 +98,25 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     }
   }, [mainHouses, kakaoMap]);
 
-  // 실시간으로 마커 그리기~
+  // 실시간으로 마커 그리기
   useEffect(() => {
     if (
       isCurrentLocationButtonClicked &&
       currentLocation.longitude &&
       currentLocation.latitude
     ) {
+      // 이전 마커 삭제
+      if (marker) {
+        deleteMarker({ map: kakaoMap, marker });
+      }
+      // 최신 마커 그리기
       const locPosition = new window.kakao.maps.LatLng(
         currentLocation.latitude,
         currentLocation.longitude,
       );
       const resultMarker = displayMarker({
         locPosition,
+        markerImage: makeLiveLocationMarkerImage(),
         map: kakaoMap,
       });
       console.log(resultMarker);
@@ -128,7 +135,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
         currentLocation.latitude,
         currentLocation.longitude,
       );
-      deleteMarker({ locPosition, map: kakaoMap, marker });
+      deleteMarker({ map: kakaoMap, marker });
     }
   }, [isCurrentLocationButtonClicked]);
 

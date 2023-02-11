@@ -40,7 +40,7 @@ export const FETCH_ALL_HOUSES = gql`
 `;
 
 export const FETCH_HOUSE = gql`
-  query ($house_id: Int!) {
+  query ($house_id: Float!) {
     fetchHouse(house_id: $house_id) {
       id
       contact_number

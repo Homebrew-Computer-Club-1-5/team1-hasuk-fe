@@ -14,11 +14,9 @@ function CurrentLocationButton() {
   useEffect(() => {
     // 2. 동의 됬을시 현재 좌표 정보 업데이트
     if (isCurrentLocationButtonClicked) {
-      console.log('버튼이 눌림');
       const watchId = getLocationLively();
       setWatchId((current) => watchId as any);
     } else {
-      console.log('버튼이 꺼짐', isCurrentLocationButtonClicked);
       stopGetLocationLively({ watchId: watchId as any });
     }
   }, [isCurrentLocationButtonClicked]);
