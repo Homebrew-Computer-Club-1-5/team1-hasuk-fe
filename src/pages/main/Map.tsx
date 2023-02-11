@@ -24,6 +24,7 @@ import {
 } from '../../lib/util/kakaoMap';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 import WhitePill from '../../components/molecules/WhitePill';
+import { isEmptyObject } from '../../lib/util/javascript';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -57,7 +58,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   );
   const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
     useRecoilState(isCurrentLocationButtonClickedAtom);
-  const [marker, setMarker] = useState();
+  const [marker, setMarker] = useState({});
   function navigateToHouses() {
     navigate(`/houses/${regionId}`);
   }
@@ -106,7 +107,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       currentLocation.latitude
     ) {
       // 이전 마커 삭제
-      if (marker) {
+      if (!isEmptyObject(marker)) {
         deleteMarker({ map: kakaoMap, marker });
       }
       // 최신 마커 그리기
@@ -119,7 +120,6 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
         markerImage: makeLiveLocationMarkerImage(),
         map: kakaoMap,
       });
-      console.log(resultMarker);
       setMarker((current) => resultMarker);
     }
   }, [currentLocation]);
@@ -129,7 +129,8 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     if (
       !isCurrentLocationButtonClicked &&
       currentLocation.longitude &&
-      currentLocation.latitude
+      currentLocation.latitude &&
+      !isEmptyObject(marker)
     ) {
       const locPosition = new window.kakao.maps.LatLng(
         currentLocation.latitude,
