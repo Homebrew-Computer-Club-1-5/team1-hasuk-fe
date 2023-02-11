@@ -22,6 +22,7 @@ import {
   Ilocation,
 } from '../../lib/util/kakaoMap';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
+import WhitePill from '../../components/molecules/WhitePill';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -35,6 +36,8 @@ declare global {
 }
 
 function Map({ exlatitude, exlongitude, children }: ICoordinate) {
+  const [regionId, setRegionId] = useState();
+  const [clusterClicked, setClusterClicked] = useState(false);
   const [kakaoMap, setKakaoMap] = useState();
   const [mapLevel, setMapLevel] = useState<number>();
   const [currentLocation, setCurrentLocation] =
@@ -54,6 +57,9 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
     useRecoilState(isCurrentLocationButtonClickedAtom);
   const [marker, setMarker] = useState();
+  function navigateToHouses() {
+    navigate(`/houses/${regionId}`);
+  }
 
   useEffect(() => {
     // qs에 at있는지 체크하고, 로컬스토리지에 저장
@@ -182,10 +188,12 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
         const moveLatLng = new window.kakao.maps.LatLng(coord.Ma, coord.La);
 
         kakaoMap.setCenter(moveLatLng);
+        setRegionId(id);
+        setClusterClicked(true);
 
-        navigate(`/main/${id}`, {
-          state: { Latitude: coord.Ma, Longitude: coord.La, name: areaName },
-        });
+        //navigate(`/main/${id}`, {
+        //  state: { Latitude: coord.Ma, Longitude: coord.La, name: areaName },
+        //});
       },
     );
   }
@@ -260,7 +268,18 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
         </div>
       ) : null}
       <div id="map" style={{ width: '100%', height: '95vh' }}>
-        {children}
+        {clusterClicked ? (
+          <WhitePill
+            style={{
+              position: 'absolute',
+              top: '20px',
+              left: '50%',
+              transform: 'translate(-50%,0%)',
+            }}
+            onClickNavigator={() => navigateToHouses()}
+            text={'보러 가기'}
+          />
+        ) : null}
       </div>
     </S.mapWrapper>
   );
