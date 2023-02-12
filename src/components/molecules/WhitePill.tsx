@@ -12,16 +12,17 @@ const Pill = styled.button`
   border-radius: 20px;
   box-shadow: 0px 3px 3px 0px gray;
   font-family: 'Manrope';
+  cursor: pointer;
 `;
 
 interface text {
-  onClickNavigator?: any;
+  onClick?: () => void;
   text: string;
   style?: React.CSSProperties;
 }
-function WhitePill({ text, onClickNavigator, style }: text) {
+function WhitePill({ text, onClick, style }: text) {
   return (
-    <Pill style={style} onClick={onClickNavigator}>
+    <Pill style={style} onClick={onClick}>
       {text}
     </Pill>
   );

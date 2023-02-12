@@ -39,7 +39,6 @@ export function useLiveLocation(): IuseLiveLocation {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude);
         setCurrentLocation((current) => {
           return { longitude, latitude };
         });
@@ -52,7 +51,6 @@ export function useLiveLocation(): IuseLiveLocation {
       },
       { enableHighAccuracy: true },
     );
-    console.log(watchId);
     return watchId;
   }
   function stopGetLocationLively({ watchId }: IstopGetLocationLively) {

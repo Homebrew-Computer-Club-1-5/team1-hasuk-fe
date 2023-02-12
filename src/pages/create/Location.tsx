@@ -17,6 +17,8 @@ import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { FETCH_HOUSE_BY_LOCATION } from '../../lib/gql';
+import { useNavigate } from 'react-router-dom';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
@@ -24,15 +26,31 @@ const NoticeTextWrapperStyle = {
 };
 
 function Location() {
+  const resetAllAtoms = useResetAllAtoms();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
     FETCH_HOUSE_BY_LOCATION,
     {
       fetchPolicy: 'no-cache',
       onCompleted(data) {
-        if (data) alert('이미 존재하는 집입니다.');
+        console.log(data.fetchHouseByLocation);
+        if (data) {
+          if (
+            window.confirm('이미 존재하는 집입니다. 내용을 수정하시겠습니까?')
+          ) {
+            // 예 누를시
+            setIsEditing((current) => true);
+            // 데이터 전부다 받아와서 setState ㄱㄱ
+            setStat({ status: 2 });
+          } else {
+            resetAllAtoms();
+            setStat({ status: 0 });
+          }
+        }
       },
       onError(error) {
+        console.log(error.message);
         setStat({ status: 2 });
       },
     },
@@ -141,7 +159,7 @@ function Location() {
       <AddressMaker getCoordsValue={getCoordsValue} />
       <WhitePill
         text={'다음'}
-        onClickNavigator={() => {
+        onClick={() => {
           whitePillEventListener();
         }}
       />

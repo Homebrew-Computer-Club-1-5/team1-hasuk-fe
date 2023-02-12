@@ -81,7 +81,7 @@ function Photo() {
   }, []);
 
   return (
-    <S.Wrapper>
+    <S.Container>
       <S.NumberH1>{stat.status}/5</S.NumberH1>
       <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
         사진을 찍어
@@ -104,7 +104,7 @@ function Photo() {
         <S.UploadLabel htmlFor="image">업로드</S.UploadLabel>
         <WhitePill
           text={'이미지 지우기'}
-          onClickNavigator={() => {
+          onClick={() => {
             clearIdxedDBValue();
             setPreview([]);
             setReal(0);
@@ -112,7 +112,7 @@ function Photo() {
         />
         <WhitePill
           text={'다음'}
-          onClickNavigator={() => {
+          onClick={() => {
             if (preview.length) {
               setStat({ status: 6 });
             } else {
@@ -121,7 +121,7 @@ function Photo() {
           }}
         />
       </S.ButtonsWrapper>
-    </S.Wrapper>
+    </S.Container>
   );
 }
 

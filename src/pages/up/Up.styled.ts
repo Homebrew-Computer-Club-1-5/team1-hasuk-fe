@@ -1,22 +1,20 @@
 import styled from 'styled-components';
+
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 100%;
-
-  margin: 0px auto;
-  align-items: center;
-`;
-
-export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
 `;
 
-export const NumberH1 = styled.h1``;
+export const Header = styled.header``;
 
-export const ErrorSpan = styled.span`
-  text-align: center;
+export const Main = styled.main`
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

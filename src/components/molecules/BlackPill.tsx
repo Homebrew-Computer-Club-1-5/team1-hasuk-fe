@@ -14,11 +14,11 @@ const Pill = styled.button`
 `;
 
 interface text {
-  onClickNavigator: () => void;
+  onClick: () => void;
   text: string;
 }
-function BlackPill({ text, onClickNavigator }: text) {
-  return <Pill onClick={onClickNavigator}>{text}</Pill>;
+function BlackPill({ text, onClick }: text) {
+  return <Pill onClick={onClick}>{text}</Pill>;
 }
 
 export default BlackPill;

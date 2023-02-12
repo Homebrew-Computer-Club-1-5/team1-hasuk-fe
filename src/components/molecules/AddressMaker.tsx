@@ -3,10 +3,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import WhitePill from './WhitePill';
 import { useRecoilState } from 'recoil';
-import { statusAtom, tempaddressAtom } from '../../store/atoms';
-import { template } from '@babel/core';
-import InputTemplate from './InputTemplate';
-import { useForm } from 'react-hook-form';
+import { tempaddressAtom } from '../../store/atoms';
+import * as S from './AddressMaker.styled';
 declare global {
   interface Window {
     kakao: any;
@@ -45,9 +43,11 @@ const resultTitleStyle = {
 };
 interface IObject {
   getCoordsValue: any;
+  style?: React.CSSProperties;
+  isTitleOff?: boolean;
 }
 
-function AddressMaker({ getCoordsValue }: IObject) {
+function AddressMaker({ getCoordsValue, style, isTitleOff }: IObject) {
   const [toggle, setToggle] = useState(false);
   const [finish, setFinish] = useState(false);
   const [address, setAddress] = useRecoilState(tempaddressAtom);
@@ -85,18 +85,13 @@ function AddressMaker({ getCoordsValue }: IObject) {
     getCoordsValue(coordinate);
   }, [coordinate]);
   return (
-    <>
+    <S.Container style={style}>
       {address !== '0' ? (
         <div style={resultWrapperStyle}>
-          <p style={resultTitleStyle}>주소</p>
+          {!isTitleOff ? <p style={resultTitleStyle}>주소</p> : null}
           <div style={resultStyle}>{address as string}</div>
         </div>
       ) : null}
-      <WhitePill
-        style={searchButtonStyle}
-        text={'주소검색'}
-        onClickNavigator={() => setToggle(!toggle)}
-      />
 
       <div>
         {toggle ? (
@@ -107,7 +102,12 @@ function AddressMaker({ getCoordsValue }: IObject) {
           />
         ) : null}
       </div>
-    </>
+      <WhitePill
+        style={searchButtonStyle}
+        text={'주소검색'}
+        onClick={() => setToggle(!toggle)}
+      />
+    </S.Container>
   );
 }
 

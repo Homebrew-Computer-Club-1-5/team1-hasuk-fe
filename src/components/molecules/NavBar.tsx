@@ -3,6 +3,7 @@ import { ReactComponent as NavBar_AllHouses } from '../../assets/NavBar_AllHouse
 import { ReactComponent as NavBar_CreateHouse } from '../../assets/NavBar_CreateHouse.svg';
 import { ReactComponent as NavBar_Profile } from '../../assets/NavBar_Profile.svg';
 import { ReactComponent as NavBar_Main } from '../../assets/NavBar_Main.svg';
+import { ReactComponent as NavBar_Up } from '../../assets/NavBar_Up.svg';
 
 import * as S from './NavBar.styled';
 
@@ -42,6 +43,16 @@ function NavBar() {
             style={{ position: 'relative', bottom: '-4px', left: '4px' }}
           />
           <S.CreateHouseP>내 집 추가</S.CreateHouseP>
+        </S.Li>
+        <S.Li
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            if (isLogined) navigate('/up');
+            else navigate('/auth/login');
+          }}
+        >
+          <NavBar_Up style={{ position: 'relative', top: '4px' }} />
+          <S.UpP>UP</S.UpP>
         </S.Li>
         <S.Li
           style={{ cursor: 'pointer' }}

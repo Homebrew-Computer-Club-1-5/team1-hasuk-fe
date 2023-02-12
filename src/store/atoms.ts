@@ -306,3 +306,8 @@ export const currentLocationAtom = atom<IcurrentLocation>({
   key: 'currentLocation',
   default: {} as any,
 });
+
+export const isUppingAtom = atom<Boolean>({
+  key: 'isUpping',
+  default: false,
+});

@@ -75,11 +75,7 @@ export const FETCH_HOUSE_BY_LOCATION = gql`
   query ($longitude: Float!, $latitude: Float!) {
     fetchHouseByLocation(
       location: { latitude: $latitude, longitude: $longitude }
-    ) {
-      id
-      longitude
-      latitude
-    }
+    )
   }
 `;
 
@@ -211,5 +207,14 @@ export const FETCH_MYHOUSE = gql`
 export const DELETE_MYHOUSE = gql`
   mutation ($house_id: Float!) {
     deleteMyHouse(house_id: $house_id)
+  }
+`;
+
+export const FETCH_UP = gql`
+  mutation ($house_id: Float!) {
+    fetchUp(house_id: $house_id) {
+      id
+      board_date
+    }
   }
 `;

@@ -44,3 +44,8 @@ export const AllHousesP = styled.p``;
 export const CreateHouseP = styled.p``;
 
 export const ProfileP = styled.p``;
+
+export const UpP = styled.p`
+  position: relative;
+  top: 1px;
+`;

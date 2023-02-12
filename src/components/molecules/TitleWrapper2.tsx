@@ -4,7 +4,7 @@ import { ReactComponent as UnivRoomIcon } from '../../assets/UnivRoomIcon.svg';
 import P_Manrope_ExtraBold from '../atoms/P_Manrope_ExtraBold';
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 30px;
   padding: 20px 0;
   display: flex;

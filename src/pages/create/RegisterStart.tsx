@@ -15,7 +15,7 @@ function RegisterStart() {
       </NoticeTextWrapper>
       <WhitePill
         text={'시작'}
-        onClickNavigator={() => {
+        onClick={() => {
           setStat({ status: 1 } as any);
         }}
       />

@@ -19,10 +19,9 @@ function Create() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-   if (!accessToken) {
-     alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-     navigate('/auth/login');
-   }
+    if (!accessToken) {
+      navigate('/auth/login');
+    }
   }, []);
 
   return (

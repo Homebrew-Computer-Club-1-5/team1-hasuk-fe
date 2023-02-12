@@ -117,11 +117,7 @@ function Price() {
           />
         </S.InputWrapper>
 
-        <WhitePill
-          style={whitePillStyle}
-          text={'다음'}
-          onClickNavigator={() => {}}
-        />
+        <WhitePill style={whitePillStyle} text={'다음'} onClick={() => {}} />
       </S.Form>
     </S.Container>
   );

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100vh;
+  padding-bottom: 100px;
 `;
 
 export const Header = styled.header``;

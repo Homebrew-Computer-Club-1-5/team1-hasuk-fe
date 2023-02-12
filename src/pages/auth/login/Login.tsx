@@ -28,11 +28,7 @@ function Login() {
         }}
       />
 
-      <NoticeTextWrapper>
-        방을 추가하려면
-        <br />
-        로그인/회원가입 하셔야 합니다.
-      </NoticeTextWrapper>
+      <NoticeTextWrapper>로그인/회원가입이 필요합니다.</NoticeTextWrapper>
       <img
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
