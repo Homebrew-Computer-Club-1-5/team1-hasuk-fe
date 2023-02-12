@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import House_BasicInfos_InfosWrapper from './House_BasicInfos_InfosWrapper';
 import House_Info_BlackPillWrapper from './House_Info_BlackPillWrapper';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 30px;
+`;
 
 interface IHouse_BasicInfos_InfosWrapper {
   setIsCostOtherInfoModalOn: Dispatch<SetStateAction<boolean>>;

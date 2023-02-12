@@ -24,7 +24,7 @@ function Login() {
     <Wrapper>
       <TitleWrapper2
         onClickBackButton={() => {
-          navigate(`/main`);
+          navigate(`/`);
         }}
       />
 

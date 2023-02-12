@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import TitleWrapper2 from '../../components/molecules/TitleWrapper2';
 import RegisterStart from './RegisterStart';
 import Tel from './Tel';
@@ -26,27 +25,31 @@ function Create() {
 
   return (
     <S.Container>
-      <TitleWrapper2
-        onClickBackButton={() => {
-          const oldstat = stat.status;
-          oldstat > 0 ? setStat({ status: oldstat - 1 }) : navigate('/main');
-        }}
-      />
-      {stat.status === 0 ? (
-        <RegisterStart />
-      ) : stat.status === 1 ? (
-        <Location />
-      ) : stat.status === 2 ? (
-        <Tel />
-      ) : stat.status === 3 ? (
-        <Price />
-      ) : stat.status === 4 ? (
-        <Room />
-      ) : stat.status === 5 ? (
-        <Photo />
-      ) : (
-        <Summary />
-      )}
+      <S.Header>
+        <TitleWrapper2
+          onClickBackButton={() => {
+            const oldstat = stat.status;
+            oldstat > 0 ? setStat({ status: oldstat - 1 }) : navigate('/');
+          }}
+        />
+      </S.Header>
+      <S.Main>
+        {stat.status === 0 ? (
+          <RegisterStart />
+        ) : stat.status === 1 ? (
+          <Location />
+        ) : stat.status === 2 ? (
+          <Tel />
+        ) : stat.status === 3 ? (
+          <Price />
+        ) : stat.status === 4 ? (
+          <Room />
+        ) : stat.status === 5 ? (
+          <Photo />
+        ) : (
+          <Summary />
+        )}
+      </S.Main>
     </S.Container>
   );
 }

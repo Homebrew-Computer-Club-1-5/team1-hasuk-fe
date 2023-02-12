@@ -8,6 +8,7 @@ import TitleWrapper2 from '../../components/molecules/TitleWrapper2';
 import WhitePill from '../../components/molecules/WhitePill';
 import { FETCH_HOUSE_BY_LOCATION } from '../../lib/gql';
 import { Ilocation } from '../../lib/util/kakaoMap';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { isUppingAtom } from '../../store/atoms';
 import * as S from './Up.styled';
 
@@ -20,6 +21,7 @@ function Up() {
   const setIsUpping = useSetRecoilState(isUppingAtom);
 
   // hooks
+  const resetAllAtoms = useResetAllAtoms();
   const navigate = useNavigate();
   const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
     FETCH_HOUSE_BY_LOCATION,
@@ -30,7 +32,7 @@ function Up() {
         if (data) {
           setIsUpping((current) => true);
           navigate(`/house/${data.fetchHouseByLocation}`, {
-            state: { fromUp: true },
+            state: { upButton: true, editButton: true },
           });
         }
       },
@@ -46,12 +48,12 @@ function Up() {
 
   // useEffects
   useEffect(() => {
-    console.log(location);
-  }, [location]);
+    resetAllAtoms();
+  }, []);
 
   // event handlers
   const onClickBackButton = () => {
-    navigate('/main');
+    navigate('/');
   };
   const getCoordsValue = (x: Ilocation) => {
     setLocation(x);
@@ -63,16 +65,22 @@ function Up() {
         <TitleWrapper2 onClickBackButton={onClickBackButton} />
       </S.Header>
       <S.Main>
-        <NoticeTextWrapper fontSize="30px">
-          게시물을 "UP" 합니다.
-        </NoticeTextWrapper>
-        <p>
-          *UP이란? : 게시글 목록에서
-          <br /> 집을 제일 위로 끌어 올리는 기능을 말합니다.
-        </p>
+        <S.Section>
+          <NoticeTextWrapper fontSize="27px">
+            게시물을 "UP" 또는 수정 합니다.
+          </NoticeTextWrapper>
+          <p>
+            * UP이란? : 게시글 목록에서
+            <br /> 집을 제일 위로 끌어 올리는 기능을 말합니다.
+          </p>
+          <p>
+            * 집을 수정할떄는, 다른 사람이 올린 <br />
+            게시물이니 신중하게 생각해 주세요!
+          </p>
+        </S.Section>
         <AddressMaker
           getCoordsValue={getCoordsValue}
-          style={{ marginTop: '100px' }}
+          style={{ marginTop: '70px' }}
           isTitleOff={true}
         ></AddressMaker>
         <WhitePill

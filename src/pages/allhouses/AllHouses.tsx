@@ -53,7 +53,7 @@ function AllHouses() {
       {loading ? <Loading /> : null}
       <S.Header>
         <TitleWrapper
-          navigateRoute={'/main'}
+          navigateRoute={'/'}
           isTitleOn={true}
           isBackButtonColorBlack={true}
         />

@@ -34,19 +34,11 @@ function Location() {
     {
       fetchPolicy: 'no-cache',
       onCompleted(data) {
-        console.log(data.fetchHouseByLocation);
         if (data) {
-          if (
-            window.confirm('이미 존재하는 집입니다. 내용을 수정하시겠습니까?')
-          ) {
-            // 예 누를시
-            setIsEditing((current) => true);
-            // 데이터 전부다 받아와서 setState ㄱㄱ
-            setStat({ status: 2 });
-          } else {
-            resetAllAtoms();
-            setStat({ status: 0 });
-          }
+          alert('이미 존재하는 집입니다. 집 정보로 이동합니다.');
+          navigate(`/house/${data.fetchHouseByLocation}`, {
+            state: { upButton: true, editButton: true },
+          });
         }
       },
       onError(error) {
