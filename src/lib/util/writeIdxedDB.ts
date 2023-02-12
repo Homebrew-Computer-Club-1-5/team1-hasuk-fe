@@ -19,6 +19,8 @@ export default function writeIdxedDB(links: any) {
   };
   request.onupgradeneeded = (e: any) => {
     db = e.target.result;
-    db.createObjectStore('links', { autoIncrement: true });
+    db.createObjectStore('links', {
+      autoIncrement: true,
+    });
   };
 }

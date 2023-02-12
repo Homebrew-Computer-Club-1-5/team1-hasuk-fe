@@ -267,7 +267,6 @@ export const countfileAtom = atom<number>({
   key: 'countfile',
   default: 0,
   dangerouslyAllowMutability: true,
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const previewAtom = atom<string[]>({

@@ -42,3 +42,11 @@ export const UploadLabel = styled.label`
   border-radius: 20px;
   text-align: center;
 `;
+
+export const CarouselWrapper = styled.div`
+  width: 100%;
+  height: 30vh;
+  display: grid;
+  grid-template-columns: calc(100% - 80px) 80px;
+  grid-gap: 10px;
+`;

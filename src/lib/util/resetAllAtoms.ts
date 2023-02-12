@@ -19,6 +19,7 @@ import {
   universityIdAtom,
   isUppingAtom,
 } from '../../store/atoms';
+import useClearIdxedDBValue from './clearIdxedDBValue';
 
 export default function useResetAllAtoms() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
@@ -38,6 +39,7 @@ export default function useResetAllAtoms() {
   const [imgFile, setImgFile] = useRecoilState(countfileAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const setIsUpping = useSetRecoilState(isUppingAtom);
+  const clearIdxedDBValue = useClearIdxedDBValue();
 
   function resetAllAtoms() {
     setIsEditing(false);
@@ -57,6 +59,7 @@ export default function useResetAllAtoms() {
     setImgFile(0);
     setPreview([]);
     setIsUpping(false);
+    clearIdxedDBValue();
   }
 
   return resetAllAtoms;
