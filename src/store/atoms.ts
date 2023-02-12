@@ -51,6 +51,7 @@ interface IhouseData_fetchHouse {
   house_category: Ihouse_category;
   imgs: Ihouse_img[];
   region: Iregion;
+  board_date: number;
 }
 
 interface Ihouse_category {

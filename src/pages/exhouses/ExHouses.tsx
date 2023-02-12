@@ -33,7 +33,7 @@ function ExHouses() {
     <S.Container>
       {loading ? <Loading loadingText="기타 집 정보를 불러오는중.." /> : null}
       <TitleWrapper
-        navigateRoute={'/main'}
+        navigateRoute={'/'}
         isTitleOn={false}
         isBackButtonColorBlack={true}
         titleText="기타 집 정보"

@@ -48,6 +48,7 @@ export const FETCH_HOUSE = gql`
       gender
       house_other_info
       has_empty
+      board_date
       imgs {
         img_url
       }
