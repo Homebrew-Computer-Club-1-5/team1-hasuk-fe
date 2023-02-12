@@ -69,6 +69,16 @@ function MyPage() {
                 style={{ height: '20px', position: 'absolute', right: '0px' }}
               />
             </S.SelectWrapper>
+            <S.SelectWrapper style={{ cursor: 'pointer' }}>
+              <MyPage_ChatIcon style={{ position: 'relative', left: '6px' }} />
+              <S.SelectP style={{ marginLeft: '20px' }}>
+                고객센터 / 지원
+              </S.SelectP>
+              <ForthButton
+                fill="black"
+                style={{ height: '20px', position: 'absolute', right: '0px' }}
+              />
+            </S.SelectWrapper>
           </S.MenuWrapper>
         </S.Article>
       </S.Main>

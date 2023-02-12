@@ -42,7 +42,7 @@ export const SelectWrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 0px 20px;
-  margin: 0px;
+  margin: 7px 0px;
   height: 30px;
   position: relative;
 `;
