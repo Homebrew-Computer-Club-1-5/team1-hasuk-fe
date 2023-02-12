@@ -32,6 +32,9 @@ import {
   statusAtom,
   tempaddressAtom,
   universityIdAtom,
+  countfileAtom,
+  googleLinkAtom,
+  googleLinkCountAtom,
 } from '../../store/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 // import useCoordToAddress from '../../lib/util/coordToAddress';
@@ -39,8 +42,11 @@ import { coordToAddress2 } from '../../lib/util/coordToAddress';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 import { DELETE_MYHOUSE, FETCH_MYHOUSE } from '../../lib/gql';
+import writeIdxedDB from '../../lib/util/writeIdxedDB';
+import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 
 function MyHouse() {
+  const getIdxedDBValue = useGetIdxedDBValue();
   const restoreAccessToken = useRestoreAccessToken();
   const resetAllAtoms = useResetAllAtoms();
   const [contact, setContact] = useRecoilState(contactNumberAtom);
@@ -57,6 +63,10 @@ function MyHouse() {
   // const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
+  const [real, setReal] = useRecoilState(countfileAtom);
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
+  const [googleLinkCount, setGoogleLinkCount] =
+    useRecoilState(googleLinkCountAtom);
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
   // const coordToAddress = useCoordToAddress();
@@ -112,6 +122,8 @@ function MyHouse() {
     setGen(data?.gender);
     setCat(data?.house_category);
     setOther(data?.house_other_info);
+    setGoogleLink(data?.img_urls as any);
+    setGoogleLinkCount(data?.img_urls.length as any);
 
     //setAddress();
     // setImgFile({});

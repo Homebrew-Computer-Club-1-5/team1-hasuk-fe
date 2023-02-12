@@ -128,6 +128,7 @@ export const UPDATE_MY_HOUSE = gql`
     $region: Int!
     $cat: Int!
     $files: [Upload!]
+    $googleLinks: [String!]
   ) {
     updateMyHouse(
       updateMyHouseInput: {
@@ -146,6 +147,7 @@ export const UPDATE_MY_HOUSE = gql`
         region_id: $region
         house_category_id: $cat
         imgRawDatas: $files
+        googleLinks: $googleLinks
       }
     )
   }

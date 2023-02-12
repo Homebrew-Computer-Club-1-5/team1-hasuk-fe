@@ -7,6 +7,8 @@ import {
   countfileAtom,
   statusAtom,
   innerpreviewAfterIdxDBAtom,
+  googleLinkAtom,
+  googleLinkCountAtom,
 } from '../../store/atoms';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
@@ -30,12 +32,15 @@ function Photo() {
   const [fileSize, setFileSize] = useState(0);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [innerpreview, setInnerPreview] = useState<String[]>([]);
+  const [googleLinkCount, setGoogleLinkCount] =
+    useRecoilState(googleLinkCountAtom);
   const [isGetIdxValueSuccess, setIsGetIdxValueSuccess] = useRecoilState(
     isGetIdxValueSuccessAtom,
   );
   const [innerpreviewAfterIdxDB, setInnerpreviewAfterIdxDB] = useRecoilState(
     innerpreviewAfterIdxDBAtom,
   );
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
 
   const clearIdxedDBValue = useClearIdxedDBValue();
   const getIdxedDBValue = useGetIdxedDBValue();
@@ -71,6 +76,7 @@ function Photo() {
   };
 
   useEffect(() => {
+    console.log(preview, '업뎃됨');
     if (real !== 0 && preview.length === real) {
       clearIdxedDBValue();
       writeIdxedDB(preview);
@@ -112,10 +118,12 @@ function Photo() {
         사진을 찍어
         <br /> 업로드 해주세요.
       </NoticeTextWrapper>
-      {preview.length === Number(real) && Number(real) !== 0 ? (
+      {preview.length + googleLink.length ===
+        Number(real) + Number(googleLinkCount) &&
+      Number(real) + Number(googleLinkCount) !== 0 ? (
         <S.CarouselWrapper>
-          <ImgCarousel img_url={preview} />
-          <ImgDelete img_url={preview} />
+          <ImgCarousel img_url={[...googleLink, ...preview]} />
+          <ImgDelete img_url={[...googleLink, ...preview]} />
         </S.CarouselWrapper>
       ) : (
         <S.EmptyImage></S.EmptyImage>
@@ -141,7 +149,7 @@ function Photo() {
         <WhitePill
           text={'다음'}
           onClick={() => {
-            if (preview.length) {
+            if (preview.length + googleLinkCount) {
               setStat({ status: 6 });
             } else {
               alert('적어도 1장 이상의 이미지를 등록해주세요');

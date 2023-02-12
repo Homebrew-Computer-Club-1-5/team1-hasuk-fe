@@ -18,6 +18,7 @@ import {
   tempaddressAtom,
   universityIdAtom,
   isUppingAtom,
+  googleLinkAtom,
 } from '../../store/atoms';
 import useClearIdxedDBValue from './clearIdxedDBValue';
 
@@ -38,6 +39,7 @@ export default function useResetAllAtoms() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const [imgFile, setImgFile] = useRecoilState(countfileAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
   const setIsUpping = useSetRecoilState(isUppingAtom);
   const clearIdxedDBValue = useClearIdxedDBValue();
 
@@ -60,6 +62,7 @@ export default function useResetAllAtoms() {
     setPreview([]);
     setIsUpping(false);
     clearIdxedDBValue();
+    setGoogleLink([]);
   }
 
   return resetAllAtoms;
