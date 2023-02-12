@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   background: lightgray;
   border-radius: 12px;
   width: 100%;
-  height: 30vh;
+  height: 40vh;
   position: relative;
   overflow: hidden;
 `;
@@ -19,7 +19,7 @@ const ImgsWrapper = styled.div`
   width: 100%;
   div {
     width: 100%;
-    height: 30vh;
+    height: 40vh;
     /* height: 100%; */
     background-position: 50% 50%;
     background-size: cover;

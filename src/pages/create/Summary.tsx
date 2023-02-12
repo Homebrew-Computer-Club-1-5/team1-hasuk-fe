@@ -149,7 +149,7 @@ function Summary() {
   }
 
   return (
-    <S.Wrapper>
+    <S.Container>
       {createHouseLoading || updateMyHouseLoading ? (
         <Loading
           loadingText={
@@ -159,9 +159,11 @@ function Summary() {
           }
         />
       ) : null}
-      <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
-        정말 아래 정보와 같이 <br />방 정보를 올리시겠습니까?
-      </NoticeTextWrapper>
+      <S.Section>
+        <NoticeTextWrapper style={NoticeTextWrapperStyle as any}>
+          정말 아래 정보와 같이 <br />방 정보를 올리시겠습니까?
+        </NoticeTextWrapper>
+      </S.Section>
       <SummaryDataBar
         title={'연락처'}
         data={contact}
@@ -242,7 +244,7 @@ function Summary() {
         }}
         text={'게시하기'}
       />
-    </S.Wrapper>
+    </S.Container>
   );
 }
 export default Summary;

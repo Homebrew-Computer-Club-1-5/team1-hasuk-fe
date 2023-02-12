@@ -9,19 +9,21 @@ import Main from './main/Main';
 import MyHouse from './myhouse/MyHouse';
 import NotFound from './NotFound';
 import Up from './up/Up';
+import MyPage from './mypage/MyPage';
 
 function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Main />} />
       <Route path="/houses/:region_id" element={<Houses />} />
       <Route path="/allhouses" element={<AllHouses />} />
       <Route path="/exhouses" element={<ExHouses />} />
       <Route path="/house/:house_id" element={<House />} />
       <Route path="/up" element={<Up />} />
-      <Route path="/main" element={<Main />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/myhouse" element={<MyHouse />} />
       <Route path="/create" element={<Create />} />
+      <Route path="/mypage" element={<MyPage />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );

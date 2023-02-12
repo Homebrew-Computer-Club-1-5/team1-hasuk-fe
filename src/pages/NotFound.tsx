@@ -12,7 +12,7 @@ function NotFound() {
       <WhitePill
         text="메인 페이지로"
         onClick={() => {
-          navigate('/main');
+          navigate('/');
         }}
         style={{ marginTop: '50px' }}
       ></WhitePill>

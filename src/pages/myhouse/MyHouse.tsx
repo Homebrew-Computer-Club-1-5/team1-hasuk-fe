@@ -44,6 +44,8 @@ import Loading from '../../components/molecules/Loading';
 import { DELETE_MYHOUSE, FETCH_MYHOUSE } from '../../lib/gql';
 import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
+import useSetEditPage from '../../lib/util/setEditPage';
+
 
 function MyHouse() {
   const getIdxedDBValue = useGetIdxedDBValue();
@@ -60,7 +62,6 @@ function MyHouse() {
   const [gen, setGen] = useRecoilState(genderAtom);
   const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
   const [other, setOther] = useRecoilState(houseOtherInfoAtom);
-  // const [address, setAddress] = useRecoilState(tempaddress);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [real, setReal] = useRecoilState(countfileAtom);
@@ -69,11 +70,7 @@ function MyHouse() {
     useRecoilState(googleLinkCountAtom);
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
-  // const coordToAddress = useCoordToAddress();
   const [addresses, setAddresses] = useState<string[]>([]);
-  // const [myHouseAddress, setMyHouseAddress] =
-  //   useRecoilState(myHouseAddressAtom);
-
   const [address, setAddress] = useRecoilState(tempaddressAtom);
 
   useEffect(() => {
@@ -129,6 +126,8 @@ function MyHouse() {
     // setImgFile({});
     // setPreview(data?.img_urls as any);
   };
+  // hooks
+  const setEditPage = useSetEditPage();
 
   const [clickedHouse_id, setClickedHouse_id] =
     useRecoilState(clickedHouse_idAtom);
@@ -201,7 +200,7 @@ function MyHouse() {
       />
       <TitleWrapper2
         onClickBackButton={() => {
-          navigate('/main');
+          navigate('/');
         }}
       />
       <NoticeTextWrapper style={{ marginTop: '30px' }}>
@@ -215,7 +214,13 @@ function MyHouse() {
               <S.HouseWrapper
                 key={index}
                 onClick={() => {
-                  navigate(`/house/${each.id}`);
+                  navigate(`/house/${each.id}`, {
+                    state: {
+                      upButton: true,
+                      editButton: true,
+                      deleteButton: true,
+                    },
+                  });
                 }}
               >
                 <S.HouseWrapper_Img
@@ -236,7 +241,16 @@ function MyHouse() {
                       event.stopPropagation();
                       setClickedHouse_id(each.id as any);
                       setIsEditing((current) => true);
-                      setEditPage(each.id);
+                      const houseData: any = fetchMyHouseData.find(
+                        (each, index) => {
+                          return each.id === each.id;
+                        },
+                      );
+                      const houseIndex = fetchMyHouseData.findIndex((each) => {
+                        return each.id === each.id;
+                      });
+                      const address = addresses[houseIndex];
+                      setEditPage({ houseData, address });
                       setStat({ status: 0 });
                       navigate('/create');
                     }}

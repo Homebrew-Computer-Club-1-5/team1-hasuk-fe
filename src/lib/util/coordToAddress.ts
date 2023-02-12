@@ -33,7 +33,7 @@ interface IcoordToAddress2 {
 export async function coordToAddress2({
   latitude,
   longitude,
-}: IcoordToAddress2) {
+}: IcoordToAddress2): Promise<string> {
   const address = await axios
     .get(
       `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}`,
