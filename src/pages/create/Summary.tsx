@@ -18,6 +18,7 @@ import {
   tempaddressAtom,
   previewAtom,
   isEditingAtom,
+  googleLinkAtom,
 } from '../../store/atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
@@ -61,6 +62,7 @@ function Summary() {
   const [address, setAddress] = useRecoilState(tempaddressAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
 
   const navigate = useNavigate();
   const restoreAccessToken = useRestoreAccessToken();
@@ -141,6 +143,7 @@ function Summary() {
         region: parseInt(region as any),
         cat: parseInt(cat as any),
         files: URLarray,
+        googleLinks: googleLink,
       },
     });
   }

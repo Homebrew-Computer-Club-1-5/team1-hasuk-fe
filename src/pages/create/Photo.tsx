@@ -7,6 +7,8 @@ import {
   countfileAtom,
   statusAtom,
   innerpreviewAfterIdxDBAtom,
+  googleLinkAtom,
+  googleLinkCountAtom,
 } from '../../store/atoms';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useRecoilState } from 'recoil';
@@ -14,6 +16,7 @@ import WhitePill from '../../components/molecules/WhitePill';
 import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useClearIdxedDBValue from '../../lib/util/clearIdxedDBValue';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
+import ImgDelete from '../../components/molecules/ImgDelete';
 
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
@@ -26,27 +29,39 @@ function Photo() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const [real, setReal] = useRecoilState(countfileAtom);
   const [innerreal, setInnerReal] = useState<number>(0);
+  const [fileSize, setFileSize] = useState(0);
   const [preview, setPreview] = useRecoilState(previewAtom);
-  const [innerpreview, setInnerPreview] = useState<String[]>(['']);
-
+  const [innerpreview, setInnerPreview] = useState<String[]>([]);
+  const [googleLinkCount, setGoogleLinkCount] =
+    useRecoilState(googleLinkCountAtom);
   const [isGetIdxValueSuccess, setIsGetIdxValueSuccess] = useRecoilState(
     isGetIdxValueSuccessAtom,
   );
   const [innerpreviewAfterIdxDB, setInnerpreviewAfterIdxDB] = useRecoilState(
     innerpreviewAfterIdxDBAtom,
   );
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
 
   const clearIdxedDBValue = useClearIdxedDBValue();
   const getIdxedDBValue = useGetIdxedDBValue();
 
   const saveFileImage = (e: any) => {
-    clearIdxedDBValue();
-    var rawList = [];
+    setFileSize(0);
+    var rawList: any = [];
     var linkList: any = [];
 
     for (const i in e.target.files) {
       if (Number(i) >= 0) {
-        rawList[Number(i)] = e.target.files[i];
+        console.log(rawList.length, '라우리스트 길이');
+        rawList = [...rawList, e.target.files[i]];
+      }
+    }
+    rawList.map((file: any) => {
+      setFileSize((current) => current + Number(file.size));
+    });
+
+    for (const i in e.target.files) {
+      if (Number(i) >= 0) {
         const reader = new FileReader();
         reader.addEventListener('load', () => {
           linkList = [...linkList, reader.result];
@@ -61,20 +76,36 @@ function Photo() {
   };
 
   useEffect(() => {
-    if (Number(innerreal) === innerpreview.length) {
-      writeIdxedDB(innerpreview);
+    console.log(preview, '업뎃됨');
+    if (real !== 0 && preview.length === real) {
+      clearIdxedDBValue();
+      writeIdxedDB(preview);
     }
-  }, [innerpreview]);
+  }, [preview, real]);
+
+  useEffect(() => {
+    setReal(innerreal ? real + innerreal : innerpreviewAfterIdxDB.length);
+  }, [innerreal, isGetIdxValueSuccess]);
 
   useEffect(() => {
     setPreview(
-      innerpreview.length === innerreal
-        ? innerpreview
+      innerreal !== 0 && innerpreview.length === innerreal
+        ? [...preview, ...innerpreview]
         : (innerpreviewAfterIdxDB as any),
     );
-    setReal(innerreal ? innerreal : innerpreviewAfterIdxDB.length);
-    console.log(innerpreviewAfterIdxDB.length);
-  }, [innerreal, innerpreview, isGetIdxValueSuccess]);
+  }, [innerpreview, isGetIdxValueSuccess]);
+
+  //useEffect(() => {
+  //  if (fileSize <= 3000000) {
+  //    //if (Number(innerreal) === innerpreview.length) {
+  //    //  clearIdxedDBValue();
+  //    //  writeIdxedDB(innerpreview);
+  //    //}
+  //  } else {
+  //    alert('파일 용량이 너무 큽니다');
+  //    clearIdxedDBValue();
+  //  }
+  //}, [fileSize, isGetIdxValueSuccess]);
 
   useEffect(() => {
     getIdxedDBValue();
@@ -87,8 +118,13 @@ function Photo() {
         사진을 찍어
         <br /> 업로드 해주세요.
       </NoticeTextWrapper>
-      {preview.length === Number(real) && Number(real) !== 0 ? (
-        <ImgCarousel img_url={preview} />
+      {preview.length + googleLink.length ===
+        Number(real) + Number(googleLinkCount) &&
+      Number(real) + Number(googleLinkCount) !== 0 ? (
+        <S.CarouselWrapper>
+          <ImgCarousel img_url={[...googleLink, ...preview]} />
+          <ImgDelete img_url={[...googleLink, ...preview]} />
+        </S.CarouselWrapper>
       ) : (
         <S.EmptyImage></S.EmptyImage>
       )}
@@ -113,7 +149,7 @@ function Photo() {
         <WhitePill
           text={'다음'}
           onClick={() => {
-            if (preview.length) {
+            if (preview.length + googleLinkCount) {
               setStat({ status: 6 });
             } else {
               alert('적어도 1장 이상의 이미지를 등록해주세요');

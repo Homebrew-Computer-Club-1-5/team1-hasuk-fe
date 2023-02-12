@@ -268,7 +268,6 @@ export const countfileAtom = atom<number>({
   key: 'countfile',
   default: 0,
   dangerouslyAllowMutability: true,
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const previewAtom = atom<string[]>({
@@ -311,4 +310,16 @@ export const currentLocationAtom = atom<IcurrentLocation>({
 export const isUppingAtom = atom<Boolean>({
   key: 'isUpping',
   default: false,
+});
+
+export const googleLinkAtom = atom<string[]>({
+  key: 'googleLink',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const googleLinkCountAtom = atom<number>({
+  key: 'googleLinkCount',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
 });

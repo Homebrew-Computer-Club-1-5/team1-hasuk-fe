@@ -16,13 +16,11 @@ function Create() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
-
   useEffect(() => {
     if (!accessToken) {
       navigate('/auth/login');
     }
   }, []);
-
   return (
     <S.Container>
       <S.Header>
