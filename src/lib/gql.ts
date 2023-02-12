@@ -209,3 +209,12 @@ export const DELETE_MYHOUSE = gql`
     deleteMyHouse(house_id: $house_id)
   }
 `;
+
+export const FETCH_UP = gql`
+  mutation ($house_id: Float!) {
+    fetchUp(house_id: $house_id) {
+      id
+      board_date
+    }
+  }
+`;

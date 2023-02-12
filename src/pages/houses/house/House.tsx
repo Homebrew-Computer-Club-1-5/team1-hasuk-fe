@@ -1,8 +1,7 @@
 import ImgCarousel from '../../../components/molecules/ImgCarousel';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { houseDataAtom, isUppingAtom } from '../../../store/atoms';
-import styled from 'styled-components';
 import TitleWrapper from '../../../components/molecules/TitleWrapper';
 import House_BasicInfosWrapper from './House_BasicInfosWrapper';
 import House_LocationInfoWrapper from './House_LocationInfoWrapper';
@@ -11,27 +10,32 @@ import House_HouseIdWrapper from './House_HouseIdWrapper';
 import { ReactComponent as ContactButton } from '../../../assets/ContactButton.svg';
 import InfoModal from '../../../components/molecules/InfoModal';
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 import Loading from '../../../components/molecules/Loading';
-import { FETCH_HOUSE } from '../../../lib/gql';
+import { FETCH_HOUSE, FETCH_UP } from '../../../lib/gql';
 import WhitePill from '../../../components/molecules/WhitePill';
 import * as S from './House.styled';
+import useRestoreAccessToken from '../../../lib/util/tokenStrategy';
 
 function House() {
-  const isUpping = useRecoilValue(isUppingAtom);
-  const { state } = useLocation();
-  console.log(state?.fromUp);
-  const resetAllAtoms = useResetAllAtoms();
-  useEffect(() => {
-    resetAllAtoms();
-  }, []);
+  // state
   const [isContactNumberModalOn, setIsContactNumberModalOn] = useState(false);
   const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
-  const { house_id } = useParams();
+  const isUpping = useRecoilValue(isUppingAtom);
 
-  const { loading, error, data } = useQuery(FETCH_HOUSE, {
+  // hooks
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { house_id } = useParams();
+  const resetAllAtoms = useResetAllAtoms();
+  const restoreAccessToken = useRestoreAccessToken();
+  const {
+    loading: fetchHouseLoading,
+    error,
+    data,
+  } = useQuery(FETCH_HOUSE, {
     fetchPolicy: 'no-cache',
     variables: {
       house_id: parseFloat(house_id as any),
@@ -40,8 +44,25 @@ function House() {
       setHouseData((current) => data.fetchHouse);
     },
   });
+  const [fetchUp, { loading: fetchUpLoading }] = useMutation(FETCH_UP, {
+    onCompleted(data) {
+      alert(`${data.fetchUp.id} 번집 ${data.fetchUp.board_date} 시에 UP 완료`);
+      window.location.href = `/house/${data.fetchUp.id}`;
+    },
+    onError(error) {
+      console.log(error.message);
+      restoreAccessToken({
+        onRestoreSuccess: fetchUp,
+      });
+    },
+  });
 
-  if (loading) {
+  // useEffects
+  useEffect(() => {
+    resetAllAtoms();
+  }, []);
+
+  if (fetchHouseLoading) {
     return <Loading loadingText="집 정보를 불러오는 중.." />;
   } else {
     const imgs = houseData.imgs;
@@ -49,7 +70,9 @@ function House() {
 
     return (
       <S.Container>
-        {loading ? <Loading loadingText="집 정보를 불러오는 중.." /> : null}
+        {fetchHouseLoading ? (
+          <Loading loadingText="집 정보를 불러오는 중.." />
+        ) : null}
         <InfoModal
           innerText={`전화번호 : ${houseData.contact_number}`}
           isModalOn={isContactNumberModalOn}
@@ -109,17 +132,11 @@ function House() {
                 color: 'white',
               }}
               onClick={() => {
-                console.log('up!!!');
-              }}
-            />
-            <WhitePill
-              text="게시물 수정"
-              style={{
-                backgroundColor: 'black',
-                color: 'white',
-              }}
-              onClick={() => {
-                console.log('수정');
+                fetchUp({
+                  variables: {
+                    house_id: parseFloat(house_id as any),
+                  },
+                });
               }}
             />
           </S.UpWrapper>
