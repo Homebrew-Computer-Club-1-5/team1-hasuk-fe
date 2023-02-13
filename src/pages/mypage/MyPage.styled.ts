@@ -8,6 +8,7 @@ export const Container = styled.div`
 `;
 
 export const UserProfileWrapper = styled.div`
+  cursor: pointer;
   width: 80%;
   height: 100px;
   background-color: #efefef;

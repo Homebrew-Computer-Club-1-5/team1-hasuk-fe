@@ -46,28 +46,12 @@ import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 import useSetEditPage from '../../lib/util/setEditPage';
 
-
 function MyHouse() {
   const getIdxedDBValue = useGetIdxedDBValue();
   const restoreAccessToken = useRestoreAccessToken();
   const resetAllAtoms = useResetAllAtoms();
-  const [contact, setContact] = useRecoilState(contactNumberAtom);
-  const [univ, setUniv] = useRecoilState(universityIdAtom);
-  const [region, setRegion] = useRecoilState(regionIdAtom);
-  const [lat, setLat] = useRecoilState(latitudeAtom);
-  const [long, setLong] = useRecoilState(longitudeAtom);
-  const [month, setMonth] = useRecoilState(monthCostAtom);
-  const [depo, setDepo] = useRecoilState(depositAtom);
-  const [costother, setCostother] = useRecoilState(costOtherInfoAtom);
-  const [gen, setGen] = useRecoilState(genderAtom);
-  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
-  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
-  const [preview, setPreview] = useRecoilState(previewAtom);
-  const [real, setReal] = useRecoilState(countfileAtom);
-  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
-  const [googleLinkCount, setGoogleLinkCount] =
-    useRecoilState(googleLinkCountAtom);
+
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
   const [addresses, setAddresses] = useState<string[]>([]);
@@ -92,40 +76,6 @@ function MyHouse() {
     }
   }, [fetchMyHouseData]);
 
-  const setEditPage = (house_id: number) => {
-    const data = fetchMyHouseData.find((each, index) => {
-      return each.id === house_id;
-    });
-    const data2 = fetchMyHouseData.findIndex((each) => {
-      return each.id === house_id;
-    });
-    setAddress((current) => addresses[data2]);
-
-    // coordToAddress(
-    //   data?.location.latitude,
-    //   data?.location.longitude,
-    //   setAddress,
-    // );
-
-    setContact(data?.contact_number);
-    setStat({ status: 0 });
-    setUniv(1);
-    setRegion(data?.region);
-    setLat(data?.location.latitude as any);
-    setLong(data?.location.longitude as any);
-    setMonth(data?.cost.month_cost);
-    setDepo(data?.cost.deposit);
-    setCostother(data?.cost.other_info);
-    setGen(data?.gender);
-    setCat(data?.house_category);
-    setOther(data?.house_other_info);
-    setGoogleLink(data?.img_urls as any);
-    setGoogleLinkCount(data?.img_urls.length as any);
-
-    //setAddress();
-    // setImgFile({});
-    // setPreview(data?.img_urls as any);
-  };
   // hooks
   const setEditPage = useSetEditPage();
 
@@ -200,7 +150,7 @@ function MyHouse() {
       />
       <TitleWrapper2
         onClickBackButton={() => {
-          navigate('/');
+          navigate('/mypage');
         }}
       />
       <NoticeTextWrapper style={{ marginTop: '30px' }}>

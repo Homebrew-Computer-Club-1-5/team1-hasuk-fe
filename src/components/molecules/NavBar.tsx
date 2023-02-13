@@ -57,15 +57,11 @@ function NavBar() {
         <S.Li
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            if (!isLogined) {
-              navigate('/auth/login');
-            } else {
-              navigate('/mypage');
-            }
+            navigate('/mypage');
           }}
         >
           <NavBar_Profile style={{ position: 'relative', top: '4px' }} />
-          <S.ProfileP>{isLogined ? '마이 페이지' : '로그인'}</S.ProfileP>
+          <S.ProfileP>{'마이 페이지'}</S.ProfileP>
         </S.Li>
       </S.Ul>
     </S.Nav>
