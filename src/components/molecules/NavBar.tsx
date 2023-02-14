@@ -6,11 +6,17 @@ import { ReactComponent as NavBar_Main } from '../../assets/NavBar_Main.svg';
 import { ReactComponent as NavBar_Up } from '../../assets/NavBar_Up.svg';
 
 import * as S from './NavBar.styled';
+import useResetAllAtoms from '../../lib/util/resetAllAtoms';
+import { useRecoilState } from 'recoil';
+import { isEditingAtom, statusAtom } from '../../store/atoms';
 
 function NavBar() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const isLogined = !!accessToken;
+  const resetAllAtoms = useResetAllAtoms();
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
 
   return (
     <S.Nav>
@@ -36,6 +42,9 @@ function NavBar() {
         <S.Li
           style={{ position: 'relative', bottom: '4px', cursor: 'pointer' }}
           onClick={() => {
+            resetAllAtoms();
+            setStat({ status: 0 });
+            setIsEditing(false);
             navigate('/create');
           }}
         >

@@ -1,50 +1,28 @@
 import { useNavigate } from 'react-router-dom';
-import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
-import TitleWrapper2 from '../../components/molecules/TitleWrapper2';
+import NoticeTextWrapper from '../../../components/molecules/NoticeTextWrapper';
+import TitleWrapper2 from '../../../components/molecules/TitleWrapper2';
 import * as S from './MyHouse.styled';
-import HouseSampleImg from '../../assets/HouseSampleImg.png';
-import P_Manrope_Medium from '../../components/atoms/P_Manrope_Medium';
-import { ReactComponent as EditButton } from '../../assets/EditButton.svg';
-import { ReactComponent as DeleteButton } from '../../assets/DeleteButton.svg';
+import HouseSampleImg from '../../../assets/HouseSampleImg.png';
+import P_Manrope_Medium from '../../../components/atoms/P_Manrope_Medium';
+import { ReactComponent as EditButton } from '../../../assets/EditButton.svg';
+import { ReactComponent as DeleteButton } from '../../../assets/DeleteButton.svg';
 import { useEffect, useState } from 'react';
-import YesNoModal from '../../components/molecules/YesNoModal';
-import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import YesNoModal from '../../../components/molecules/YesNoModal';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
+import { clickedHouse_idAtom, fetchMyHouseAtom } from '../../../store/atoms';
 import {
-  clickedHouse_idAtom,
-  fetchMyHouseAtom,
-  IfetchMyHouse,
-  myHouseAddressAtom,
-} from '../../store/atoms';
-import {
-  contactNumberAtom,
-  costOtherInfoAtom,
-  depositAtom,
-  genderAtom,
-  houseCategoryIdAtom,
-  houseOtherInfoAtom,
   isEditingAtom,
-  latitudeAtom,
-  longitudeAtom,
-  monthCostAtom,
-  previewAtom,
-  regionIdAtom,
   statusAtom,
   tempaddressAtom,
-  universityIdAtom,
-  countfileAtom,
-  googleLinkAtom,
-  googleLinkCountAtom,
-} from '../../store/atoms';
-import useResetAllAtoms from '../../lib/util/resetAllAtoms';
-// import useCoordToAddress from '../../lib/util/coordToAddress';
-import { coordToAddress2 } from '../../lib/util/coordToAddress';
-import useRestoreAccessToken from '../../lib/util/tokenStrategy';
-import Loading from '../../components/molecules/Loading';
-import { DELETE_MYHOUSE, FETCH_MYHOUSE } from '../../lib/gql';
-import writeIdxedDB from '../../lib/util/writeIdxedDB';
-import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
-import useSetEditPage from '../../lib/util/setEditPage';
+} from '../../../store/atoms';
+import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
+import { coordToAddress2 } from '../../../lib/util/coordToAddress';
+import useRestoreAccessToken from '../../../lib/util/tokenStrategy';
+import Loading from '../../../components/molecules/Loading';
+import { DELETE_MYHOUSE, FETCH_MYHOUSE } from '../../../lib/gql';
+import useGetIdxedDBValue from '../../../lib/util/getIdxedDBValue';
+import useSetEditPage from '../../../lib/util/setEditPage';
 
 function MyHouse() {
   const getIdxedDBValue = useGetIdxedDBValue();
@@ -88,7 +66,7 @@ function MyHouse() {
         if (data.deleteMyHouse === 'success') {
           alert('게시물 삭제 완료');
           setIsDeleteModalOn((current) => !current);
-          window.location.href = '/myhouse';
+          window.location.reload();
         } else if (data.deleteMyHouse === 'failed') {
           setIsDeleteModalOn((current) => !current);
           alert('게시물 삭제 실패');
@@ -192,8 +170,8 @@ function MyHouse() {
                       setClickedHouse_id(each.id as any);
                       setIsEditing((current) => true);
                       const houseData: any = fetchMyHouseData.find(
-                        (each, index) => {
-                          return each.id === each.id;
+                        (each2, index) => {
+                          return each2.id === each.id;
                         },
                       );
                       const houseIndex = fetchMyHouseData.findIndex((each) => {

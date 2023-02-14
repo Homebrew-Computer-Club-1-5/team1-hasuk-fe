@@ -48,11 +48,11 @@ export default function useSetEditPage() {
     setStat({ status: 0 });
     setUniv(1);
     setRegion(houseData.region);
-    setLat(houseData.location.latitude as any);
-    setLong(houseData.location.longitude as any);
-    setMonth(houseData.cost.month_cost);
-    setDepo(houseData.cost.deposit);
-    setCostother(houseData.cost.other_info);
+    setLat(houseData.location?.latitude as any);
+    setLong(houseData.location?.longitude as any);
+    setMonth(houseData.cost?.month_cost);
+    setDepo(houseData.cost?.deposit);
+    setCostother(houseData.cost?.other_info);
     setGen(houseData.gender);
     setCat(houseData.house_category);
     setOther(houseData.house_other_info);

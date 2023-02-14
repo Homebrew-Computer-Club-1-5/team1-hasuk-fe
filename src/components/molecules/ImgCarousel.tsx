@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   background: lightgray;
   border-radius: 12px;
   width: 100%;
-  height: 40vh;
+  height: 260px;
   position: relative;
   overflow: hidden;
 `;
@@ -19,7 +19,7 @@ const ImgsWrapper = styled.div`
   width: 100%;
   div {
     width: 100%;
-    height: 40vh;
+    height: 260px;
     /* height: 100%; */
     background-position: 50% 50%;
     background-size: cover;
@@ -64,22 +64,32 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
   const [marginStyle, setMarginStyle] = useState({
     marginLeft: `-${current}00%`,
   });
+  const [imgSize, setImgSize] = useState(img_url.length);
 
-  const imgSize = useRef(img_url.length);
+  // 2. 버튼 눌러서 moveSlide 실행시 => current 바뀌게
   function moveSlide(i: number) {
     let nextIndex = current + i;
 
-    if (nextIndex < 0) nextIndex = imgSize.current - 1;
-    else if (nextIndex >= imgSize.current) nextIndex = 0;
+    // imgSize - 1 (마지막 인덱스) 보다 커지면, 0으로 셋팅
+    if (nextIndex > imgSize - 1) nextIndex = 0;
+    // imgSize - 1 (첫번째 인덱스) 보다 작아지면, 마지막 인덱스 으로 셋팅
+    else if (nextIndex < 0) nextIndex = imgSize - 1;
+    else nextIndex = nextIndex;
 
     setCurrent((current) => {
       return nextIndex;
     });
   }
 
+  // 3. current 바뀌면 => marginStyle 바뀌게
   useEffect(() => {
     setMarginStyle({ marginLeft: `-${current}00%` });
   }, [current]);
+
+  // 4. img_url 바뀌면 imgSize state 도 업데이트
+  useEffect(() => {
+    setImgSize(img_url.length);
+  }, [img_url]);
 
   return (
     <Wrapper style={style}>
@@ -109,7 +119,6 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
         fill="black"
         onClick={(event) => {
           moveSlide(1);
-
           event.stopPropagation();
         }}
       />

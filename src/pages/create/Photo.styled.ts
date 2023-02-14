@@ -13,7 +13,7 @@ export const EmptyImage = styled.div`
   background: lightgray;
   border-radius: 12px;
   width: 100%;
-  height: 30vh;
+  height: 260px;
   position: relative;
   overflow: hidden;
 `;
@@ -25,6 +25,8 @@ export const ImageInput = styled.input`
 export const ButtonsWrapper = styled.div`
   margin-top: 20px;
   display: flex;
+  width: 80%;
+  justify-content: space-evenly;
 `;
 
 export const UploadLabel = styled.label`
@@ -41,11 +43,12 @@ export const UploadLabel = styled.label`
   background-color: white;
   border-radius: 20px;
   text-align: center;
+  box-shadow: 0px 3px 3px 0px gray;
 `;
 
 export const CarouselWrapper = styled.div`
   width: 100%;
-  height: 30vh;
+  height: 300px;
   display: grid;
   grid-template-columns: calc(100% - 80px) 80px;
   grid-gap: 10px;

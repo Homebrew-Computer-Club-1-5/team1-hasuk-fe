@@ -2,6 +2,7 @@ import ImgCarousel from '../../../components/molecules/ImgCarousel';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  clickedHouse_idAtom,
   houseDataAtom,
   IfetchMyHouse,
   isEditingAtom,
@@ -37,6 +38,7 @@ function House() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [address, setAddress] = useState<string>();
   const setStat = useSetRecoilState(statusAtom);
+  const setClickedHouse_id = useSetRecoilState(clickedHouse_idAtom);
 
   // hooks
   const setEditPage = useSetEditPage();
@@ -82,7 +84,7 @@ function House() {
       onCompleted(data) {
         if (data.deleteMyHouse === 'success') {
           alert('게시물 삭제 완료');
-          navigate('/myhouse');
+          navigate('/mypage/myhouse');
         } else if (data.deleteMyHouse === 'failed') {
           alert('게시물 삭제 실패');
         }
@@ -234,10 +236,10 @@ function House() {
                         latitude: houseData.house_location.latitude,
                       },
                     };
-                    setIsEditing((current) => true);
-                    // setStat({ status: 2 });
 
+                    setIsEditing((current) => true);
                     navigate('/create');
+                    setClickedHouse_id((current) => houseData.id);
                     setEditPage({
                       houseData: houseDataForSetEditPage,
                       address: address as any,

@@ -19,20 +19,29 @@ import {
   previewAtom,
   isEditingAtom,
   googleLinkAtom,
+  innerpreviewAfterIdxDBAtom,
 } from '../../store/atoms';
 import { gql, useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { clickedHouse_idAtom } from '../../store/atoms';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 import { CREATE_HOUSE, UPDATE_MY_HOUSE } from '../../lib/gql';
+import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 
 const univArray = ['고려대'];
-const regionArray = ['성신여대', '안암역', '제기동', '고대정문'];
+const regionArray = [
+  '성신여대',
+  '보문동',
+  '안암역',
+  '제기동',
+  '고대정문',
+  '법대후문',
+];
 const genderArray = ['남성전용', '여성전용', '남녀 공용'];
 
 const NoticeTextWrapperStyle = {
@@ -41,7 +50,7 @@ const NoticeTextWrapperStyle = {
   textAlign: 'center',
 };
 
-const categoryArray = ['하숙', '원룸/자취방', '고시원', '기타'];
+const categoryArray = ['일반', '하숙', '원룸/자취방', '고시원', '기타'];
 
 function Summary() {
   const resetAllAtoms = useResetAllAtoms();
@@ -63,8 +72,14 @@ function Summary() {
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
+  const [innerpreviewAfterIdxDB, setInnerpreviewAfterIdxDB] = useRecoilState(
+    innerpreviewAfterIdxDBAtom,
+  );
 
   const navigate = useNavigate();
+  const getIdxedDBValue = useGetIdxedDBValue();
+  const fileObjListRef = useRef<File[]>([]);
+
   const restoreAccessToken = useRestoreAccessToken();
   const [createHouse, { data, loading: createHouseLoading, error }] =
     useMutation(CREATE_HOUSE, {
@@ -76,27 +91,6 @@ function Summary() {
         console.log('에러가 발생했어요, 에러메세지 : ', error.message);
       },
     });
-  useEffect(() => {
-    if (error) {
-      restoreAccessToken({
-        onRestoreSuccess: () => {
-          executeCreateHouse();
-        },
-      });
-    }
-  }, [error]);
-  var URLarray: any = [];
-
-  async function getFile(url: string) {
-    const file = await fetch(url)
-      .then((r) => r.blob())
-      .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
-      .then((converted) => (URLarray = [...URLarray, converted]));
-    return file;
-  }
-  preview.map((url) => {
-    getFile(url);
-  });
 
   const [
     updateMyHouse,
@@ -124,11 +118,12 @@ function Summary() {
         costother: costother,
         region: parseInt(region as any),
         cat: parseInt(cat as any),
-        files: URLarray,
+        files: fileObjListRef.current,
       },
     });
   }
   function executeUpdateMyHouse() {
+    console.log(clickedHouse_id, '아이디');
     updateMyHouse({
       variables: {
         house_id: parseInt(clickedHouse_id as any),
@@ -142,11 +137,62 @@ function Summary() {
         costother: costother,
         region: parseInt(region as any),
         cat: parseInt(cat as any),
-        files: URLarray,
+        files: fileObjListRef.current,
         googleLinks: googleLink,
       },
     });
   }
+
+  async function getFileObjListFromPreview(urls: string[]) {
+    const fileObjList = [];
+    for (let index in urls) {
+      const url = urls[index];
+      const fileObj = await fetch(url)
+        .then((r) => r.blob())
+        .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
+        .then((converted) => converted);
+      fileObjList.push(fileObj);
+    }
+    return fileObjList;
+  }
+
+  // useEffects
+  //// Index DB 읽어오기
+  // 1. 컴포넌트 처음 렌더링시, indexDB 읽어오기 실행
+  useEffect(() => {
+    const result = getIdxedDBValue();
+    return () => {
+      setPreview((current) => []);
+      setInnerpreviewAfterIdxDB((current) => []);
+    };
+  }, []);
+
+  // 2. indexDB 읽어오기 완료될시, setPreview
+  useEffect(() => {
+    if (innerpreviewAfterIdxDB[0]) {
+      setPreview((current) => innerpreviewAfterIdxDB);
+    }
+  }, [innerpreviewAfterIdxDB]);
+
+  // 3. preview를 File[] 로 전환
+  useEffect(() => {
+    async function func() {
+      const fileObjList = await getFileObjListFromPreview(preview);
+      fileObjListRef.current = fileObjList;
+    }
+    func();
+  }, [preview]);
+
+  //// 에러핸들링
+  useEffect(() => {
+    if (error) {
+      restoreAccessToken({
+        onRestoreSuccess: () => {
+          executeCreateHouse();
+        },
+      });
+    }
+  }, [error]);
 
   return (
     <S.Container>

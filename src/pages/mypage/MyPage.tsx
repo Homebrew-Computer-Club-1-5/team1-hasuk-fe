@@ -48,10 +48,14 @@ function MyPage() {
     navigate('/');
   };
   const onClickMyHouse = () => {
-    navigate('/myhouse');
+    navigate('/mypage/myhouse');
   };
   const onClickUserProfileWrapper = () => {
     if (isEmptyObject(loggedInUserInfo)) navigate('/auth/login');
+  };
+
+  const onClickChatIcon = () => {
+    navigate('/help');
   };
   // etc
   return (
@@ -97,15 +101,18 @@ function MyPage() {
 
           <S.MenuWrapper>
             <S.MiddleTitleP>대학방 지원</S.MiddleTitleP>
-            <S.SelectWrapper style={{ cursor: 'pointer' }}>
+            {/* <S.SelectWrapper style={{ cursor: 'pointer' }}>
               <MyPage_UnivRoomIcon />
               <S.SelectP>대학방 이용 방법</S.SelectP>
               <ForthButton
                 fill="black"
                 style={{ height: '20px', position: 'absolute', right: '0px' }}
               />
-            </S.SelectWrapper>
-            <S.SelectWrapper style={{ cursor: 'pointer' }}>
+            </S.SelectWrapper> */}
+            <S.SelectWrapper
+              style={{ cursor: 'pointer' }}
+              onClick={onClickChatIcon}
+            >
               <MyPage_ChatIcon style={{ position: 'relative', left: '6px' }} />
               <S.SelectP style={{ marginLeft: '20px' }}>
                 고객센터 / 지원

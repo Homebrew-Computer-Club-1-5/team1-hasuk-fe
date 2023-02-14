@@ -7,25 +7,6 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const UserProfileWrapper = styled.div`
-  cursor: pointer;
-  width: 80%;
-  height: 100px;
-  background-color: #efefef;
-  border-radius: 10px;
-
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0px 20px;
-  margin: 10px 0px;
-`;
-
-export const UserNameP = styled.p`
-  font-weight: 800;
-  margin-left: 15px;
-  font-size: 20px;
-`;
 export const MenuWrapper = styled.div`
   width: 80%;
   font-weight: 800;

@@ -45,71 +45,69 @@ function Photo() {
   const clearIdxedDBValue = useClearIdxedDBValue();
   const getIdxedDBValue = useGetIdxedDBValue();
 
-  const saveFileImage = (e: any) => {
-    setFileSize(0);
-    var rawList: any = [];
-    var linkList: any = [];
+  const [imgUrlState, setImgUrlState] = useState<string[]>([]);
 
-    for (const i in e.target.files) {
-      if (Number(i) >= 0) {
-        console.log(rawList.length, '라우리스트 길이');
-        rawList = [...rawList, e.target.files[i]];
-      }
-    }
-    rawList.map((file: any) => {
-      setFileSize((current) => current + Number(file.size));
-    });
-
-    for (const i in e.target.files) {
-      if (Number(i) >= 0) {
+  function convertFilesToBase64Array(files: any[]): Promise<string[]> {
+    return new Promise((resolve) => {
+      let base64Urls: string[] = [];
+      for (const index in files) {
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-          linkList = [...linkList, reader.result];
-
-          setInnerPreview(linkList as any);
+          base64Urls.push(reader.result as any);
+          if (base64Urls.length === files.length) {
+            resolve(base64Urls);
+          }
         });
-        reader.readAsDataURL(e.target.files[i]);
+        reader.readAsDataURL(files[index]);
       }
-    }
+    });
+  }
 
-    setInnerReal(rawList.length);
+  //// Index DB 읽어오기
+  // 1. 컴포넌트 처음 렌더링시, indexDB 읽어오기 실행
+  useEffect(() => {
+    const result = getIdxedDBValue();
+    return () => {
+      setPreview((current) => []);
+      setInnerpreviewAfterIdxDB((current) => []);
+    };
+  }, []);
+
+  // 2. indexDB 읽어오기 완료될시, setPreview
+  useEffect(() => {
+    if (innerpreviewAfterIdxDB[0]) {
+      setPreview((current) => innerpreviewAfterIdxDB);
+    }
+  }, [innerpreviewAfterIdxDB]);
+
+  //// 파일 업로드시
+  // 1. 파일 업로드가 일어났을때  File 객체를 URL로 전환 => setPreview
+  const saveFileImage = async (event: any) => {
+    const fileObjList = [...event.target.files];
+    const base64UrlList = await convertFilesToBase64Array(fileObjList);
+
+    setPreview((current) => {
+      return [...current, ...base64UrlList];
+    });
   };
 
+  // 2. preview를 indexDB에 저장
+  // TODO - clear 하고 다시 업로드가 아닌, 추가 업로드 하는것만 만지게
   useEffect(() => {
-    console.log(preview, '업뎃됨');
-    if (real !== 0 && preview.length === real) {
+    if (preview[0]) {
       clearIdxedDBValue();
       writeIdxedDB(preview);
+    } else {
+      clearIdxedDBValue();
     }
-  }, [preview, real]);
+  }, [preview]);
 
+  // 3. imgUrlState 정의
   useEffect(() => {
-    setReal(innerreal ? real + innerreal : innerpreviewAfterIdxDB.length);
-  }, [innerreal, isGetIdxValueSuccess]);
-
-  useEffect(() => {
-    setPreview(
-      innerreal !== 0 && innerpreview.length === innerreal
-        ? [...preview, ...innerpreview]
-        : (innerpreviewAfterIdxDB as any),
-    );
-  }, [innerpreview, isGetIdxValueSuccess]);
-
-  //useEffect(() => {
-  //  if (fileSize <= 3000000) {
-  //    //if (Number(innerreal) === innerpreview.length) {
-  //    //  clearIdxedDBValue();
-  //    //  writeIdxedDB(innerpreview);
-  //    //}
-  //  } else {
-  //    alert('파일 용량이 너무 큽니다');
-  //    clearIdxedDBValue();
-  //  }
-  //}, [fileSize, isGetIdxValueSuccess]);
-
-  useEffect(() => {
-    getIdxedDBValue();
-  }, []);
+    setImgUrlState((current) => {
+      return [...googleLink, ...preview];
+    });
+  }, [googleLink, preview]);
 
   return (
     <S.Container>
@@ -118,12 +116,10 @@ function Photo() {
         사진을 찍어
         <br /> 업로드 해주세요.
       </NoticeTextWrapper>
-      {preview.length + googleLink.length ===
-        Number(real) + Number(googleLinkCount) &&
-      Number(real) + Number(googleLinkCount) !== 0 ? (
+      {imgUrlState[0] ? (
         <S.CarouselWrapper>
-          <ImgCarousel img_url={[...googleLink, ...preview]} />
-          <ImgDelete img_url={[...googleLink, ...preview]} />
+          <ImgCarousel img_url={imgUrlState} />
+          <ImgDelete img_url={imgUrlState} />
         </S.CarouselWrapper>
       ) : (
         <S.EmptyImage></S.EmptyImage>
@@ -141,7 +137,7 @@ function Photo() {
         <WhitePill
           text={'이미지 지우기'}
           onClick={() => {
-            clearIdxedDBValue();
+            setGoogleLink([]);
             setPreview([]);
             setReal(0);
           }}
