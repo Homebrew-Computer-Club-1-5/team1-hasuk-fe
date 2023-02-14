@@ -58,13 +58,17 @@ function Price() {
       </NoticeTextWrapper>
       <S.Form onSubmit={handleSubmit(onValid)}>
         <S.InputWrapper>
-          <S.TitleP>월세</S.TitleP>
+          <S.TitleP>전세/월세</S.TitleP>
+          <p style={{ fontSize: '12px' }}>
+            매매이거나, 전세인데 월세가 추가로 있는 등 사항이 있으면 공과금란에
+            써주세요.
+          </p>
           <InputTemplate
             multipleLines={false}
             width="200px"
             placeholderText=""
             registerObject={register('month', {
-              required: '월세를 입력해 주세요',
+              required: '금액을 입력해 주세요',
               pattern: {
                 value: /^([0-9]?|)\d{1,4}$/,
                 message: '숫자로만 입력해 주세요',
@@ -78,7 +82,7 @@ function Price() {
               onChange: (e: any) => setTempMonth(e.target.value),
             })}
           >
-            <S.InnerP>만원/월</S.InnerP>
+            <S.InnerP>만원</S.InnerP>
           </InputTemplate>
         </S.InputWrapper>
         <S.ErrorSpan>{errors?.month?.message}</S.ErrorSpan>

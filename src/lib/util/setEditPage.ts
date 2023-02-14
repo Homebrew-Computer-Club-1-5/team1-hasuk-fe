@@ -5,6 +5,8 @@ import {
   costOtherInfoAtom,
   depositAtom,
   genderAtom,
+  googleLinkAtom,
+  googleLinkCountAtom,
   houseCategoryIdAtom,
   houseOtherInfoAtom,
   IfetchMyHouse,
@@ -31,6 +33,9 @@ export default function useSetEditPage() {
   const [other, setOther] = useRecoilState(houseOtherInfoAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [address, setAddress] = useRecoilState(tempaddressAtom);
+  const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
+  const [googleLinkCount, setGoogleLinkCount] =
+    useRecoilState(googleLinkCountAtom);
 
   interface IsetEditPage {
     address: string;
@@ -43,14 +48,16 @@ export default function useSetEditPage() {
     setStat({ status: 0 });
     setUniv(1);
     setRegion(houseData.region);
-    setLat(houseData.location.latitude as any);
-    setLong(houseData.location.longitude as any);
-    setMonth(houseData.cost.month_cost);
-    setDepo(houseData.cost.deposit);
-    setCostother(houseData.cost.other_info);
+    setLat(houseData.location?.latitude as any);
+    setLong(houseData.location?.longitude as any);
+    setMonth(houseData.cost?.month_cost);
+    setDepo(houseData.cost?.deposit);
+    setCostother(houseData.cost?.other_info);
     setGen(houseData.gender);
     setCat(houseData.house_category);
     setOther(houseData.house_other_info);
+    setGoogleLink(houseData.img_urls as any);
+    setGoogleLinkCount(houseData.img_urls.length as any);
     //setAddress();
     // setImgFile({});
     // setPreview(data?.img_urls as any);

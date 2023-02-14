@@ -7,13 +7,11 @@ export default function useClearIdxedDBValue() {
       const db = request.result;
       const transaction = db.transaction(['links'], 'readwrite');
       transaction.onerror = (e) => console.log('fail');
-      transaction.oncomplete = (e) => console.log('success');
+      transaction.oncomplete = (e) => {};
 
       const objStore = transaction.objectStore('links'); // 2. name 저장소 접근
       const objStoreRequest = objStore.clear(); // 3. 전체 삭제
-      objStoreRequest.onsuccess = (e) => {
-        console.log('cleared');
-      };
+      objStoreRequest.onsuccess = (e) => {};
     };
   }
   return clearIdxedDBValue;

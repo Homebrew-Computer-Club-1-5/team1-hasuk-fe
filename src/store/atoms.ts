@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 const { persistAtom } = recoilPersist();
+const { persistAtom: persistAtom2 } = recoilPersist();
 
 export interface IhouseData_fetchAllHouses {
   id: number;
@@ -322,4 +323,16 @@ export const googleLinkCountAtom = atom<number>({
   key: 'googleLinkCount',
   default: 0,
   effects_UNSTABLE: [persistAtom],
+});
+
+export interface IloggedInUserInfo {
+  user_auth_id: string;
+  name: string;
+  auth_method: number;
+}
+
+export const loggedInUserInfoAtom = atom<IloggedInUserInfo>({
+  key: 'loggedInUserInfo',
+  default: {} as any,
+  effects_UNSTABLE: [persistAtom2],
 });

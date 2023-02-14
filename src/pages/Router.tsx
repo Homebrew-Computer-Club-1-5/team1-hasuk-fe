@@ -6,10 +6,12 @@ import AllHouses from './allhouses/AllHouses';
 import House from './houses/house/House';
 import Houses from './houses/Houses';
 import Main from './main/Main';
-import MyHouse from './myhouse/MyHouse';
 import NotFound from './NotFound';
 import Up from './up/Up';
 import MyPage from './mypage/MyPage';
+import MyHouse from './mypage/myhouse/MyHouse';
+import Help from './help/Help';
+import Article_1 from './help/article/Article_1';
 
 function Router() {
   return (
@@ -21,9 +23,11 @@ function Router() {
       <Route path="/house/:house_id" element={<House />} />
       <Route path="/up" element={<Up />} />
       <Route path="/auth/login" element={<Login />} />
-      <Route path="/myhouse" element={<MyHouse />} />
       <Route path="/create" element={<Create />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/myhouse" element={<MyHouse />} />
+      <Route path="/help" element={<Help />} />
+      <Route path="/help/article/1" element={<Article_1 />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );

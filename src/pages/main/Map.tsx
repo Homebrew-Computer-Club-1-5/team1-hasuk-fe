@@ -38,6 +38,8 @@ declare global {
 }
 
 function Map({ exlatitude, exlongitude, children }: ICoordinate) {
+  //state
+  useRecoilState(isCurrentLocationButtonClickedAtom);
   const [regionId, setRegionId] = useState();
   const [clusterClicked, setClusterClicked] = useState(false);
   const [kakaoMap, setKakaoMap] = useState();
@@ -47,6 +49,10 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
+  const isCurrentLocationButtonClickedState = useState(false);
+  const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
+    isCurrentLocationButtonClickedState;
+
   const { loading, error, data } = useQuery(
     FETCH_ALL_HOUSES_GROUPED_BY_REGION,
     {
@@ -56,8 +62,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       },
     },
   );
-  const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
-    useRecoilState(isCurrentLocationButtonClickedAtom);
+
   const [marker, setMarker] = useState({});
   function navigateToHouses() {
     navigate(`/houses/${regionId}`);
@@ -80,6 +85,9 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     // 지도 기본틀 그려주기
     const result = drawKakaoMap();
     setKakaoMap(result);
+
+    // 위치버튼 클릭 안된상태로 초기화
+    setIsCurrentLocationButtonClicked((current) => false);
   }, []);
 
   // houseData 로딩 다되면, 클러스터들 그려주기
@@ -253,7 +261,11 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
 
   return (
     <S.mapWrapper>
-      <CurrentLocationButton />
+      <CurrentLocationButton
+        isCurrentLocationButtonClickedState={
+          isCurrentLocationButtonClickedState
+        }
+      />
       {loading ? <Loading loadingText="메인 페이지 로딩중.." /> : null}
       {mapLevel && mapLevel < 5 ? (
         <div className="legend">

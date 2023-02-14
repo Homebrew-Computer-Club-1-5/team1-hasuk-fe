@@ -21,7 +21,7 @@ export default function useGetIdxedDBValue() {
       const transaction = db.transaction(['links'], 'readwrite');
       transaction.oncomplete = (e) => {
         console.log('transaction success');
-        setIsGetIdxValueSuccess((current) => !current);
+        // setIsGetIdxValueSuccess((current) => !current);
       };
       transaction.onerror = (e) => {
         console.log('transaction fail');

@@ -28,7 +28,6 @@ function Up() {
     {
       fetchPolicy: 'no-cache',
       onCompleted(data) {
-        console.log(data.fetchHouseByLocation);
         if (data) {
           setIsUpping((current) => true);
           navigate(`/house/${data.fetchHouseByLocation}`, {

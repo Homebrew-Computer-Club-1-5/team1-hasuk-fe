@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 import ReactGA from 'react-ga';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 // react-ga
 export const ANALYTICS_TRACKING_ID = process.env
@@ -38,10 +39,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+// react-query
+const queryClient = new QueryClient();
+
 root.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </ApolloProvider>,
+  <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ApolloProvider>
+  </QueryClientProvider>,
 );
