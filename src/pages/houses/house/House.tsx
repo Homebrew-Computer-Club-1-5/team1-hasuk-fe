@@ -63,9 +63,7 @@ function House() {
   const [fetchUp, { loading: fetchUpLoading }] = useMutation(FETCH_UP, {
     onCompleted(data) {
       if (data.fetchUp.id) {
-        alert(
-          `${data.fetchUp.id} 번집 ${data.fetchUp.board_date} 시에 UP 완료`,
-        );
+        alert(`${data.fetchUp.id} 번집 UP 완료 !`);
         window.location.reload();
       } else {
         alert('3일안에 UP하셔서 UP 하실 수 없습니다.');

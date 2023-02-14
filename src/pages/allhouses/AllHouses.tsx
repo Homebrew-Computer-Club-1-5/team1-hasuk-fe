@@ -56,6 +56,7 @@ function AllHouses() {
           navigateRoute={'/'}
           isTitleOn={true}
           isBackButtonColorBlack={true}
+          allHouses={true}
         />
         <S.NoticeP>
           ** 일부 정보는 고파스 게시물을 참조 했음을 밝힙니다. **

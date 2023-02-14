@@ -22,7 +22,6 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
   const img_url = houseData.img_urls;
   const category = houseData.house_category_id;
   const board_date = parseInt(houseData.board_date);
-  // console.log(board_date);
   const currentTime = Date.now();
   const { days, hours, minutes, totalSeconds } = convertTimestamp(
     currentTime - board_date,

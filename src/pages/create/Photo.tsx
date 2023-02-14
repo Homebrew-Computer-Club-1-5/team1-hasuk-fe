@@ -127,7 +127,7 @@ function Photo() {
       <S.ImageInput
         type="file"
         id="image"
-        accept="img/*"
+        accept="image/*"
         multiple={true}
         onChange={saveFileImage}
         ref={imageInput as any}

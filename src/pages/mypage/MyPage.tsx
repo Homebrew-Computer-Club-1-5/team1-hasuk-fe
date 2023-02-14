@@ -51,7 +51,8 @@ function MyPage() {
     navigate('/mypage/myhouse');
   };
   const onClickUserProfileWrapper = () => {
-    if (isEmptyObject(loggedInUserInfo)) navigate('/auth/login');
+    // if (isEmptyObject(loggedInUserInfo)) navigate('/auth/login');
+    navigate('/auth/login');
   };
 
   const onClickChatIcon = () => {
