@@ -25,8 +25,7 @@ const addressStyle = {
   width: '70vw',
   height: '50vh',
   border: '1px solid black',
-  margin: ' 10px auto',
-  overflow: 'scroll',
+  overflow: 'hidden',
 };
 
 const resultWrapperStyle = {
@@ -39,7 +38,7 @@ const resultTitleStyle = {
   marginLeft: '10px',
   fontWeight: 990,
   fontSize: '12px',
-  width: '80px',
+  width: '54px',
 };
 interface IObject {
   getCoordsValue: any;
@@ -93,15 +92,14 @@ function AddressMaker({ getCoordsValue, style, isTitleOff }: IObject) {
         </div>
       ) : null}
 
-      <div>
-        {toggle ? (
-          <DaumPostcodeEmbed
-            style={addressStyle}
-            onComplete={handleComplete}
-            autoClose={false}
-          />
-        ) : null}
-      </div>
+      {toggle ? (
+        <DaumPostcodeEmbed
+          style={addressStyle}
+          onComplete={handleComplete}
+          autoClose={false}
+        />
+      ) : null}
+
       <WhitePill
         style={searchButtonStyle}
         text={'주소검색'}

@@ -28,10 +28,10 @@ function Photo() {
   const imageInput = useRef();
   const [stat, setStat] = useRecoilState(statusAtom);
   const [real, setReal] = useRecoilState(countfileAtom);
-  const [innerreal, setInnerReal] = useState<number>(0);
+
   const [fileSize, setFileSize] = useState(0);
   const [preview, setPreview] = useRecoilState(previewAtom);
-  const [innerpreview, setInnerPreview] = useState<String[]>([]);
+
   const [googleLinkCount, setGoogleLinkCount] =
     useRecoilState(googleLinkCountAtom);
   const [isGetIdxValueSuccess, setIsGetIdxValueSuccess] = useRecoilState(
@@ -63,6 +63,10 @@ function Photo() {
     });
   }
 
+  function getUploadSize(filelist: File[]) {
+    filelist.map((file) => setFileSize((current) => current + file.size));
+  }
+
   //// Index DB 읽어오기
   // 1. 컴포넌트 처음 렌더링시, indexDB 읽어오기 실행
   useEffect(() => {
@@ -80,11 +84,16 @@ function Photo() {
     }
   }, [innerpreviewAfterIdxDB]);
 
+  useEffect(() => {
+    console.log(fileSize, '여기서 출력됨');
+  }, [fileSize]);
+
   //// 파일 업로드시
   // 1. 파일 업로드가 일어났을때  File 객체를 URL로 전환 => setPreview
   const saveFileImage = async (event: any) => {
     const fileObjList = [...event.target.files];
     const base64UrlList = await convertFilesToBase64Array(fileObjList);
+    getUploadSize(fileObjList);
 
     setPreview((current) => {
       return [...current, ...base64UrlList];
@@ -153,6 +162,7 @@ function Photo() {
           }}
         />
       </S.ButtonsWrapper>
+      <div>{Math.round(fileSize / 1000000)}MB/30MB</div>
     </S.Container>
   );
 }
