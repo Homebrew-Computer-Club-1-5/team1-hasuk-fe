@@ -123,7 +123,6 @@ function Summary() {
     });
   }
   function executeUpdateMyHouse() {
-    console.log(clickedHouse_id, '아이디');
     updateMyHouse({
       variables: {
         house_id: parseInt(clickedHouse_id as any),

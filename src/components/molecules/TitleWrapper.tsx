@@ -22,6 +22,7 @@ interface ITitleWrapper {
   isTitleOn: boolean;
   isBackButtonColorBlack: boolean;
   titleText?: string;
+  allHouses?: boolean;
 }
 
 function TitleWrapper({
@@ -30,6 +31,7 @@ function TitleWrapper({
   isTitleOn,
   isBackButtonColorBlack,
   titleText,
+  allHouses,
 }: ITitleWrapper) {
   const houseDatas = useRecoilValue(houseDatasAtom);
   const navigate = useNavigate();
@@ -49,9 +51,7 @@ function TitleWrapper({
       {isTitleOn ? (
         <Title>
           고려대학교
-          {houseDatas[0]?.region_name
-            ? `- ${houseDatas[0]?.region_name}`
-            : ' - 모든 집 보기'}
+          {!allHouses ? `- ${houseDatas[0]?.region_name}` : ' - 모든 집 보기'}
         </Title>
       ) : (
         <></>
