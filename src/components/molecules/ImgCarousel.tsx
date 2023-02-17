@@ -65,20 +65,47 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
     marginLeft: `-${current}00%`,
   });
   const [imgSize, setImgSize] = useState(img_url.length);
+  let begin = 0;
+  let isBegin = false;
+  let final = 0;
 
   // 2. 버튼 눌러서 moveSlide 실행시 => current 바뀌게
   function moveSlide(i: number) {
     let nextIndex = current + i;
 
     // imgSize - 1 (마지막 인덱스) 보다 커지면, 0으로 셋팅
-    if (nextIndex > imgSize - 1) nextIndex = 0;
+    if (nextIndex > imgSize - 1) nextIndex = nextIndex - 1;
     // imgSize - 1 (첫번째 인덱스) 보다 작아지면, 마지막 인덱스 으로 셋팅
-    else if (nextIndex < 0) nextIndex = imgSize - 1;
+    else if (nextIndex < 0) nextIndex = nextIndex + 1;
     else nextIndex = nextIndex;
 
     setCurrent((current) => {
       return nextIndex;
     });
+  }
+
+  function handleTouchStart(e: any) {
+    begin = e.changedTouches[0].clientX;
+    isBegin = true;
+    console.log(e.changedTouches[0].clientX, '스타트');
+  }
+  function handleTouchMove(e: any) {
+    if (isBegin === true) {
+      final = e.changedTouches[0].clientX - begin;
+    }
+  }
+  function handleTouchEnd(e: any) {
+    isBegin = false;
+    console.log(e, '이벤트 전체');
+    if (Number(final) > 0) {
+      console.log('뒤로');
+      moveSlide(-1);
+    }
+    if (Number(final) < 0) {
+      console.log('앞으로');
+      moveSlide(1);
+    }
+    final = 0;
   }
 
   // 3. current 바뀌면 => marginStyle 바뀌게
@@ -122,7 +149,12 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
           event.stopPropagation();
         }}
       />
-      <ImgsWrapper style={marginStyle}>
+      <ImgsWrapper
+        style={marginStyle}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchMove}
+      >
         {img_url[0] ? (
           img_url.map((url, index) => (
             <div
