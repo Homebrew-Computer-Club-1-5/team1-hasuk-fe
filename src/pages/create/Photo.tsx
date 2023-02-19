@@ -28,15 +28,12 @@ function Photo() {
   const imageInput = useRef();
   const [stat, setStat] = useRecoilState(statusAtom);
   const [real, setReal] = useRecoilState(countfileAtom);
-  const [innerreal, setInnerReal] = useState<number>(0);
+
   const [fileSize, setFileSize] = useState(0);
   const [preview, setPreview] = useRecoilState(previewAtom);
-  const [innerpreview, setInnerPreview] = useState<String[]>([]);
+
   const [googleLinkCount, setGoogleLinkCount] =
     useRecoilState(googleLinkCountAtom);
-  const [isGetIdxValueSuccess, setIsGetIdxValueSuccess] = useRecoilState(
-    isGetIdxValueSuccessAtom,
-  );
   const [innerpreviewAfterIdxDB, setInnerpreviewAfterIdxDB] = useRecoilState(
     innerpreviewAfterIdxDBAtom,
   );
@@ -85,10 +82,17 @@ function Photo() {
   const saveFileImage = async (event: any) => {
     const fileObjList = [...event.target.files];
     const base64UrlList = await convertFilesToBase64Array(fileObjList);
+    const sumList = [...preview, ...base64UrlList];
+    let size = 0;
+    sumList.map((url) => (size += url.length));
 
-    setPreview((current) => {
-      return [...current, ...base64UrlList];
-    });
+    if (size > 3000000) {
+      alert('너 때문에 서버가 터져버렸어.');
+    } else {
+      setPreview((current) => {
+        return [...current, ...base64UrlList];
+      });
+    }
   };
 
   // 2. preview를 indexDB에 저장
@@ -100,6 +104,8 @@ function Photo() {
     } else {
       clearIdxedDBValue();
     }
+    setFileSize(0);
+    preview.map((link) => setFileSize((current) => current + link.length));
   }, [preview]);
 
   // 3. imgUrlState 정의
@@ -153,6 +159,7 @@ function Photo() {
           }}
         />
       </S.ButtonsWrapper>
+      <div>{Math.round(fileSize / 1000) / 1000}MB/30MB</div>
     </S.Container>
   );
 }

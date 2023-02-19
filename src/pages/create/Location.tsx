@@ -56,7 +56,6 @@ function Location() {
   const [radio, setRadio] = useState();
   const [select, setSelect] = useState();
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
-  console.log(regionid);
   const getRadioValue = (x: any) => {
     setRadio(x);
   };
@@ -149,7 +148,11 @@ function Location() {
         </S.RadioWrapper>
       ) : null}
 
-      <AddressMaker getCoordsValue={getCoordsValue} />
+      <AddressMaker
+        getCoordsValue={getCoordsValue}
+        style={{ marginTop: '20px' }}
+      />
+
       <WhitePill
         text={'다음'}
         onClick={() => {
