@@ -17,6 +17,7 @@ import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useClearIdxedDBValue from '../../lib/util/clearIdxedDBValue';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 import ImgDelete from '../../components/molecules/ImgDelete';
+import axios from 'axios';
 
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
@@ -28,16 +29,16 @@ function Photo() {
   const imageInput = useRef();
   const [stat, setStat] = useRecoilState(statusAtom);
   const [real, setReal] = useRecoilState(countfileAtom);
-
   const [fileSize, setFileSize] = useState(0);
   const [preview, setPreview] = useRecoilState(previewAtom);
-
   const [googleLinkCount, setGoogleLinkCount] =
     useRecoilState(googleLinkCountAtom);
   const [innerpreviewAfterIdxDB, setInnerpreviewAfterIdxDB] = useRecoilState(
     innerpreviewAfterIdxDBAtom,
   );
   const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
+  const [googleFileSize, setGoogleFileSize] = useState(0);
+  const [previewFileSize, setPreviewFileSize] = useState(0);
 
   const clearIdxedDBValue = useClearIdxedDBValue();
   const getIdxedDBValue = useGetIdxedDBValue();
@@ -60,33 +61,30 @@ function Photo() {
     });
   }
 
-  //// Index DB 읽어오기
-  // 1. 컴포넌트 처음 렌더링시, indexDB 읽어오기 실행
-  useEffect(() => {
-    const result = getIdxedDBValue();
-    return () => {
-      setPreview((current) => []);
-      setInnerpreviewAfterIdxDB((current) => []);
-    };
-  }, []);
+  async function getFileSizeFromGoogle(urls: string[]) {
+    setGoogleFileSize(0);
 
-  // 2. indexDB 읽어오기 완료될시, setPreview
-  useEffect(() => {
-    if (innerpreviewAfterIdxDB[0]) {
-      setPreview((current) => innerpreviewAfterIdxDB);
+    for (let index in urls) {
+      const url = urls[index];
+      const fileObj = await fetch(`https://cors-anywhere.herokuapp.com/${url}`)
+        .then((r) => r.blob())
+        .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
+        .then((converted) => converted);
+      setGoogleFileSize((current) => current + fileObj.size);
     }
-  }, [innerpreviewAfterIdxDB]);
+  }
 
-  //// 파일 업로드시
-  // 1. 파일 업로드가 일어났을때  File 객체를 URL로 전환 => setPreview
   const saveFileImage = async (event: any) => {
     const fileObjList = [...event.target.files];
     const base64UrlList = await convertFilesToBase64Array(fileObjList);
     const sumList = [...preview, ...base64UrlList];
     let size = 0;
-    sumList.map((url) => (size += url.length));
+    sumList.map((url) => {
+      size += url.length / 1.33;
+    });
+    console.log(size);
 
-    if (size > 3000000) {
+    if (size > 30000000) {
       alert('너 때문에 서버가 터져버렸어.');
     } else {
       setPreview((current) => {
@@ -95,8 +93,20 @@ function Photo() {
     }
   };
 
-  // 2. preview를 indexDB에 저장
-  // TODO - clear 하고 다시 업로드가 아닌, 추가 업로드 하는것만 만지게
+  useEffect(() => {
+    const result = getIdxedDBValue();
+    return () => {
+      setPreview((current) => []);
+      setInnerpreviewAfterIdxDB((current) => []);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (innerpreviewAfterIdxDB[0]) {
+      setPreview((current) => innerpreviewAfterIdxDB);
+    }
+  }, [innerpreviewAfterIdxDB]);
+
   useEffect(() => {
     if (preview[0]) {
       clearIdxedDBValue();
@@ -104,16 +114,22 @@ function Photo() {
     } else {
       clearIdxedDBValue();
     }
-    setFileSize(0);
-    preview.map((link) => setFileSize((current) => current + link.length));
+    setPreviewFileSize(0);
+    preview.map((link) => {
+      setPreviewFileSize((current) => current + link.length / 1.33);
+    });
   }, [preview]);
 
-  // 3. imgUrlState 정의
   useEffect(() => {
+    getFileSizeFromGoogle(googleLink);
     setImgUrlState((current) => {
       return [...googleLink, ...preview];
     });
   }, [googleLink, preview]);
+
+  useEffect(() => {
+    setFileSize(googleFileSize + previewFileSize);
+  }, [googleFileSize, previewFileSize]);
 
   return (
     <S.Container>
@@ -146,6 +162,7 @@ function Photo() {
             setGoogleLink([]);
             setPreview([]);
             setReal(0);
+            setGoogleFileSize(0);
           }}
         />
         <WhitePill
