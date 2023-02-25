@@ -25,7 +25,6 @@ import useGetIdxedDBValue from '../../../lib/util/getIdxedDBValue';
 import useSetEditPage from '../../../lib/util/setEditPage';
 
 function MyHouse() {
-  const getIdxedDBValue = useGetIdxedDBValue();
   const restoreAccessToken = useRestoreAccessToken();
   const resetAllAtoms = useResetAllAtoms();
   const [stat, setStat] = useRecoilState(statusAtom);
@@ -33,7 +32,6 @@ function MyHouse() {
   const [fetchMyHouseData, setFetchMyHouseData] =
     useRecoilState(fetchMyHouseAtom);
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [address, setAddress] = useRecoilState(tempaddressAtom);
 
   useEffect(() => {
     async function func() {
@@ -151,18 +149,21 @@ function MyHouse() {
                   });
                 }}
               >
-                <S.HouseWrapper_Img
-                  src={each.img_urls[0] ? each.img_urls[0] : HouseSampleImg}
-                />
-                <S.HouseWrapper_InfosWrapper>
-                  <P_Manrope_Medium>
-                    연락처 : {each.contact_number}
-                  </P_Manrope_Medium>
-                  <P_Manrope_Medium>주소 : {ad}</P_Manrope_Medium>
-                  <P_Manrope_Medium>
-                    올린 날짜 : {new Date(each.board_date).toLocaleString()}
-                  </P_Manrope_Medium>
-                </S.HouseWrapper_InfosWrapper>
+                <S.HouseWrapper_Upperside>
+                  <S.HouseWrapper_Img
+                    src={each.img_urls[0] ? each.img_urls[0] : HouseSampleImg}
+                  />
+                  <S.HouseWrapper_InfosWrapper>
+                    <P_Manrope_Medium>
+                      연락처 : {each.contact_number}
+                    </P_Manrope_Medium>
+                    <P_Manrope_Medium>주소 : {ad}</P_Manrope_Medium>
+                    <P_Manrope_Medium>
+                      올린 날짜 : {new Date(each.board_date).toLocaleString()}
+                    </P_Manrope_Medium>
+                  </S.HouseWrapper_InfosWrapper>
+                </S.HouseWrapper_Upperside>
+
                 <S.HouseWrapper_ButtonsWrapper>
                   <EditButton
                     onClick={(event) => {

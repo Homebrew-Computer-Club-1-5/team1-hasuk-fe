@@ -2,45 +2,42 @@ import TitleWrapper from '../../components/molecules/TitleWrapper';
 import * as S from '../houses/Houses.styled';
 import { useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
-import {
-  filteredHouseDatas2Atom,
-  houseDatas2Atom,
-  isHousesFirstLoadedAtom,
-} from '../../store/atoms';
+import { filteredHouseDatas2Atom, houseDatas2Atom } from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 import Loading from '../../components/molecules/Loading';
-import { FETCH_ALL_HOUSES } from '../../lib/gql';
+import { FETCH_ALL_HOUSES, FETCH_ALL_HOUSES_LOGINED } from '../../lib/gql';
 import { filterByUpdated } from '../../lib/util/filter';
 import HouseWrapper from './HouseWrapper';
 import FilterWrapper from './FilterWrapper';
 
 function AllHouses() {
-  const navigate = useNavigate();
-  const { region_id } = useParams();
-
-  const [Main, setMain] = useState();
-  const resetAllAtoms = useResetAllAtoms();
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatas2Atom);
   const [filteredHouseDatas2, setFilteredHouseDatas2] = useRecoilState(
     filteredHouseDatas2Atom,
   );
-
-  const { loading, error, data } = useQuery(FETCH_ALL_HOUSES, {
-    fetchPolicy: 'no-cache',
-    variables: {
-      region_id: parseFloat(region_id as string),
+  const navigate = useNavigate();
+  const { region_id } = useParams();
+  const resetAllAtoms = useResetAllAtoms();
+  const loggedIn = localStorage.getItem('accessToken');
+  const { loading, error, data } = useQuery(
+    loggedIn ? FETCH_ALL_HOUSES_LOGINED : FETCH_ALL_HOUSES,
+    {
+      fetchPolicy: 'no-cache',
+      variables: {
+        region_id: parseFloat(region_id as string),
+      },
+      onCompleted: (data) => {
+        const filteredByUpdatedHouseData = filterByUpdated(
+          loggedIn ? [...data.fetchAllHousesLogined] : [...data.fetchAllHouses],
+          'board_date',
+        );
+        setHouseDatas((current) => filteredByUpdatedHouseData);
+      },
     },
-    onCompleted: (data) => {
-      const filteredByUpdatedHouseData = filterByUpdated(
-        [...data.fetchAllHouses],
-        'board_date',
-      );
-      setHouseDatas((current) => filteredByUpdatedHouseData);
-    },
-  });
+  );
 
   useEffect(() => {
     resetAllAtoms();
@@ -66,7 +63,7 @@ function AllHouses() {
             navigate('/exhouses');
           }}
         />
-        <FilterWrapper />
+        <FilterWrapper style={{ height: '30px' }} />
       </S.Header>
       <S.Main>
         {filteredHouseDatas2[0]

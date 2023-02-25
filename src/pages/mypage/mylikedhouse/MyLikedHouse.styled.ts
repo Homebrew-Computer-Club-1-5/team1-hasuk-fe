@@ -9,16 +9,13 @@ export const Container = styled.div`
 export const HouseWrapper = styled.div`
   box-sizing: border-box;
   width: 95vw;
-  height: 200px;
+  height: 150px;
   background-color: #efefef;
   border-radius: 15px;
   margin: 10px 0px;
+  display: flex;
   padding: 15px;
   position: relative;
-`;
-
-export const HouseWrapper_Upperside = styled.div`
-  display: flex;
 `;
 
 export const HouseWrapper_Img = styled.img`

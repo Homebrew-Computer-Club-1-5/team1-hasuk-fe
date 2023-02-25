@@ -2,7 +2,6 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import P_Manrope_Bold from '../../components/atoms/P_Manrope_Bold';
 import { fetchCrawledHousesAtom } from '../../store/atoms';
-import HouseInfos_PriceInfos from './HouseInfos.PriceInfo';
 import HouseInfos_ExtraInfos from './HouseInfos_ExtraInfos';
 
 const Wrapper = styled.div`

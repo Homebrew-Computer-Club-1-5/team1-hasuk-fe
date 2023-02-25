@@ -19,7 +19,6 @@ function Room() {
   const [gen, setGen] = useRecoilState(genderAtom);
   const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
   const [other, setOther] = useRecoilState(houseOtherInfoAtom);
-
   const [tempother, setTempother] = useState();
   const [tempgen, setTempgen] = useState();
   const [tempcat, setTempcat] = useState();

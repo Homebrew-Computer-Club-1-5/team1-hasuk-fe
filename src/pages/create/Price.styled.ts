@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const Container = styled.div`
+export const Container = styled.main`
   width: 100%;
 
   margin: 0px auto;
@@ -17,7 +17,7 @@ export const Form = styled.form`
   justify-content: center;
 `;
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;

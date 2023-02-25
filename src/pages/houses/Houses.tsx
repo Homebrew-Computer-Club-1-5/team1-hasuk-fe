@@ -9,40 +9,46 @@ import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import { useEffect, useState } from 'react';
 import ExtraHousesButton from '../../components/molecules/ExtraHousesButton';
 import Loading from '../../components/molecules/Loading';
-import { FETCH_HOUSES_BY_REGION } from '../../lib/gql';
+import {
+  FETCH_HOUSES_BY_REGION,
+  FETCH_HOUSES_BY_REGION_LOGINED,
+} from '../../lib/gql';
 import FilterWrapper from './FilterWrapper';
 import { filterByUpdated } from '../../lib/util/filter';
 
 function Houses() {
-  const navigate = useNavigate();
-  const { region_id } = useParams();
-
-  const [Main, setMain] = useState();
-  const resetAllAtoms = useResetAllAtoms();
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatasAtom);
   const [filteredHouseDatas, setFilteredHouseDatas] = useRecoilState(
     filteredHouseDatasAtom,
   );
+  const [Main, setMain] = useState();
 
-  const { loading, error, data } = useQuery(FETCH_HOUSES_BY_REGION, {
-    fetchPolicy: 'no-cache',
-    variables: {
-      region_id: parseFloat(region_id as string),
+  const navigate = useNavigate();
+  const { region_id } = useParams();
+  const resetAllAtoms = useResetAllAtoms();
+  const loggedIn = localStorage.getItem('accessToken');
+  const { loading, error, data } = useQuery(
+    loggedIn ? FETCH_HOUSES_BY_REGION_LOGINED : FETCH_HOUSES_BY_REGION,
+    {
+      fetchPolicy: 'no-cache',
+      variables: {
+        region_id: parseFloat(region_id as string),
+      },
+      onCompleted: (data) => {
+        const filteredByUpdatedHouseData = filterByUpdated(
+          loggedIn
+            ? [...data.fetchHousesByRegionLogined]
+            : [...data.fetchHousesByRegion],
+          'board_date',
+        );
+        setHouseDatas((current) => filteredByUpdatedHouseData);
+      },
     },
-    onCompleted: (data) => {
-      const filteredByUpdatedHouseData = filterByUpdated(
-        [...data.fetchHousesByRegion],
-        'board_date',
-      );
-      setHouseDatas((current) => filteredByUpdatedHouseData);
-    },
-  });
+  );
 
   useEffect(() => {
     resetAllAtoms();
   }, []);
-
-  useEffect(() => {}, [houseDatas, filteredHouseDatas]);
 
   return (
     <S.Container>
@@ -61,8 +67,9 @@ function Houses() {
             navigate('/exhouses');
           }}
         />
-        <FilterWrapper />
+        <FilterWrapper style={{ width: '100vw' }} />
       </S.Header>
+
       <S.Main>
         {filteredHouseDatas[0]
           ? filteredHouseDatas.map((filteredHouseData, index) => (

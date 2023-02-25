@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import {
   currentLocationAtom,
@@ -19,12 +19,12 @@ import { FETCH_ALL_HOUSES_GROUPED_BY_REGION } from '../../lib/gql';
 import {
   deleteMarker,
   displayMarker,
-  Ilocation,
   makeLiveLocationMarkerImage,
 } from '../../lib/util/kakaoMap';
 import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 import WhitePill from '../../components/molecules/WhitePill';
 import { isEmptyObject } from '../../lib/util/javascript';
+import BriefHouse from './BriefHouse';
 
 interface ICoordinate {
   exlatitude?: number;
@@ -44,15 +44,18 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   const [clusterClicked, setClusterClicked] = useState(false);
   const [kakaoMap, setKakaoMap] = useState();
   const [mapLevel, setMapLevel] = useState<number>();
+  const [marker, setMarker] = useState({});
+  const [selectedHouseId, setSelectedHouseId] = useState<number>(0);
+  const [counter, setCounter] = useState(0);
   const [currentLocation, setCurrentLocation] =
     useRecoilState(currentLocationAtom);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [mainHouses, setmainHouses] = useRecoilState(mainHousesAtom);
   const isCurrentLocationButtonClickedState = useState(false);
   const [isCurrentLocationButtonClicked, setIsCurrentLocationButtonClicked] =
     isCurrentLocationButtonClickedState;
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { loading, error, data } = useQuery(
     FETCH_ALL_HOUSES_GROUPED_BY_REGION,
     {
@@ -63,7 +66,6 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     },
   );
 
-  const [marker, setMarker] = useState({});
   function navigateToHouses() {
     navigate(`/houses/${regionId}`);
   }
@@ -100,6 +102,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
             house.house_location.longitude,
             house.id,
             house.house_category.id,
+            kakaoMap,
           );
         });
         makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
@@ -219,6 +222,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     long: number,
     houseId: number,
     sortId: number,
+    kakaoMap: any,
   ) {
     const hasukIconImage = new window.kakao.maps.MarkerImage(
       hasukIconPng,
@@ -244,9 +248,17 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       position: new window.kakao.maps.LatLng(lat, long),
       clickable: true,
     });
-    window.kakao.maps.event.addListener(marker, 'click', function () {
-      navigate(`/house/${houseId}`);
-    });
+    window.kakao.maps.event.addListener(
+      marker,
+      'click',
+      function (marker: any) {
+        setSelectedHouseId(0);
+        setSelectedHouseId(houseId);
+        setCounter((current) => current + 1);
+        const moveLatLng = new window.kakao.maps.LatLng(lat, long);
+        kakaoMap.setCenter(moveLatLng);
+      },
+    );
     if (sortId === 2) {
       marker.setImage(hasukIconImage);
     } else if (sortId === 3) {
@@ -268,7 +280,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       />
       {loading ? <Loading loadingText="메인 페이지 로딩중.." /> : null}
       {mapLevel && mapLevel < 5 ? (
-        <div className="legend">
+        <S.Legend>
           <div>
             <img src={hasukIconPng} />
             <p>하숙</p>
@@ -285,7 +297,7 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
             <img src={etcIconPng} />
             <p>기타</p>
           </div>
-        </div>
+        </S.Legend>
       ) : null}
       <div id="map" style={{ width: '100%', height: '95vh' }}>
         {clusterClicked ? (
@@ -300,6 +312,11 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
             text={'보러 가기'}
           />
         ) : null}
+
+        <BriefHouse
+          counter={counter}
+          house_id={selectedHouseId ? selectedHouseId : 0}
+        />
       </div>
     </S.mapWrapper>
   );

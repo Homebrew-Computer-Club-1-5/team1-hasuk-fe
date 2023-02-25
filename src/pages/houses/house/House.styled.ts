@@ -4,7 +4,10 @@ export const Container = styled.div`
   padding-bottom: 130px !important;
 `;
 
-export const Header = styled.header``;
+export const Header = styled.header`
+  position: relative;
+  background-color: #ffffff9f;
+`;
 
 export const Main = styled.main``;
 

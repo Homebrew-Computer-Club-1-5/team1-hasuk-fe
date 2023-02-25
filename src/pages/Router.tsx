@@ -13,6 +13,8 @@ import MyHouse from './mypage/myhouse/MyHouse';
 import Help from './help/Help';
 import Article_1 from './help/article/Article_1';
 import Calendar from './calendar/Calendar';
+import MyLikedHouse from './mypage/mylikedhouse/MyLikedHouse';
+
 
 function Router() {
   return (
@@ -27,6 +29,7 @@ function Router() {
       <Route path="/create" element={<Create />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/myhouse" element={<MyHouse />} />
+      <Route path="/mypage/mylikedhouse" element={<MyLikedHouse />} />
       <Route path="/help" element={<Help />} />
       <Route path="/help/article/1" element={<Article_1 />} />
       <Route path="/dormitory/calendar" element={<Calendar />} />
