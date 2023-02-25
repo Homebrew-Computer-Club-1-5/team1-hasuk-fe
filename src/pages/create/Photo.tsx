@@ -66,7 +66,7 @@ function Photo() {
 
     for (let index in urls) {
       const url = urls[index];
-      const fileObj = await fetch(`https://cors-anywhere.herokuapp.com/${url}`)
+      const fileObj = await fetch(url)
         .then((r) => r.blob())
         .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
         .then((converted) => converted);
