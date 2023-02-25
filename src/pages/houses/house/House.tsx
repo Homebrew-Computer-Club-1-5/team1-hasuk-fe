@@ -157,7 +157,7 @@ function House() {
           <TitleWrapper
             isBackButtonColorBlack={true}
             navigateRoute={
-              houseData.region?.id
+              houseData.is_crolled === 0
                 ? `/houses/${houseData.region?.id}`
                 : '/exhouses'
             }
