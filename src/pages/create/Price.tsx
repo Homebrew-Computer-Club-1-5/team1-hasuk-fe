@@ -24,10 +24,10 @@ const whitePillStyle = {
 
 function Price() {
   const [stat, setStat] = useRecoilState(statusAtom);
-  const [month, setMonth] = useRecoilState(monthCostAtom);
+  const [monthCost, setMonthCost] = useRecoilState(monthCostAtom);
 
-  const [depo, setDepo] = useRecoilState(depositAtom);
-  const [cost, setCost] = useRecoilState(costOtherInfoAtom);
+  const [deposit, setDeposit] = useRecoilState(depositAtom);
+  const [costOtherInfo, setCostOtherInfo] = useRecoilState(costOtherInfoAtom);
   const [tempmonth, setTempMonth] = useState();
   const [tempdepo, setTempdepo] = useState();
   const [tempcost, setTempcost] = useState();
@@ -37,14 +37,18 @@ function Price() {
     handleSubmit,
   } = useForm({
     mode: 'onSubmit',
-    defaultValues: { month: month, deposit: depo, cost_other_info: cost },
+    defaultValues: {
+      month: monthCost,
+      deposit: deposit,
+      cost_other_info: costOtherInfo,
+    },
   });
 
   useEffect(() => {
-    setDepo(tempdepo ? tempdepo : depo);
-    setMonth(tempmonth ? tempmonth : month);
-    setCost(tempcost ? tempcost : cost);
-  }, [tempdepo, tempmonth, tempcost, depo, month, cost]);
+    setDeposit(tempdepo ? tempdepo : deposit);
+    setMonthCost(tempmonth ? tempmonth : monthCost);
+    setCostOtherInfo(tempcost ? tempcost : costOtherInfo);
+  }, [tempdepo, tempmonth, tempcost, deposit, monthCost, costOtherInfo]);
 
   const onValid = () => {
     setStat({ status: 4 });

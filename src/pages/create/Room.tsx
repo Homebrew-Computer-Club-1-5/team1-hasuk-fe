@@ -16,15 +16,16 @@ import { useForm } from 'react-hook-form';
 
 function Room() {
   const [stat, setStat] = useRecoilState(statusAtom);
-  const [gen, setGen] = useRecoilState(genderAtom);
-  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
-  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [gender, setGender] = useRecoilState(genderAtom);
+  const [category, setCategory] = useRecoilState(houseCategoryIdAtom);
+  const [houseOtherInfo, setHouseOtherInfo] =
+    useRecoilState(houseOtherInfoAtom);
   const [tempother, setTempother] = useState();
   const [tempgen, setTempgen] = useState();
   const [tempcat, setTempcat] = useState();
   const { register, handleSubmit } = useForm({
     mode: 'onSubmit',
-    defaultValues: { other: other },
+    defaultValues: { other: houseOtherInfo },
   });
   const getGenderValue = (x: any) => {
     setTempgen(x);
@@ -34,9 +35,9 @@ function Room() {
   };
   const onValid = () => {
     if (tempother) {
-      setOther(tempother);
+      setHouseOtherInfo(tempother);
     } else {
-      setOther(other);
+      setHouseOtherInfo(houseOtherInfo);
     }
   };
 
@@ -50,8 +51,8 @@ function Room() {
     marginTop: '30px',
   };
   useEffect(() => {
-    setGen(tempgen ? tempgen : gen);
-    setCat(tempcat ? tempcat : cat);
+    setGender(tempgen ? tempgen : gender);
+    setCategory(tempcat ? tempcat : category);
   }, [tempgen, tempcat]);
 
   return (
@@ -63,7 +64,7 @@ function Room() {
       <S.RadioWrapper>
         <S.TitleP>성별</S.TitleP>
         <PillRadio
-          defaultValue={gen ? gen : undefined}
+          defaultValue={gender ? gender : undefined}
           getRadioValue={getGenderValue}
           stuff={[
             {
@@ -84,7 +85,7 @@ function Room() {
       <S.RadioWrapper>
         <S.TitleP>카테고리</S.TitleP>
         <PillRadio
-          defaultValue={cat ? cat : undefined}
+          defaultValue={category ? category : undefined}
           getRadioValue={getCategoryValue}
           stuff={[
             {
@@ -126,7 +127,7 @@ function Room() {
             style={whitePillStyle}
             text={'다음'}
             onClick={() => {
-              if (gen !== 0 && cat !== 0) {
+              if (gender !== 0 && category !== 0) {
                 onValid();
                 setStat({ status: 5 });
               } else {

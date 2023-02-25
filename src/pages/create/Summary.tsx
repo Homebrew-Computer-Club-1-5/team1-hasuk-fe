@@ -59,12 +59,13 @@ function Summary() {
   const [region, setRegion] = useRecoilState(regionIdAtom);
   const [latitude, setLatitude] = useRecoilState(latitudeAtom);
   const [longitude, setLong] = useRecoilState(longitudeAtom);
-  const [month, setMonth] = useRecoilState(monthCostAtom);
+  const [monthCost, setMonth] = useRecoilState(monthCostAtom);
   const [deposit, setDepo] = useRecoilState(depositAtom);
   const [costotherinfo, setCostotherInfo] = useRecoilState(costOtherInfoAtom);
   const [gender, setGen] = useRecoilState(genderAtom);
   const [category, setCat] = useRecoilState(houseCategoryIdAtom);
-  const [otherinfo, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [houseOtherInfo, setHouseOtherInfo] =
+    useRecoilState(houseOtherInfoAtom);
   const [address, setAddress] = useRecoilState(tempaddressAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
@@ -107,14 +108,14 @@ function Summary() {
       variables: {
         contact: contact,
         gender: parseInt(gender as any),
-        other: otherinfo,
-        lat: parseFloat(latitude as any),
-        long: parseFloat(longitude as any),
-        month: parseInt(month as any),
-        depo: parseInt(deposit as any),
-        costother: costotherinfo,
+        houseOtherInfo: houseOtherInfo,
+        latitude: parseFloat(latitude as any),
+        longitude: parseFloat(longitude as any),
+        monthCost: parseInt(monthCost as any),
+        deposit: parseInt(deposit as any),
+        costOtherInfo: costotherinfo,
         region: parseInt(region as any),
-        cat: parseInt(category as any),
+        category: parseInt(category as any),
         files: fileObjListRef.current,
       },
     });
@@ -125,14 +126,14 @@ function Summary() {
         house_id: parseInt(clickedHouse_id as any),
         contact: contact,
         gender: parseInt(gender as any),
-        other: otherinfo,
-        lat: parseFloat(latitude as any),
-        long: parseFloat(longitude as any),
-        month: parseInt(month as any),
-        depo: parseInt(deposit as any),
-        costother: costotherinfo,
+        houseOtherInfo: houseOtherInfo,
+        latitude: parseFloat(latitude as any),
+        longitude: parseFloat(longitude as any),
+        monthCost: parseInt(monthCost as any),
+        deposit: parseInt(deposit as any),
+        costOtherInfo: costotherinfo,
         region: parseInt(region as any),
-        cat: parseInt(category as any),
+        category: parseInt(category as any),
         files: fileObjListRef.current,
         googleLinks: googleLink,
       },
@@ -236,7 +237,7 @@ function Summary() {
       />{' '}
       <SummaryDataBar
         title={'월세'}
-        data={[month, '만원']}
+        data={[monthCost, '만원']}
         onClickEvent={() => {
           setStat({ status: 3 });
         }}
@@ -271,7 +272,7 @@ function Summary() {
       />
       <SummaryDataBar
         title={'기타 정보'}
-        data={otherinfo}
+        data={houseOtherInfo}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}

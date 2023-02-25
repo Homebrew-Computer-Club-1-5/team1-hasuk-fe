@@ -27,7 +27,8 @@ function Login() {
         src={LoginWithKakaoButton}
         style={{ position: 'relative', top: '120px' }}
         onClick={() => {
-          window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/auth/login/kakao`;
+          //window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/auth/login/kakao`;
+          window.location.href = `http://dev.univroom.site:8000/api/auth/login/kakao`;
         }}
       />
     </Wrapper>

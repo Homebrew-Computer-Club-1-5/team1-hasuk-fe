@@ -204,14 +204,14 @@ export const CREATE_HOUSE = gql`
   mutation (
     $contact: String
     $gender: Int
-    $other: String
-    $lat: Float!
-    $long: Float!
-    $month: Int!
-    $depo: Int
-    $costother: String
+    $houseOtherInfo: String
+    $latitude: Float!
+    $longitude: Float!
+    $monthCost: Int!
+    $deposit: Int
+    $costOtherInfo: String
     $region: Int!
-    $cat: Int!
+    $category: Int!
     $files: [Upload!]
   ) {
     createHouse(
@@ -219,16 +219,16 @@ export const CREATE_HOUSE = gql`
         house: {
           contact_number: $contact
           gender: $gender
-          house_other_info: $other
+          house_other_info: $houseOtherInfo
         }
-        house_location: { latitude: $lat, longitude: $long }
+        house_location: { latitude: $latitude, longitude: $longitude }
         house_cost: {
-          month_cost: $month
-          deposit: $depo
-          other_info: $costother
+          month_cost: $monthCost
+          deposit: $deposit
+          other_info: $costOtherInfo
         }
         region_id: $region
-        house_category_id: $cat
+        house_category_id: $category
         imgRawDatas: $files
       }
     )
@@ -246,14 +246,14 @@ export const UPDATE_MY_HOUSE = gql`
     $house_id: Int!
     $contact: String
     $gender: Int
-    $other: String
-    $lat: Float!
-    $long: Float!
-    $month: Int!
-    $depo: Int
-    $costother: String
+    $houseOtherInfo: String
+    $latitude: Float!
+    $longitude: Float!
+    $monthCost: Int!
+    $deposit: Int
+    $costOtherInfo: String
     $region: Int!
-    $cat: Int!
+    $category: Int!
     $files: [Upload!]
     $googleLinks: [String!]
   ) {
@@ -263,16 +263,16 @@ export const UPDATE_MY_HOUSE = gql`
         house: {
           contact_number: $contact
           gender: $gender
-          house_other_info: $other
+          house_other_info: $houseOtherInfo
         }
-        house_location: { latitude: $lat, longitude: $long }
+        house_location: { latitude: $latitude, longitude: $longitude }
         house_cost: {
-          month_cost: $month
-          deposit: $depo
-          other_info: $costother
+          month_cost: $monthCost
+          deposit: $deposit
+          other_info: $costOtherInfo
         }
         region_id: $region
-        house_category_id: $cat
+        house_category_id: $category
         imgRawDatas: $files
         googleLinks: $googleLinks
       }

@@ -16,16 +16,16 @@ const NoticeTextWrapperStyle = {
 
 function RegisterStart() {
   const [stat, setStat] = useRecoilState(statusAtom);
-  const [tel, setTel] = useRecoilState(contactNumberAtom);
+  const [contactNumber, setContactNumber] = useRecoilState(contactNumberAtom);
   const [temp, setTemp] = useState();
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({ mode: 'onSubmit', defaultValues: { tel: tel } });
+  } = useForm({ mode: 'onSubmit', defaultValues: { tel: contactNumber } });
 
   useEffect(() => {
-    setTel(temp ? temp : tel);
+    setContactNumber(temp ? temp : contactNumber);
   }, [temp]);
 
   const onChangeTel = (e: any) => {

@@ -29,10 +29,10 @@ function Location() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
-  const [univid, setUnivId] = useRecoilState(universityIdAtom);
+  const [universityid, setUniversityId] = useRecoilState(universityIdAtom);
   const [regionid, setRegionId] = useRecoilState(regionIdAtom);
-  const [lat, setLat] = useRecoilState(latitudeAtom);
-  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [latitude, setLatitude] = useRecoilState(latitudeAtom);
+  const [longitude, setLongitude] = useRecoilState(longitudeAtom);
   const [radio, setRadio] = useState();
   const [select, setSelect] = useState();
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
@@ -65,7 +65,12 @@ function Location() {
   };
 
   function whitePillEventListener() {
-    if (univid !== 0 && regionid !== 0 && lat !== 0 && long !== 0) {
+    if (
+      universityid !== 0 &&
+      regionid !== 0 &&
+      latitude !== 0 &&
+      longitude !== 0
+    ) {
     } else {
       alert('정보를 모두 입력해주세요');
       return;
@@ -73,8 +78,8 @@ function Location() {
     if (!isEditing) {
       fetchHouseByLocation({
         variables: {
-          latitude: parseFloat(lat as any),
-          longitude: parseFloat(long as any),
+          latitude: parseFloat(latitude as any),
+          longitude: parseFloat(longitude as any),
         },
       });
     } else {
@@ -83,9 +88,9 @@ function Location() {
   }
   useEffect(() => {
     setRegionId(radio ? radio : regionid);
-    setUnivId(select ? select : univid);
-    setLat(coords.latitude ? coords.latitude : lat);
-    setLong(coords.longitude ? coords.longitude : long);
+    setUniversityId(select ? select : universityid);
+    setLatitude(coords.latitude ? coords.latitude : latitude);
+    setLongitude(coords.longitude ? coords.longitude : longitude);
   }, [radio, select, coords]);
 
   return (
@@ -103,13 +108,13 @@ function Location() {
             {
               text: '고려대',
               value: 1,
-              defaultValue: Number(univid) === 1 ? true : false,
+              defaultValue: Number(universityid) === 1 ? true : false,
             },
           ]}
         />
       </S.SelectBoxWrapper>
 
-      {univid !== 0 ? (
+      {universityid !== 0 ? (
         <S.RadioWrapper>
           <S.TitleP>지역</S.TitleP>
 
