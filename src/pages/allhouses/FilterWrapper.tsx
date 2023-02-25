@@ -1,12 +1,6 @@
 import styled from 'styled-components';
-import { ReactComponent as FilterButton } from '../../assets/FilterButton.svg';
 import { useRecoilState } from 'recoil';
-import {
-  filteredHouseDatas2Atom,
-  filteredHouseDatasAtom,
-  houseDatas2Atom,
-  houseDatasAtom,
-} from '../../store/atoms';
+import { filteredHouseDatas2Atom, houseDatas2Atom } from '../../store/atoms';
 import { useEffect, useState } from 'react';
 import PillRadio, { IContent } from '../../components/molecules/PillRadio';
 
@@ -20,12 +14,15 @@ const Container = styled.div`
   align-items: center;
 `;
 
-function FilterWrapper() {
+interface IFilterWrapper {
+  style?: React.CSSProperties;
+}
+
+function FilterWrapper({ style }: IFilterWrapper) {
   const [houseDatas, setHouseDatas] = useRecoilState(houseDatas2Atom);
   const [filteredHouseDatas2, setFilteredHouseDatas2] = useRecoilState(
     filteredHouseDatas2Atom,
   );
-
   const [filterState, setFilterState] = useState<number>(1);
 
   useEffect(() => {
@@ -83,7 +80,7 @@ function FilterWrapper() {
   ];
 
   return (
-    <Container>
+    <Container style={style}>
       <PillRadio stuff={filterObjects} defaultValue={1} />
       {/* <FilterButton /> */}
     </Container>

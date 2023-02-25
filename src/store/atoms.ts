@@ -7,6 +7,7 @@ export interface IhouseData_fetchAllHouses {
   id: number;
   gender: number | null;
   board_date: number;
+  is_wished?: number;
   region: {
     id: number;
     name: string;
@@ -32,11 +33,23 @@ export interface IhouseData_fetchHousesByRegion {
   gender: number;
   has_empty: boolean;
   house_category_id: number;
-  board_date: string; // 야매
+  board_date: string;
+  is_wish?: number; // 야매
 } // 필수 비필수 설정 해줘야함
 
 interface Iimg_url {
   img_url: string;
+}
+
+export interface IhouseData_fetchHouseByMarker {
+  contact_number: string;
+  house_location: Ihouse_location;
+  house_category: Ihouse_category;
+  imgs: Ihouse_img[];
+  house_cost: {
+    month_cost: number;
+  };
+  is_wished?: number;
 }
 
 interface IhouseData_fetchHouse {
@@ -53,6 +66,7 @@ interface IhouseData_fetchHouse {
   imgs: Ihouse_img[];
   region: Iregion;
   board_date: number;
+  is_wished?: number;
 }
 
 interface Ihouse_category {

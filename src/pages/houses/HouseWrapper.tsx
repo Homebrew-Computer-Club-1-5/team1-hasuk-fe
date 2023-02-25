@@ -11,6 +11,7 @@ import P_Manrope_Regular from '../../components/atoms/P_Manrope_Regular';
 import * as S from './HouseWrapper.styled';
 import { convertTimestamp } from '../../lib/util/time';
 import { useNavigate } from 'react-router-dom';
+import Zzim from '../../components/molecules/Zzim';
 
 interface IHouseWrapper {
   houseData: IhouseData_fetchHousesByRegion;
@@ -18,7 +19,6 @@ interface IHouseWrapper {
 
 function HouseWrapper({ houseData }: IHouseWrapper) {
   const navigate = useNavigate();
-
   const img_url = houseData.img_urls;
   const category = houseData.house_category_id;
   const board_date = parseInt(houseData.board_date);
@@ -26,14 +26,21 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
   const { days, hours, minutes, totalSeconds } = convertTimestamp(
     currentTime - board_date,
   );
+  const id = houseData.id;
+  const is_wish = houseData.is_wish;
 
   return (
     <S.Container
       onClick={() => {
+        console.log(houseData.id);
         navigate(`/house/${houseData.id}`);
       }}
     >
-      <ImgCarousel img_url={img_url ? img_url : []}></ImgCarousel>
+      <ImgCarousel
+        img_url={img_url ? img_url : []}
+        house_id={id}
+        is_checked={is_wish ? is_wish : null}
+      ></ImgCarousel>
       <S.InfosWrapper>
         <S.ExtraInfosWrapper>
           <P_Manrope_Bold>

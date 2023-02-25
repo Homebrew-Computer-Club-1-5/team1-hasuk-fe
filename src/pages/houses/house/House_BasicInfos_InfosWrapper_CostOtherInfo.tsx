@@ -28,14 +28,20 @@ function House_BasicInfos_InfosWrapper_CostOtherInfo({
   return (
     <Wrapper is_crolled={Boolean(houseData.house_cost?.other_info) ? 0 : 1}>
       <ExtraInfos
+        style={{ position: 'absolute', right: 7, top: 10 }}
         onClick={() => {
           setIsCostOtherInfoModalOn((current) => !current);
         }}
       />
       <P_Manrope_Regular
-        style={{ textAlign: 'center', position: 'absolute', bottom: 0 }}
+        style={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 10,
+          fontSize: '15px',
+        }}
       >
-        금액 정보 더보기
+        기타 금액
       </P_Manrope_Regular>
     </Wrapper>
   );

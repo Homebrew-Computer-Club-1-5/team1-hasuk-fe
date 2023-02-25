@@ -15,7 +15,7 @@ import Selectbox from '../../components/molecules/Selectbox';
 import PillRadio from '../../components/molecules/PillRadio';
 import AddressMaker from '../../components/molecules/AddressMaker';
 import { useEffect } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { FETCH_HOUSE_BY_LOCATION } from '../../lib/gql';
 import { useNavigate } from 'react-router-dom';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
@@ -26,9 +26,16 @@ const NoticeTextWrapperStyle = {
 };
 
 function Location() {
-  const resetAllAtoms = useResetAllAtoms();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
+  const [stat, setStat] = useRecoilState(statusAtom);
+  const [univid, setUnivId] = useRecoilState(universityIdAtom);
+  const [regionid, setRegionId] = useRecoilState(regionIdAtom);
+  const [lat, setLat] = useRecoilState(latitudeAtom);
+  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [radio, setRadio] = useState();
+  const [select, setSelect] = useState();
+  const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
   const [fetchHouseByLocation, { loading, error, data }] = useLazyQuery(
     FETCH_HOUSE_BY_LOCATION,
     {
@@ -47,15 +54,6 @@ function Location() {
       },
     },
   );
-
-  const [stat, setStat] = useRecoilState(statusAtom);
-  const [univid, setUnivId] = useRecoilState(universityIdAtom);
-  const [regionid, setRegionId] = useRecoilState(regionIdAtom);
-  const [lat, setLat] = useRecoilState(latitudeAtom);
-  const [long, setLong] = useRecoilState(longitudeAtom);
-  const [radio, setRadio] = useState();
-  const [select, setSelect] = useState();
-  const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
   const getRadioValue = (x: any) => {
     setRadio(x);
   };

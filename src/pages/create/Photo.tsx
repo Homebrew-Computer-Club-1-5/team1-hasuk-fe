@@ -2,7 +2,6 @@ import * as S from './Photo.styled';
 import { useState, useEffect, useRef } from 'react';
 import ImgCarousel from '../../components/molecules/ImgCarousel';
 import {
-  isGetIdxValueSuccessAtom,
   previewAtom,
   countfileAtom,
   statusAtom,
@@ -17,7 +16,6 @@ import writeIdxedDB from '../../lib/util/writeIdxedDB';
 import useClearIdxedDBValue from '../../lib/util/clearIdxedDBValue';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
 import ImgDelete from '../../components/molecules/ImgDelete';
-import axios from 'axios';
 
 const NoticeTextWrapperStyle = {
   paddingTop: '0px',
@@ -39,11 +37,9 @@ function Photo() {
   const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
   const [googleFileSize, setGoogleFileSize] = useState(0);
   const [previewFileSize, setPreviewFileSize] = useState(0);
-
+  const [imgUrlState, setImgUrlState] = useState<string[]>([]);
   const clearIdxedDBValue = useClearIdxedDBValue();
   const getIdxedDBValue = useGetIdxedDBValue();
-
-  const [imgUrlState, setImgUrlState] = useState<string[]>([]);
 
   function convertFilesToBase64Array(files: any[]): Promise<string[]> {
     return new Promise((resolve) => {
@@ -66,7 +62,7 @@ function Photo() {
 
     for (let index in urls) {
       const url = urls[index];
-      const fileObj = await fetch(`https://cors-anywhere.herokuapp.com/${url}`)
+      const fileObj = await fetch(url)
         .then((r) => r.blob())
         .then((blobFile) => new File([blobFile], url, { type: blobFile.type }))
         .then((converted) => converted);

@@ -18,8 +18,6 @@ function Help() {
     navigate('/mypage');
   };
 
-  const onClickDifficulty = () => {};
-
   const onClickContact = () => {
     navigate('/help/article/1');
   };

@@ -1,12 +1,8 @@
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import NoticeTextWrapper from '../../../components/molecules/NoticeTextWrapper';
 import TitleWrapper2 from '../../../components/molecules/TitleWrapper2';
-import { Login_datasAtom } from '../../../store/atoms';
 import LoginWithKakaoButton from '../../../assets/LoginWithKakao.png';
-import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,8 +12,6 @@ const Wrapper = styled.div`
 `;
 
 function Login() {
-  // const resetAllAtoms = useResetAllAtoms();
-  // resetAllAtoms();
   const navigate = useNavigate();
 
   return (

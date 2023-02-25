@@ -35,7 +35,7 @@ const ModalWrapper_TextBox = styled.p`
   display: inline-block;
   position: relative;
   font-size: 20px;
-  top: 70px;
+  top: 50px;
   margin: 0;
 `;
 const ModalWrapper_YesNoWrapper = styled.div`
@@ -47,6 +47,7 @@ const ModalWrapper_YesNoWrapper = styled.div`
   bottom: 15px;
   width: 100px;
   height: 10px;
+  bottom: 30px;
 `;
 const ModalWrapper_YesNoWrapper_ButtonWrapper = styled.div`
   width: 100%;
@@ -54,6 +55,7 @@ const ModalWrapper_YesNoWrapper_ButtonWrapper = styled.div`
   position: relative;
   top: 130px;
   right: 5px;
+
   p {
     text-align: center;
     vertical-align: center;

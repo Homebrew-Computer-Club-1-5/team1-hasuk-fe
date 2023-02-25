@@ -9,8 +9,8 @@ const Wrapper = styled.div`
   position: fixed;
   background-color: white;
   z-index: 1000;
-  top: 15px;
-  right: 10px;
+  bottom: 80px;
+  right: 20px;
   box-shadow: 0px 4px 4px 0px black;
 `;
 interface IMenuButton {
@@ -19,7 +19,9 @@ interface IMenuButton {
 function ExtraHousesButton({ onClick }: IMenuButton) {
   return (
     <Wrapper onClick={onClick}>
-      <ExtraInfos style={{ position: 'relative', left: '5px', top: '5px' }} />
+      <ExtraInfos
+        style={{ position: 'relative', left: '5px', top: '5px', zIndex: 990 }}
+      />
     </Wrapper>
   );
 }

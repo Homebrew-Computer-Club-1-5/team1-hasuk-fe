@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Children } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/BackButton.svg';
 import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
+import Zzim from './Zzim';
 // import HouseSampleImg from '../../assets/HouseSampleImg.png';
 
 const Wrapper = styled.div`
@@ -54,12 +55,26 @@ const PositionDot_NotCurrent = styled.div`
   width: 7px;
 `;
 
+const ButtonWrapper = styled.div`
+  background-color: #ffffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  top: 105px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 interface IImgCarousel {
   img_url: string[];
   style?: React.CSSProperties;
+  house_id?: number;
+  is_checked?: number | null;
 }
 
-function ImgCarousel({ img_url, style }: IImgCarousel) {
+function ImgCarousel({ img_url, style, house_id, is_checked }: IImgCarousel) {
   const [current, setCurrent] = useState(0);
   const [marginStyle, setMarginStyle] = useState({
     marginLeft: `-${current}00%`,
@@ -120,35 +135,42 @@ function ImgCarousel({ img_url, style }: IImgCarousel) {
 
   return (
     <Wrapper style={style}>
-      <BackButton
-        style={{
-          width: '41px',
-          position: 'absolute',
-          top: '105px',
-          color: 'white', // 컬러 설정이 안됨
-          zIndex: 100,
-        }}
-        fill="black"
+      {is_checked === null || is_checked === 1 || is_checked === 0 ? (
+        <Zzim
+          house_id={house_id}
+          is_checked={is_checked}
+          style={{ right: -10, top: -10 }}
+        />
+      ) : null}
+      <ButtonWrapper
+        style={{ left: 10 }}
         onClick={(event) => {
           event.stopPropagation();
           moveSlide(-1);
         }}
-      />
-      <ForthButton
-        style={{
-          width: '41px',
-          position: 'absolute',
-          right: 0,
-          top: '105px',
-          color: 'white', // 컬러 설정이 안됨
-          // zIndex: 100,
-        }}
-        fill="black"
+      >
+        <BackButton
+          style={{
+            width: '20px',
+          }}
+          fill="black"
+        />
+      </ButtonWrapper>
+      <ButtonWrapper
+        style={{ right: 10 }}
         onClick={(event) => {
-          moveSlide(1);
           event.stopPropagation();
+          moveSlide(1);
         }}
-      />
+      >
+        <ForthButton
+          style={{
+            width: '20px',
+          }}
+          fill="black"
+        />
+      </ButtonWrapper>
+
       <ImgsWrapper
         style={marginStyle}
         onTouchStart={handleTouchStart}

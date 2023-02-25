@@ -9,8 +9,10 @@ interface IWrapper {
 const Wrapper = styled.div<IWrapper>`
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
   background-color: rgba(0, 0, 0, 0.5);
   display: ${(props) => (props.isModalOn ? 'block' : 'none')};
 `;
@@ -28,7 +30,7 @@ const ModalWrapper = styled.div`
 `;
 const ModalWrapper_TextBox = styled.p`
   padding: 40px;
-  margin: 0 auto;
+  margin-top: 20px;
 `;
 interface IInfoModal {
   innerText: string;
@@ -41,7 +43,13 @@ function InfoModal({ innerText, isModalOn, setIsModalOn }: IInfoModal) {
     <Wrapper isModalOn={isModalOn}>
       <ModalWrapper>
         <CloseButton
-          style={{ width: '50px', position: 'absolute', top: '-10px' }}
+          fill={'black'}
+          style={{
+            width: '50px',
+            position: 'absolute',
+            top: '0px',
+            left: '10px',
+          }}
           onClick={() => {
             setIsModalOn((current) => !current);
           }}

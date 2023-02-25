@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const Container = styled.div`
+export const Container = styled.main`
   width: 100%;
   margin: 0px auto;
   display: flex;
@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const NumberH1 = styled.h1``;
 
-export const SelectBoxWrapper = styled.div`
+export const SelectBoxWrapper = styled.article`
   display: flex;
   width: 100%;
   height: 20px;
@@ -19,7 +19,7 @@ export const SelectBoxWrapper = styled.div`
   }
 `;
 
-export const RadioWrapper = styled.div`
+export const RadioWrapper = styled.article`
   width: 100%;
   height: 40px;
   display: flex;

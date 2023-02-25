@@ -4,14 +4,13 @@ import TitleWrapper2 from '../../components/molecules/TitleWrapper2';
 import * as S from './MyPage.styled';
 import { ReactComponent as DefaultProfileImg } from '../../assets/DefaultProfileImg.svg';
 import { ReactComponent as ForthButton } from '../../assets/ForthButton.svg';
+import { ReactComponent as MyPage_HeartIcon } from '../../assets/EmptyHeart.svg';
 import { ReactComponent as MyPage_HouseIcon } from '../../assets/MyPage_HouseIcon.svg';
-import { ReactComponent as MyPage_UnivRoomIcon } from '../../assets/MyPage_UnivRoomIcon.svg';
 import { ReactComponent as MyPage_ChatIcon } from '../../assets/MyPage_ChatIcon.svg';
 import { useQuery as useReactQuery } from 'react-query';
 import { IloggedInUserInfo, loggedInUserInfoAtom } from '../../store/atoms';
 import { userCheck } from '../../lib/util/auth';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { isEmptyObject } from '../../lib/util/javascript';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 
@@ -50,9 +49,13 @@ function MyPage() {
   const onClickMyHouse = () => {
     navigate('/mypage/myhouse');
   };
+  const onClickMyLikedHouse = () => {
+    navigate('/mypage/mylikedhouse');
+  };
   const onClickUserProfileWrapper = () => {
-    // if (isEmptyObject(loggedInUserInfo)) navigate('/auth/login');
-    navigate('/auth/login');
+    if (!accessToken) {
+      navigate('/auth/login');
+    }
   };
 
   const onClickChatIcon = () => {
@@ -92,6 +95,21 @@ function MyPage() {
               >
                 <MyPage_HouseIcon />
                 <S.SelectP>내가 올린 방</S.SelectP>
+                <ForthButton
+                  fill="black"
+                  style={{ height: '20px', position: 'absolute', right: '0px' }}
+                />
+              </S.SelectWrapper>
+              <S.SelectWrapper
+                style={{ cursor: 'pointer' }}
+                onClick={onClickMyLikedHouse} // 여기다가 새 링크 박아야함
+              >
+                <MyPage_HeartIcon
+                  style={{ marginLeft: '1px', width: '33px' }}
+                />
+                <S.SelectP style={{ marginLeft: '12px' }}>
+                  내가 찜한 방
+                </S.SelectP>
                 <ForthButton
                   fill="black"
                   style={{ height: '20px', position: 'absolute', right: '0px' }}
