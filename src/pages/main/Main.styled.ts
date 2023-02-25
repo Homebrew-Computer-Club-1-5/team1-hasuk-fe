@@ -5,11 +5,14 @@ export const Container = styled.div`
   width: 100vw;
   height: 100vh;
   position: relative;
+  overflow: hidden;
 `;
 
 export const MapWrapper = styled.div`
   width: 100vw;
   position: relative;
+  margin-top: 40px;
+  overflow: hidden;
 `;
 
 export const Header = styled.header`
@@ -17,6 +20,10 @@ export const Header = styled.header`
   height: 40px;
   display: flex;
   align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
   img {
     width: 45px;
     height: 45px;

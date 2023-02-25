@@ -7,6 +7,7 @@ import * as S from './HouseWrapper.styled';
 import { convertTimestamp } from '../../lib/util/time';
 import { useNavigate } from 'react-router-dom';
 import { IhouseData_fetchAllHouses } from '../../store/atoms';
+import { useEffect } from 'react';
 
 interface IHouseWrapper {
   houseData: IhouseData_fetchAllHouses;
@@ -23,6 +24,13 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
   const { days, hours, minutes, totalSeconds } = convertTimestamp(
     currentTime - board_date,
   );
+  const is_wished = houseData.is_wished;
+  const id = houseData.id;
+
+  useEffect(() => {
+    console.log(houseData);
+    console.log(is_wished);
+  }, [houseData, is_wished]);
 
   return (
     <S.Container
@@ -30,7 +38,11 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
         navigate(`/house/${houseData.id}`);
       }}
     >
-      <ImgCarousel img_url={img_urls ? img_urls : []}></ImgCarousel>
+      <ImgCarousel
+        img_url={img_urls ? img_urls : []}
+        house_id={id}
+        is_checked={is_wished ? is_wished : null}
+      ></ImgCarousel>
       <S.InfosWrapper>
         <S.ExtraInfosWrapper>
           <P_Manrope_Bold>

@@ -3,14 +3,10 @@ import Map from './Map';
 import hasukLogo from '../../assets/iconhouse.png';
 import P_Manrope_ExtraBold from '../../components/atoms/P_Manrope_ExtraBold';
 import icon from '../../assets/haksamo.png';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import ImgWrapper from '../../components/atoms/ImgWrapper';
 import Selectbox from '../../components/molecules/Selectbox';
-import WhitePill from '../../components/molecules/WhitePill';
-import { useNavigate } from 'react-router-dom';
-import NavBar from '../../components/molecules/NavBar';
-import CurrentLocationButton from '../../components/molecules/CurrentLocationButton';
 
 declare global {
   interface Window {
@@ -20,10 +16,7 @@ declare global {
 
 // import icon from '../../assets/haksamo.png';
 function Main() {
-  const navigate = useNavigate();
   const resetAllAtoms = useResetAllAtoms();
-  const onchange = () => {};
-  const [isSideBarOpened, setIsSideBarOpened] = useState(false);
   useEffect(() => {
     resetAllAtoms();
   }, []);

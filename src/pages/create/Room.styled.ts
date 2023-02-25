@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const Container = styled.div`
+export const Container = styled.main`
   width: 80vw;
   margin: 0px auto;
   display: flex;
@@ -8,11 +8,11 @@ export const Container = styled.div`
 `;
 
 export const NumberH1 = styled.h1``;
-export const RadioWrapper = styled.div`
+export const RadioWrapper = styled.article`
   width: 100%;
 `;
 
-export const OtherInfoWrapper = styled.div`
+export const OtherInfoWrapper = styled.article`
   width: 100%;
 `;
 

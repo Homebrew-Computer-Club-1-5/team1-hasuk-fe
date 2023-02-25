@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const Container = styled.div`
+export const Container = styled.main`
   width: 100%;
   margin: 0px auto;
   display: flex;
@@ -22,7 +22,7 @@ export const ImageInput = styled.input`
   display: none;
 `;
 
-export const ButtonsWrapper = styled.div`
+export const ButtonsWrapper = styled.article`
   margin-top: 20px;
   display: flex;
   width: 80%;
@@ -46,7 +46,7 @@ export const UploadLabel = styled.label`
   box-shadow: 0px 3px 3px 0px gray;
 `;
 
-export const CarouselWrapper = styled.div`
+export const CarouselWrapper = styled.article`
   width: 100%;
   height: 300px;
   display: grid;

@@ -21,13 +21,11 @@ import {
   googleLinkAtom,
   innerpreviewAfterIdxDBAtom,
 } from '../../store/atoms';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import NoticeTextWrapper from '../../components/molecules/NoticeTextWrapper';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import { clickedHouse_idAtom } from '../../store/atoms';
-import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 import { CREATE_HOUSE, UPDATE_MY_HOUSE } from '../../lib/gql';
@@ -53,21 +51,20 @@ const NoticeTextWrapperStyle = {
 const categoryArray = ['일반', '하숙', '원룸/자취방', '고시원', '기타'];
 
 function Summary() {
-  const resetAllAtoms = useResetAllAtoms();
   const [clickedHouse_id, setClickedHouse_id] =
     useRecoilState(clickedHouse_idAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
   const [contact, setContact] = useRecoilState(contactNumberAtom);
-  const [univ, setUniv] = useRecoilState(universityIdAtom);
+  const [university, setUniversity] = useRecoilState(universityIdAtom);
   const [region, setRegion] = useRecoilState(regionIdAtom);
-  const [lat, setLat] = useRecoilState(latitudeAtom);
-  const [long, setLong] = useRecoilState(longitudeAtom);
+  const [latitude, setLatitude] = useRecoilState(latitudeAtom);
+  const [longitude, setLong] = useRecoilState(longitudeAtom);
   const [month, setMonth] = useRecoilState(monthCostAtom);
-  const [depo, setDepo] = useRecoilState(depositAtom);
-  const [costother, setCostother] = useRecoilState(costOtherInfoAtom);
-  const [gen, setGen] = useRecoilState(genderAtom);
-  const [cat, setCat] = useRecoilState(houseCategoryIdAtom);
-  const [other, setOther] = useRecoilState(houseOtherInfoAtom);
+  const [deposit, setDepo] = useRecoilState(depositAtom);
+  const [costotherinfo, setCostotherInfo] = useRecoilState(costOtherInfoAtom);
+  const [gender, setGen] = useRecoilState(genderAtom);
+  const [category, setCat] = useRecoilState(houseCategoryIdAtom);
+  const [otherinfo, setOther] = useRecoilState(houseOtherInfoAtom);
   const [address, setAddress] = useRecoilState(tempaddressAtom);
   const [stat, setStat] = useRecoilState(statusAtom);
   const [preview, setPreview] = useRecoilState(previewAtom);
@@ -109,15 +106,15 @@ function Summary() {
     createHouse({
       variables: {
         contact: contact,
-        gender: parseInt(gen as any),
-        other: other,
-        lat: parseFloat(lat as any),
-        long: parseFloat(long as any),
+        gender: parseInt(gender as any),
+        other: otherinfo,
+        lat: parseFloat(latitude as any),
+        long: parseFloat(longitude as any),
         month: parseInt(month as any),
-        depo: parseInt(depo as any),
-        costother: costother,
+        depo: parseInt(deposit as any),
+        costother: costotherinfo,
         region: parseInt(region as any),
-        cat: parseInt(cat as any),
+        cat: parseInt(category as any),
         files: fileObjListRef.current,
       },
     });
@@ -127,15 +124,15 @@ function Summary() {
       variables: {
         house_id: parseInt(clickedHouse_id as any),
         contact: contact,
-        gender: parseInt(gen as any),
-        other: other,
-        lat: parseFloat(lat as any),
-        long: parseFloat(long as any),
+        gender: parseInt(gender as any),
+        other: otherinfo,
+        lat: parseFloat(latitude as any),
+        long: parseFloat(longitude as any),
         month: parseInt(month as any),
-        depo: parseInt(depo as any),
-        costother: costother,
+        depo: parseInt(deposit as any),
+        costother: costotherinfo,
         region: parseInt(region as any),
-        cat: parseInt(cat as any),
+        cat: parseInt(category as any),
         files: fileObjListRef.current,
         googleLinks: googleLink,
       },
@@ -218,7 +215,7 @@ function Summary() {
       />
       <SummaryDataBar
         title={'대학'}
-        data={univArray[Number(univ) - 1]}
+        data={univArray[Number(university) - 1]}
         onClickEvent={() => {
           setStat({ status: 1 });
         }}
@@ -246,35 +243,35 @@ function Summary() {
       />{' '}
       <SummaryDataBar
         title={'보증금'}
-        data={[depo, '만원']}
+        data={[deposit, '만원']}
         onClickEvent={() => {
           setStat({ status: 3 });
         }}
       />{' '}
       <SummaryDataBar
         title={'공과금'}
-        data={costother}
+        data={costotherinfo}
         onClickEvent={() => {
           setStat({ status: 3 });
         }}
       />{' '}
       <SummaryDataBar
         title={'성별'}
-        data={genderArray[Number(gen) - 1]}
+        data={genderArray[Number(gender) - 1]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
       />
       <SummaryDataBar
         title={'카테고리'}
-        data={categoryArray[Number(cat) - 1]}
+        data={categoryArray[Number(category) - 1]}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}
       />
       <SummaryDataBar
         title={'기타 정보'}
-        data={other}
+        data={otherinfo}
         onClickEvent={() => {
           setStat({ status: 4 });
         }}

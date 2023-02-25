@@ -45,7 +45,7 @@ function TitleWrapper({
         style={{
           width: '36px', //
           position: 'absolute',
-          left: 15,
+          left: 10,
         }}
       />
       {isTitleOn ? (

@@ -1,8 +1,6 @@
 import * as S from './CurrentLocationButton.styled';
 import { ReactComponent as CurrentLocation } from '../../assets/CurrentLocation.svg';
-import { useRecoilState } from 'recoil';
-import { isCurrentLocationButtonClickedAtom } from '../../store/atoms';
-import { Ilocation, useLiveLocation } from '../../lib/util/kakaoMap';
+import { useLiveLocation } from '../../lib/util/kakaoMap';
 import { useEffect, useRef, useState } from 'react';
 
 interface ICurrentLocationButton {

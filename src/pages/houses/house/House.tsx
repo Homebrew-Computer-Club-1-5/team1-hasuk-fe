@@ -1,5 +1,5 @@
 import ImgCarousel from '../../../components/molecules/ImgCarousel';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   clickedHouse_idAtom,
@@ -7,6 +7,7 @@ import {
   IfetchMyHouse,
   isEditingAtom,
   isUppingAtom,
+  loggedInUserInfoAtom,
   statusAtom,
 } from '../../../store/atoms';
 import TitleWrapper from '../../../components/molecules/TitleWrapper';
@@ -20,7 +21,12 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useResetAllAtoms from '../../../lib/util/resetAllAtoms';
 import Loading from '../../../components/molecules/Loading';
-import { DELETE_MYHOUSE, FETCH_HOUSE, FETCH_UP } from '../../../lib/gql';
+import {
+  DELETE_MYHOUSE,
+  FETCH_HOUSE,
+  FETCH_HOUSE_LOGINED,
+  FETCH_UP,
+} from '../../../lib/gql';
 import WhitePill from '../../../components/molecules/WhitePill';
 import * as S from './House.styled';
 import useRestoreAccessToken from '../../../lib/util/tokenStrategy';
@@ -31,14 +37,15 @@ import { isEmptyObject } from '../../../lib/util/javascript';
 
 function House() {
   // state
-  const [isContactNumberModalOn, setIsContactNumberModalOn] = useState(false);
-  const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
+
   const [houseData, setHouseData] = useRecoilState(houseDataAtom);
   const isUpping = useRecoilValue(isUppingAtom);
   const [isEditing, setIsEditing] = useRecoilState(isEditingAtom);
-  const [address, setAddress] = useState<string>();
   const setStat = useSetRecoilState(statusAtom);
   const setClickedHouse_id = useSetRecoilState(clickedHouse_idAtom);
+  const [isContactNumberModalOn, setIsContactNumberModalOn] = useState(false);
+  const [isCostOtherInfoModalOn, setIsCostOtherInfoModalOn] = useState(false);
+  const [address, setAddress] = useState<string>();
 
   // hooks
   const setEditPage = useSetEditPage();
@@ -47,17 +54,20 @@ function House() {
   const { house_id } = useParams();
   const resetAllAtoms = useResetAllAtoms();
   const restoreAccessToken = useRestoreAccessToken();
+  const loggedIn = localStorage.getItem('accessToken');
   const {
     loading: fetchHouseLoading,
     error,
     data,
-  } = useQuery(FETCH_HOUSE, {
+  } = useQuery(loggedIn ? FETCH_HOUSE_LOGINED : FETCH_HOUSE, {
     fetchPolicy: 'no-cache',
     variables: {
       house_id: parseFloat(house_id as any),
     },
     onCompleted: (data) => {
-      setHouseData((current) => data.fetchHouse);
+      setHouseData((current) =>
+        loggedIn ? data.fetchHouseLogined : data.fetchHouse,
+      );
     },
   });
   const [fetchUp, { loading: fetchUpLoading }] = useMutation(FETCH_UP, {
@@ -98,6 +108,7 @@ function House() {
   }, []);
 
   useEffect(() => {
+    console.log(houseData);
     async function func() {
       const location = {
         longitude: houseData.house_location.longitude,
@@ -144,22 +155,31 @@ function House() {
         />
         <S.Header>
           <TitleWrapper
-            isBackButtonColorBlack={false}
+            isBackButtonColorBlack={true}
             navigateRoute={
               houseData.region?.id
                 ? `/houses/${houseData.region?.id}`
                 : '/exhouses'
             }
-            style={{ position: 'absolute', top: 0, color: 'white', zIndex: 5 }}
+            style={{
+              position: 'absolute',
+              height: 30,
+              top: 0,
+              left: 0,
+              zIndex: 5,
+              background: 'linear-gradient(#ffffff8f 30%,transparent)',
+            }}
             isTitleOn={false}
           />
           <ContactButton
+            fill="black"
             style={{
+              height: '30px',
+              width: '30px',
               position: 'absolute',
               zIndex: '100',
-              right: '10px',
-              top: '-5px',
-              width: '40px',
+              right: '60',
+              top: '20',
             }}
             onClick={() => {
               setIsContactNumberModalOn((current) => !current);
@@ -170,6 +190,8 @@ function House() {
           <ImgCarousel
             style={{ borderRadius: '0px' }}
             img_url={img_urls ? img_urls : []}
+            house_id={parseInt(house_id as any)}
+            is_checked={houseData.is_wished ? houseData.is_wished : null}
           />
           <S.Article>
             <House_HouseIdWrapper />
