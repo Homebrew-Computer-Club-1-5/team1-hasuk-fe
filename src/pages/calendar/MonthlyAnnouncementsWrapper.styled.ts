@@ -7,6 +7,9 @@ export const Header = styled.header``;
 export const Main = styled.main``;
 
 export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   p {
     text-align: center;
     font-weight: 800;
@@ -41,4 +44,33 @@ export const postTitleP = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+`;
+
+export const DormitoryWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const MonthWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  p {
+    margin-left: 12px;
+  }
+`;
+
+export const NavigateToBoard = styled.div`
+  background-color: #d9d9d9;
+  width: 100px;
+  height: 30px;
+  margin-left: 30px;
+  cursor: pointer;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    font-weight: 600;
+    font-size: 12px;
+  }
 `;
