@@ -81,11 +81,12 @@ function Photo() {
     console.log(size);
 
     if (size > 30000000) {
-      alert('너 때문에 서버가 터져버렸어.');
+      alert('30MB 이하의 파일만 업로드할 수 있습니다.');
     } else {
       setPreview((current) => {
         return [...current, ...base64UrlList];
       });
+      writeIdxedDB(base64UrlList);
     }
   };
 
@@ -104,12 +105,12 @@ function Photo() {
   }, [innerpreviewAfterIdxDB]);
 
   useEffect(() => {
-    if (preview[0]) {
-      clearIdxedDBValue();
-      writeIdxedDB(preview);
-    } else {
-      clearIdxedDBValue();
-    }
+    //if (preview[0]) {
+    //  clearIdxedDBValue();
+    //  writeIdxedDB(preview);
+    //} else {
+    //  clearIdxedDBValue();
+    //}
     setPreviewFileSize(0);
     preview.map((link) => {
       setPreviewFileSize((current) => current + link.length / 1.33);
@@ -159,6 +160,7 @@ function Photo() {
             setPreview([]);
             setReal(0);
             setGoogleFileSize(0);
+            clearIdxedDBValue();
           }}
         />
         <WhitePill

@@ -30,6 +30,7 @@ import useRestoreAccessToken from '../../lib/util/tokenStrategy';
 import Loading from '../../components/molecules/Loading';
 import { CREATE_HOUSE, UPDATE_MY_HOUSE } from '../../lib/gql';
 import useGetIdxedDBValue from '../../lib/util/getIdxedDBValue';
+import useClearIdxedDBValue from '../../lib/util/clearIdxedDBValue';
 
 const univArray = ['고려대'];
 const regionArray = [
@@ -76,8 +77,8 @@ function Summary() {
 
   const navigate = useNavigate();
   const getIdxedDBValue = useGetIdxedDBValue();
+  const clearIdxedDBValue = useClearIdxedDBValue();
   const fileObjListRef = useRef<File[]>([]);
-
   const restoreAccessToken = useRestoreAccessToken();
   const [createHouse, { data, loading: createHouseLoading, error }] =
     useMutation(CREATE_HOUSE, {
@@ -89,7 +90,6 @@ function Summary() {
         console.log('에러가 발생했어요, 에러메세지 : ', error.message);
       },
     });
-
   const [
     updateMyHouse,
     { data: data2, loading: updateMyHouseLoading, error: error2 },
@@ -161,6 +161,7 @@ function Summary() {
     return () => {
       setPreview((current) => []);
       setInnerpreviewAfterIdxDB((current) => []);
+      clearIdxedDBValue();
     };
   }, []);
 

@@ -125,6 +125,7 @@ interface IfetchCrawledHouses {
   img_urls: string[];
   house_category: number;
 }
+
 export interface Ihouse_object {
   id: number;
   house_category: Ihouse_category;
@@ -202,6 +203,7 @@ export interface IStates {
 }
 export interface IPreview {
   link: string;
+  key: number;
 }
 
 export const statusAtom = atom<IStates>({
