@@ -41,7 +41,7 @@ export default function useResetAllAtoms() {
   const [preview, setPreview] = useRecoilState(previewAtom);
   const [googleLink, setGoogleLink] = useRecoilState(googleLinkAtom);
   const setIsUpping = useSetRecoilState(isUppingAtom);
-  const clearIdxedDBValue = useClearIdxedDBValue();
+  //const clearIdxedDBValue = useClearIdxedDBValue();
 
   function resetAllAtoms() {
     setIsEditing(false);
@@ -61,7 +61,7 @@ export default function useResetAllAtoms() {
     setImgFile(0);
     setPreview([]);
     setIsUpping(false);
-    clearIdxedDBValue();
+    //clearIdxedDBValue();
     setGoogleLink([]);
   }
 
