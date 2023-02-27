@@ -4,6 +4,7 @@ import { ReactComponent as NavBar_CreateHouse } from '../../assets/NavBar_Create
 import { ReactComponent as NavBar_Profile } from '../../assets/NavBar_Profile.svg';
 import { ReactComponent as NavBar_Main } from '../../assets/NavBar_Main.svg';
 import { ReactComponent as NavBar_Up } from '../../assets/NavBar_Up.svg';
+import { ReactComponent as NavBar_Calendar } from '../../assets/NavBar_Calendar.svg';
 
 import * as S from './NavBar.styled';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
@@ -21,6 +22,15 @@ function NavBar() {
   return (
     <S.Nav>
       <S.Ul>
+        <S.Li
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            navigate('/dormitory/calendar');
+          }}
+        >
+          <NavBar_Calendar style={{ position: 'relative', top: '4px' }} />
+          <p>{'기숙사 정보'}</p>
+        </S.Li>
         <S.Li
           style={{ position: 'relative', bottom: '3px', cursor: 'pointer' }}
           onClick={() => {

@@ -371,3 +371,19 @@ export const FETCH_UP = gql`
     }
   }
 `;
+
+export const FETCH_CALENDAR = gql`
+  query ($dormitory_id: Float!, $month: Float!) {
+    fetchCalendar(dormitory_id: $dormitory_id, month: $month) {
+      id
+      post_title
+      post_date
+      post_link
+      dormitory {
+        id
+        name
+        board_url
+      }
+    }
+  }
+`;

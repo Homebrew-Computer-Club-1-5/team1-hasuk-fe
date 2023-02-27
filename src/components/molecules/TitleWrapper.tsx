@@ -46,6 +46,7 @@ function TitleWrapper({
           width: '36px', //
           position: 'absolute',
           left: 10,
+          cursor: 'pointer',
         }}
       />
       {isTitleOn ? (

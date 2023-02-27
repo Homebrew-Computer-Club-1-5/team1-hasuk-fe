@@ -41,13 +41,13 @@ function Selectbox({ stuff, getSelectValue, source }: IObject) {
   return (
     <SelBox>
       {source ? <img className="image" src={source} /> : null}
-      <select className="select" onChange={handleChangeSelect}>
+      <select className="select" onChange={handleChangeSelect} value={1}>
         {stuff.map((string) => {
           return (
             <option
               key={string.text}
               value={string.value}
-              selected={string.defaultValue}
+              // selected={string.defaultValue}
             >
               {string.text}
             </option>

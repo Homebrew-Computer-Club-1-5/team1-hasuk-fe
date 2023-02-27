@@ -25,6 +25,7 @@ function TitleWrapper2({ onClickBackButton }: ITitleWrapper2) {
           width: '36px',
           position: 'absolute',
           left: 15,
+          cursor: 'pointer',
         }}
         fill="black"
       />
