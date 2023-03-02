@@ -12,6 +12,7 @@ import btnDesign from '../../assets/Btndesign.png';
 import hasukIconPng from '../../assets/hasukMarker.png';
 import gosiwonIconPng from '../../assets/gosiwonMarker.png';
 import oneRoomIconPng from '../../assets/oneRoomMarker.png';
+import clickedRoomMarkerSvg from '../../assets/clickedRoomMarker.svg';
 import etcIconPng from '../../assets/etcMarker.png';
 import * as S from './Map.styled';
 import Loading from '../../components/molecules/Loading';
@@ -70,6 +71,20 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
     navigate(`/houses/${regionId}`);
   }
 
+  function markerClickListener(
+    marker: any,
+    houseId: any,
+    latitude: any,
+    longitude: any,
+    kakaoMap: any,
+  ) {
+    setSelectedHouseId(0);
+    setSelectedHouseId(houseId);
+    const moveLatLng = new window.kakao.maps.LatLng(latitude, longitude);
+    kakaoMap.setCenter(moveLatLng);
+    setCounter((current) => current + 1);
+  }
+
   useEffect(() => {
     // qs에 at있는지 체크하고, 로컬스토리지에 저장
     if (searchParams.get('accessToken')) {
@@ -109,6 +124,24 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       });
     }
   }, [mainHouses, kakaoMap]);
+
+  useEffect(() => {
+    if (kakaoMap) {
+      const regionMarkerList = mainHouses.map((mainHouse) => {
+        const markerList = mainHouse.houses.map((house) => {
+          return makeMarker(
+            house.house_location.latitude,
+            house.house_location.longitude,
+            house.id,
+            house.house_category.id,
+            kakaoMap,
+            selectedHouseId,
+          );
+        });
+        makeCluster(kakaoMap, [mainHouse.name], markerList, mainHouse.id);
+      });
+    }
+  }, [selectedHouseId]);
 
   // 실시간으로 마커 그리기
   useEffect(() => {
@@ -218,11 +251,12 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
   }
 
   function makeMarker(
-    lat: number,
-    long: number,
+    latitude: number,
+    longitude: number,
     houseId: number,
     sortId: number,
     kakaoMap: any,
+    selectedHouseId?: number,
   ) {
     const hasukIconImage = new window.kakao.maps.MarkerImage(
       hasukIconPng,
@@ -244,30 +278,32 @@ function Map({ exlatitude, exlongitude, children }: ICoordinate) {
       new window.kakao.maps.Size(40, 40),
       {},
     );
+    const clickedIconImage = new window.kakao.maps.MarkerImage(
+      clickedRoomMarkerSvg,
+      new window.kakao.maps.Size(40, 40),
+    );
     const marker = new window.kakao.maps.Marker({
-      position: new window.kakao.maps.LatLng(lat, long),
+      position: new window.kakao.maps.LatLng(latitude, longitude),
       clickable: true,
     });
-    window.kakao.maps.event.addListener(
-      marker,
-      'click',
-      function (marker: any) {
-        setSelectedHouseId(0);
-        setSelectedHouseId(houseId);
-        setCounter((current) => current + 1);
-        const moveLatLng = new window.kakao.maps.LatLng(lat, long);
-        kakaoMap.setCenter(moveLatLng);
-      },
-    );
-    if (sortId === 2) {
-      marker.setImage(hasukIconImage);
-    } else if (sortId === 3) {
-      marker.setImage(oneRoomIconImage);
-    } else if (sortId === 4) {
-      marker.setImage(gosiwonIconImage);
+    window.kakao.maps.event.addListener(marker, 'click', () => {
+      markerClickListener(marker, houseId, latitude, longitude, kakaoMap);
+    });
+    if (selectedHouseId === houseId) {
+      marker.setImage(clickedIconImage);
+      console.log('성공');
     } else {
-      marker.setImage(etcIconImage);
+      if (sortId === 2) {
+        marker.setImage(hasukIconImage);
+      } else if (sortId === 3) {
+        marker.setImage(oneRoomIconImage);
+      } else if (sortId === 4) {
+        marker.setImage(gosiwonIconImage);
+      } else {
+        marker.setImage(etcIconImage);
+      }
     }
+
     return marker;
   }
 
