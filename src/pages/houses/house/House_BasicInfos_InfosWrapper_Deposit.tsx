@@ -17,10 +17,10 @@ function House_BasicInfos_InfosWrapper_Deposit() {
     <Wrapper>
       <P_Manrope_ExtraBold
         style={{
-          fontSize: `${houseData.house_cost?.deposit ? '35px' : '15px'}`,
+          fontSize: `${houseData.is_crolled === 0 ? '35px' : '15px'}`,
         }}
       >
-        {houseData.house_cost?.deposit
+        {houseData.is_crolled === 0
           ? houseData.house_cost.deposit
           : '전화 문의'}
       </P_Manrope_ExtraBold>

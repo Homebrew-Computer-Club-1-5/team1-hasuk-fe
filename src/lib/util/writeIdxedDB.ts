@@ -5,12 +5,8 @@ export default function writeIdxedDB(links: any) {
   request.onsuccess = (e) => {
     const db = request.result;
     const transaction = db.transaction(['links'], 'readwrite');
-    transaction.oncomplete = (e) => {
-      console.log('transaction success');
-    };
-    transaction.onerror = (e) => {
-      console.log('transaction fail');
-    };
+    transaction.oncomplete = (e) => {};
+    transaction.onerror = (e) => {};
     const objStore = transaction.objectStore('links');
     for (const link of links) {
       const request = objStore.add(link);

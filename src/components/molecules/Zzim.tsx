@@ -39,7 +39,6 @@ function Zzim({ style, house_id, is_checked }: IZzim) {
     UPDATE_WISH_HOUSE,
     {
       onCompleted: (data) => {
-        console.log('완료');
         setToggle((current) => !current);
         setMessage(1);
       },
@@ -71,13 +70,11 @@ function Zzim({ style, house_id, is_checked }: IZzim) {
   function onEmptyHeartClickHandler(event: any) {
     event.stopPropagation();
     loggedIn ? executeZzimHouse() : navigate('/auth/login');
-    console.log(house_id);
     setMessage(0);
   }
   function onFilledHeartClickHandler(event: any) {
     event.stopPropagation();
     loggedIn ? executeZzimHouse() : navigate('/auth/login');
-    console.log('삭제');
     setMessage(0);
   }
   return (

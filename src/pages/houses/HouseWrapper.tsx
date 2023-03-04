@@ -32,7 +32,6 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
   return (
     <S.Container
       onClick={() => {
-        console.log(houseData.id);
         navigate(`/house/${houseData.id}`);
       }}
     >

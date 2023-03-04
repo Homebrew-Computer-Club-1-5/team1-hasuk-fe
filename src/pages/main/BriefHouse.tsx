@@ -26,7 +26,6 @@ function BriefHouse({ counter, house_id }: IBriefHouse) {
   const { loading, error, data } = useQuery(
     loggedIn ? FETCH_HOUSE_BY_MARKER_LOGINED : FETCH_HOUSE_BY_MARKER,
     {
-      fetchPolicy: 'no-cache',
       variables: {
         house_id: parseFloat(house_id as any),
       },
@@ -36,7 +35,7 @@ function BriefHouse({ counter, house_id }: IBriefHouse) {
         );
       },
       onError: (error) => {
-        console.log(error, '아니야');
+        console.log(error, '에러발생');
       },
     },
   );
@@ -62,7 +61,11 @@ function BriefHouse({ counter, house_id }: IBriefHouse) {
           />
           <S.ImgWrapper
             style={{
-              backgroundImage: `url(${clickedHouse?.imgs[0].img_url})`,
+              backgroundImage: `url(${
+                clickedHouse?.imgs[0]
+                  ? clickedHouse?.imgs[0].img_url
+                  : '/HouseSampleImg.png'
+              })`,
             }}
           ></S.ImgWrapper>
           <S.InfoWrapper>

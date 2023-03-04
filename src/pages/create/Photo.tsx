@@ -78,7 +78,6 @@ function Photo() {
     sumList.map((url) => {
       size += url.length / 1.33;
     });
-    console.log(size);
 
     if (size > 30000000) {
       alert('30MB 이하의 파일만 업로드할 수 있습니다.');

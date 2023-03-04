@@ -1,7 +1,7 @@
 import TitleWrapper from '../../components/molecules/TitleWrapper';
 import * as S from './Houses.styled';
 import HouseWrapper from './HouseWrapper';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRecoilState } from 'recoil';
 import { fetchCrawledHousesAtom, houseDatasAtom } from '../../store/atoms';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -23,7 +23,6 @@ function ExHouses() {
   const { region_id } = useParams();
 
   const { loading, error, data } = useQuery(FETCH_CRAWLED_HOUSES, {
-    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       setFetchCrawledHousesData((current) => data.fetchCrawledHouses);
     },
