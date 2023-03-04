@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import useResetAllAtoms from '../../lib/util/resetAllAtoms';
 import ImgWrapper from '../../components/atoms/ImgWrapper';
 import Selectbox from '../../components/molecules/Selectbox';
+import Exam from './Exam';
 
 declare global {
   interface Window {

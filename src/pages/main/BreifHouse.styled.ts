@@ -4,17 +4,19 @@ import X from '../../assets/XButton.png';
 export const Container = styled.div`
   position: fixed;
   z-index: 10;
-  width: 100%;
+  width: 360px;
   height: 120px;
   bottom: 80px;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  right: calc(50% - 180px);
 `;
 export const Wrapper = styled.div`
   width: 360px;
   height: 120px;
+
   border-radius: 20px;
   box-shadow: 3px 3px gray;
   background-color: whitesmoke;
