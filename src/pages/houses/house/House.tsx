@@ -108,7 +108,6 @@ function House() {
   }, []);
 
   useEffect(() => {
-    console.log(houseData);
     async function func() {
       const location = {
         longitude: houseData.house_location.longitude,

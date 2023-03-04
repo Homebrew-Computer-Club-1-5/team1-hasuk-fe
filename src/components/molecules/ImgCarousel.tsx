@@ -102,7 +102,6 @@ function ImgCarousel({ img_url, style, house_id, is_checked }: IImgCarousel) {
   function handleTouchStart(e: any) {
     begin = e.changedTouches[0].clientX;
     isBegin = true;
-    console.log(e.changedTouches[0].clientX, '스타트');
   }
   function handleTouchMove(e: any) {
     if (isBegin === true) {
@@ -111,13 +110,10 @@ function ImgCarousel({ img_url, style, house_id, is_checked }: IImgCarousel) {
   }
   function handleTouchEnd(e: any) {
     isBegin = false;
-    console.log(e, '이벤트 전체');
     if (Number(final) > 0) {
-      console.log('뒤로');
       moveSlide(-1);
     }
     if (Number(final) < 0) {
-      console.log('앞으로');
       moveSlide(1);
     }
     final = 0;

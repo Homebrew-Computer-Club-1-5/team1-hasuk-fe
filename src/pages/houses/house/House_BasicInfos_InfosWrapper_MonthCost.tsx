@@ -22,15 +22,15 @@ function House_BasicInfos_InfosWrapper_MonthCost() {
       <UpperWrapper>
         <P_Manrope_ExtraBold
           style={{
-            fontSize: `${houseData.house_cost?.month_cost ? '35px' : '15px'}`,
+            fontSize: `${houseData.is_crolled === 0 ? '35px' : '15px'}`,
           }}
         >
-          {houseData.house_cost?.month_cost
+          {houseData.is_crolled === 0
             ? houseData.house_cost.month_cost
             : '전화 문의'}
         </P_Manrope_ExtraBold>
         <P_Manrope_Light>
-          {houseData.house_cost?.month_cost ? '/월' : ''}
+          {houseData.is_crolled === 0 ? '/월' : ''}
         </P_Manrope_Light>
       </UpperWrapper>
 

@@ -19,13 +19,8 @@ export default function useGetIdxedDBValue() {
     request.onsuccess = (e) => {
       const db = request.result;
       const transaction = db.transaction(['links'], 'readwrite');
-      transaction.oncomplete = (e) => {
-        console.log('transaction success');
-        // setIsGetIdxValueSuccess((current) => !current);
-      };
-      transaction.onerror = (e) => {
-        console.log('transaction fail');
-      };
+      transaction.oncomplete = (e) => {};
+      transaction.onerror = (e) => {};
       const objStore = transaction.objectStore('links');
       const cursorRequest = objStore.openCursor();
       cursorRequest.onsuccess = (e: any) => {

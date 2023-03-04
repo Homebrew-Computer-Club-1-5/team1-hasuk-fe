@@ -27,11 +27,6 @@ function HouseWrapper({ houseData }: IHouseWrapper) {
   const is_wished = houseData.is_wished;
   const id = houseData.id;
 
-  useEffect(() => {
-    console.log(houseData);
-    console.log(is_wished);
-  }, [houseData, is_wished]);
-
   return (
     <S.Container
       onClick={() => {
